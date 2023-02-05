@@ -1,0 +1,18 @@
+body[b-7e94avmhc5] {
+}
+.buffer[b-7e94avmhc5] {
+    margin: 10px;
+}
+.main-back[b-7e94avmhc5]{
+    background: center;
+    background-color:red;
+}
+.visualRow[b-7e94avmhc5] {
+    align-content: center;
+}
+.row[b-7e94avmhc5] {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+.col[b-7e94avmhc5] {
+    padding: calc(var(--bs-gutter-x) * .5);
+}

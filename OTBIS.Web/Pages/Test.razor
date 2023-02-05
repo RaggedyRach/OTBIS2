@@ -1,0 +1,29 @@
+﻿@page "/Test"
+<h3>Test</h3>
+<RadzenTemplateForm TItem="Person" Data=@model Submit=@OnSubmit>
+    <p>
+        <RadzenLabel Component="FirstName" Text="First name" />
+        <RadzenTextBox Name="FirstName" @bind-Value=@model.FirstName />
+        <RadzenRequiredValidator Component="FirstName" Text="First name is required!" />
+    </p>
+    <p>
+        <RadzenLabel Component="LastName" Text="Last name" />
+        <RadzenTextBox Name="LastName" @bind-Value=@model.LastName />
+        <RadzenRequiredValidator Component="LastName" Text="Last name is required!" />
+    </p>
+    <RadzenButton ButtonType="ButtonType.Submit" Text="Save" />
+</RadzenTemplateForm>
+@code {
+    class Person
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+    }
+
+    Person model = new Person();
+
+    void OnSubmit(Person person)
+    {
+        var name = person.FirstName;
+    }
+}

@@ -1,0 +1,1493 @@
+﻿@page "/Reports/ReportBuilder"
+@using OTBIS.Web.Services
+
+@implements IDisposable
+
+@inject StagingDbContext _StagingDbContext;
+@inject ComparedOnService _ComparedOnService;
+@inject PopulateDropdownService _populateDropdownService;
+@inject GetProductionService _getProductionService;
+@inject GetReportDataService _getReportDataService;
+@inject GetChartDataService _getChartDataService;
+@inject MyStateContainer _myStateContainer;
+@inject NavigationManager navigationManager;
+
+
+@if (CompareOnList== null || numberToCompare == null  )
+{
+    <div class="spinner"></div>
+}
+else{
+<container>
+    <row>
+        <div class="rep text-center">
+            <h1>REPORT</h1>
+        </div>
+    </row>
+    
+    <RadzenText TextStyle="TextStyle.Subtitle1"> @errorMessage </RadzenText>
+
+         <RadzenTemplateForm TItem="RunReport" Data=@report Submit=@OnSubmit>
+             
+             <div class="container-fluid">
+                  
+                 
+              <div class="rz-border-primary-darker"><span></span>
+                <div class="row mt-2">
+                        <div class="form-group col-sm-4">
+                         
+                                <RadzenText TextStyle="TextStyle.Subtitle1">Select Number of Comparisons </RadzenText>
+                                @*  <label for="Number">Select Number of Comparisons</label>*@
+                                <RadzenDropDown Style="Display:grid;"  Data=@numberList class="w-100" @bind-Value=@numberToCompare
+                                            TextProperty="name" ValueProperty="number" />
+                       </div>
+                       
+                        <div class="form-group col-sm-4">
+
+                              <RadzenText TextStyle="TextStyle.Subtitle1">Select Comparison Field </RadzenText>
+
+                                <RadzenDropDown Style="Display:grid;" Data=@CompareOnList @bind-Value=@compareOnId
+                                            TextProperty="ComparedOnName" ValueProperty="ComparedOnId" />
+                      </div>
+                       <div class="form-group col-sm-4">
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Group By:</RadzenText>
+                        @*  <label for="Number">Select Number of Comparisons</label>*@
+                            <RadzenDropDown Style="Display:grid;"  Data=@groubByList class="w-100" @bind-Value=@groupById
+                                        TextProperty="name" ValueProperty="number" />
+
+                    </div>
+                </div>
+              </div>
+
+             </div>
+              <div class="container-fluid">
+                 <div class="rz-border-primary-darker"><span></span>
+                        <div class="row mt-2">
+
+                    <span></span>
+                    <div class="col-lg-6 col-xl-4 p-3">
+
+                        <RadzenCard>
+                            <RadzenText TextStyle="TextStyle.Subtitle2" Name="Transaction StartDate"> @DateName Start Date</RadzenText>
+                            <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedStartDate" />
+                        </RadzenCard>
+                    </div>
+                    <div class="col-lg-6 col-xl-4 p-3">
+
+                        <RadzenCard>
+                            <RadzenText TextStyle="TextStyle.Subtitle2" Name="Transaction EndDate">@DateName End Date</RadzenText>
+                            <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedEndDate" />
+                        </RadzenCard>
+                    </div>
+                    <div class="form-group col-sm-4">
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Other Date Types</RadzenText>
+                        @*  <label for="Number">Select Number of Comparisons</label>*@
+                        <RadzenDropDown Style="Display:grid;" TValue="string" Data=@dateTypesList class="w-100" @bind-Value=@dateType
+                                    Change=@(args => OnChangeDateType()) />
+
+                    </div>
+                    @if (compareOnId == 17 && numberToCompare == 2)
+                    {
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name=" StartDate2">Second @DateName Start Date</RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedStartDate2" />
+                            </RadzenCard>
+                        </div>
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name="2nd EndDate">@DateName End Date</RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedEndDate2" />
+                            </RadzenCard>
+                        </div>
+
+                    }
+                    @if (compareOnId == 17 && numberToCompare == 3)
+                    {
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name=" StartDate2">2nd @DateName Start Date</RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedStartDate2" />
+                            </RadzenCard>
+                        </div>
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name=" EndDate2">2nd @DateName End Date</RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedEndDate2" />
+                            </RadzenCard>
+                        </div>
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name=" StartDate3"> 3rd @DateName Start Date </RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedStartDate3" />
+                            </RadzenCard>
+                        </div>
+                        <div class="col-lg-6 col-xl-4 p-3">
+
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" Name="Transaction EndDate">3rd @DateName End Date</RadzenText>
+                                <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                          Change=@(args => OnChange(args, "DatePicker with minimum and maximum dates", "MM/dd/yyyy")) Class="w-100"
+                                          @bind-Value="selectedEndDate3" />
+                            </RadzenCard>
+                        </div>
+                    }
+                </div>
+
+                 </div>
+                </div>
+        <div class="container-fluid">
+             <div class="rz-border-primary-darker"><span></span>
+                <div class="row mt-2">
+                    <div class="form-group col-sm-4">
+                        <label for="Domain">*Domain</label>
+                            <RadzenDropDown Style="Display:grid;" Data=@domainsList Change="@OnChangeDomain" @bind-Value=selectedDomId
+                                        TextProperty="DomainName" ValueProperty="DomainId" />
+
+                    </div>
+             </div>
+                    @if (compareOnId >=1 && numberToCompare ==2 )
+                    {<div class="d-flex flex-row p-5">
+                            @*<label for="Comparison">Select Comparison Field</label>*@
+                            <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Domain</RadzenText>
+
+                            <RadzenDropDown Style="Display:grid;" Data=@domainsList2 Change="@OnChangeDomain2" @bind-Value=@selectedDomId2 
+                        TextProperty="DomainName" ValueProperty="DomainId" />
+                        </div>
+                    }
+                    @if (compareOnId >=1 && numberToCompare == 3)
+                    {
+                        <div class="d-flex flex-row p-5">
+                            @*<label for="Comparison">Select Comparison Field</label>*@
+                            <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Domain</RadzenText>
+
+                            <RadzenDropDown Style="Display:grid;" Data=@domainsList2 Change="@OnChangeDomain2" @bind-Value=@selectedDomId2
+                            TextProperty="DomainName" ValueProperty="DomainId" />
+
+                            @*<label for="Comparison">Select Comparison Field</label>*@
+                            <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Domain</RadzenText>
+
+                            <RadzenDropDown Style="Display:grid;" Data=@domainsList3 Change="@OnChangeDomain3" @bind-Value=@selectedDomId3
+                            TextProperty="DomainName" ValueProperty="DomainId" />
+                        </div>
+                    }
+        @if (compareOnId != 1)
+                        {
+                            <div class="row mt-2">
+
+
+                                <div class="form-group col-sm-4">
+                                    <label for="Department">Department</label>
+                                    <RadzenDropDown Style="Display:grid;" Name="DepartmentDrop" Data=@departmentsList  Change="@OnChangeDepartment" @bind-Value="selectedDeptId"
+                                            TextProperty="DepartmentName" ValueProperty="DepartmentId" />
+
+                                </div>
+                                @if (compareOnId >= 2 && numberToCompare == 2)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        <label for="Comparison">2nd Department</label>
+                                       @* <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Department</RadzenText>*@
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@departmentsList2 Change="@OnChangeDepartment2"  @bind-Value=@selectedDeptId2
+                                 TextProperty="DepartmentName" ValueProperty="DepartmentId" />
+                                    </div>
+                                }
+                                @if (compareOnId >= 2 && numberToCompare == 3)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Department</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@departmentsList2 Change="@OnChangeDepartment2" @bind-Value=@selectedDeptId2 
+                                 TextProperty="DepartmentName" ValueProperty="DepartmentId" />
+
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Department</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@departmentsList3 Change="@OnChangeDepartment3"  @bind-Value=@selectedDeptId3 
+                                 TextProperty="DepartmentName" ValueProperty="DepartmentId" />
+                                    </div>
+                                }
+                            @if (compareOnId != 2)
+                            {
+                                <div class="form-group col-sm-4">
+                                    <label for="Category">Category</label>
+                                    <RadzenDropDown Style="Display:grid;" Name="CategoryDrop"  Data=@categoriesList  Change="@OnChangeCategory" @bind-Value="selectedCatId"
+                                            TextProperty="CategoryName" ValueProperty="CategoryId" />
+
+                                </div>
+                                @if (compareOnId >= 3 && numberToCompare == 2)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Catagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@categoriesList2 Change="@OnChangeCategory2" @bind-Value=@selectedCatId2 
+                                        TextProperty="CategoryName" ValueProperty="CategoryId" />
+                                    </div>
+                                }
+                                @if (compareOnId >= 3 && numberToCompare == 3)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Catagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@categoriesList2 Change="@OnChangeCategory2" @bind-Value=@selectedCatId2 
+                                        TextProperty="CategoryName" ValueProperty="CategoryId"/>
+
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Catagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@categoriesList3 @bind-Value=@selectedCatId3
+                                        TextProperty="CategoryName" ValueProperty="CategoryId" />
+                                    </div>
+                                }
+                            }
+
+                            </div>
+                       
+                            <div class="row mt-2">
+                            @if (compareOnId >= 4)
+                               {
+                                <div class="form-group col-sm-4">
+                                    <label for="Sub-Category">Sub-Category</label>
+                                    <RadzenDropDown Style="Display:grid;" Name="SubCategoryDrop" Data=@subCategoriesList Change="@OnChangeSubCat" @bind-Value="selectedSubCatId"
+                                            TextProperty="SubCategoryName" ValueProperty="SubCategoryId" />
+
+                                </div>
+                                @if (compareOnId >= 4 && numberToCompare == 2)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd SubCatagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@subCategoriesList2 Change="@OnChangeSubCat2"@bind-Value=@selectedSubCatId2 
+                                    TextProperty="SubCategoryName" ValueProperty="SubCategoryId"/>
+                                    </div>
+                                }
+                                @if (compareOnId >= 4 && numberToCompare == 3)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd SubCatagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@subCategoriesList2 Change="@OnChangeSubCat2" @bind-Value=@selectedSubCatId2 
+                                    TextProperty="SubCategoryName" ValueProperty="SubCategoryId"/>
+
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd SubCatagory</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@subCategoriesList3 Change="@OnChangeSubCat3" @bind-Value=@selectedSubCatId3
+                                    TextProperty="SubCategoryName" ValueProperty="SubCategoryId"/>
+                                    </div>
+                                }
+                              }
+                              @if (compareOnId >= 5)
+                              {
+                                <div class="form-group col-sm-4">
+                                    <label for="items">Items</label>
+                                    <RadzenDropDown Style="Display:grid;" Name="ItemDrop" Data=@itemsList  @bind-Value="selectedItemid"
+                                            TextProperty="ItemDescription" ValueProperty="ItemId" />
+
+                                </div>
+                                @if (compareOnId >= 5 && numberToCompare == 2)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Item</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@itemsList2 @bind-Value=@selectedItemid2 
+                                  TextProperty="ItemDescription" ValueProperty="ItemId"/>
+                                    </div>
+                                }
+                                @if (compareOnId >= 5 && numberToCompare == 3)
+                                {
+                                    <div class="d-flex flex-row p-5">
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Item</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@itemsList2  @bind-Value=@selectedItemid2 
+                                  TextProperty="ItemDescription" ValueProperty="ItemId"/>
+
+                                        @*<label for="Comparison">Select Comparison Field</label>*@
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Item</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;" Data=@itemsList3  @bind-Value=@selectedItemid3
+                                  TextProperty="ItemDescription" ValueProperty="ItemId"/>
+                                    </div>
+                                }
+                           }
+                            </div>
+                            
+                            }
+                </div>
+                @if (compareOnId<1 || compareOnId > 4 && compareOnId !=6 && compareOnId !=17 )
+                {
+                    <div class="rz-border-primary-darker">
+
+                        <div class="row mt-2">
+                            @*     <div class="form-group col-sm-4">
+                        <label for="TransSellingPr">Transaction Selling Price</label>
+                        <RadzenDropDown Style="Display:grid;" Name="TransSellingPriceDrop"  Data=@subCategoriesList  Change="@OnChangeCategory" @bind-Value="report.SubCategoryId"
+                                            TextProperty="SubCategoryName" ValueProperty="SubCategoryID" />
+
+                    </div>*@
+                            @*<div class="form-group col-sm-4">
+                        <label for="TransNetAmount">Transaction Net Amount</label>
+                        <RadzenDropDown Style="Display:grid;" Name="TransNetAmountDrop" TValue="int?" Data=@categoriesList TextProperty="CategoryName" ValueProperty="CategoryID" Change="@OnChangeCategory" @bind-Value="report.CategoryId" />
+
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="TransTotalPr">Transaction Total Price</label>
+                        <RadzenDropDown Style="Display:grid;" Name="TransactionTotalPriceDrop" TValue="int?" Data=@subCategoriesList TextProperty="SubCategoryName" ValueProperty="SubCategoryID" Change="@OnChangeCategory" @bind-Value="report.SubCategoryId" />
+
+                    </div>*@
+
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="form-group col-sm-4">
+                                <label for="paymenttype">Payment Type</label>
+                                <RadzenDropDown Style="Display:grid;" Name="PaymentTypeDrop"  Data=@paymentTypeList   @bind-Value="selectedPaymentTypeId"
+                                            TextProperty="PaymentTypeDescription" ValueProperty="PaymentTypeId" />
+
+                            </div>
+                            @if (compareOnId == 10 && numberToCompare == 2)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Payment Type</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@paymentTypeList2 @bind-Value=@selectedPaymentTypeId2
+                                 TextProperty="PaymentTypeDescription" ValueProperty="PaymentTypeId"/>
+                                </div>
+                            }
+                            @if (compareOnId == 10 && numberToCompare == 3)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Payment Type</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@paymentTypeList2 @bind-Value=@selectedPaymentTypeId2
+                                 TextProperty="PaymentTypeDescription" ValueProperty="PaymentTypeId2"/>
+
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Payment Type</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@paymentTypeList3 @bind-Value=@selectedPaymentTypeId3
+                                 TextProperty="PaymentTypeDescription" ValueProperty="PaymentTypeId"/>
+                                </div>
+                            }
+                            <div class="form-group col-sm-4">
+                                <label for="discount">Discount</label>
+                                <RadzenDropDown Style="Display:grid;" Name="DiscountDrop" Data=@discountsList @bind-Value="selectedDiscountId"
+                                            TextProperty="DiscountDescription" ValueProperty="DiscountId" />
+
+                            </div>
+                            @if (compareOnId == 5 && numberToCompare == 2)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Discount</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@discountsList2 @bind-Value=@selectedDiscountId2
+                                TextProperty="DiscountDescription" ValueProperty="DiscountId"/>
+                                </div>
+                            }
+                            @if (compareOnId == 5 && numberToCompare == 3)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Discount</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@discountsList2 @bind-Value=@selectedDiscountId2
+                                TextProperty="DiscountDescription" ValueProperty="DiscountId"/>
+
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Discount</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@discountsList3 @bind-Value=@selectedDiscountId3
+                                TextProperty="DiscountDescription" ValueProperty="DiscountId"/>
+                                </div>
+                            }
+
+                            <div class="form-group col-sm-4">
+                                <label for="till">Till</label>
+                                <RadzenDropDown Style="Display:grid;" Name="TillDrop" Data=@tillList  @bind-Value="selectedTillid"
+                                            TextProperty="Name" ValueProperty="TillId" />
+
+                            </div>
+                            @if (compareOnId > 13 && numberToCompare == 2)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Till</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@tillList2 @bind-Value=@selectedTillid2 />
+                                </div>
+                            }
+                            @if (compareOnId > 13 && numberToCompare == 3)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Till</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@tillList2 @bind-Value=@selectedTillid2 />
+
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Till</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@tillList3 @bind-Value=@selectedTillid3 />
+                                </div>
+                            }
+                            <div class="form-group col-sm-4">
+                                <label for="clerk"> Clerk</label>
+                                <RadzenDropDown Style="Display:grid;" Name="ClerkDrop" Data=@clerkList @bind-Value="selectedClerkId"
+                                            TextProperty="ClerkName" ValueProperty="ClerkID" />
+
+                            </div>
+                            @if (compareOnId > 14 && numberToCompare == 2)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Clerk</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@clerkList2 @bind-Value=@selectedClerkId2
+                                TextProperty="ClerkName" ValueProperty="ClerkID" />
+                                </div>
+                            }
+                            @if (compareOnId > 14 && numberToCompare == 3)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Clerk</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@clerkList2 @bind-Value=@selectedClerkId2
+                                TextProperty="ClerkName" ValueProperty="ClerkID" />
+
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Clerk</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@clerkList3 @bind-Value=@selectedClerkId3
+                                TextProperty="ClerkName" ValueProperty="ClerkID" />
+                                </div>
+                            }
+                            <div class="form-group col-sm-4">
+                                <label for="nominal code">nominal code</label>
+                                <RadzenDropDown Style="Display:grid;" Name="NominalDrop"  Data=@nominalCodesList  Change="@OnChangeCategory" @bind-Value="selectedNominalCodeId"
+                                            TextProperty="NominalCodeDescription" ValueProperty="NominalCodeId" />
+
+                            </div>
+                            @if (compareOnId == 9 && numberToCompare == 2)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Nominal</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@nominalCodesList2 @bind-Value=@selectedNominalCodeId2 
+                                TextProperty="NominalCodeDescription" ValueProperty="NominalCodeId"/>
+                                </div>
+                            }
+                            @if (compareOnId == 9 && numberToCompare == 3)
+                            {
+                                <div class="d-flex flex-row p-5">
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 2nd Nominal</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@nominalCodesList2 @bind-Value=@selectedNominalCodeId2 
+                                TextProperty="NominalCodeDescription" ValueProperty="NominalCodeId"/>
+
+                                    @*<label for="Comparison">Select Comparison Field</label>*@
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">Choose 3rd Nominal</RadzenText>
+
+                                    <RadzenDropDown Style="Display:grid;" Data=@nominalCodesList3 @bind-Value=@selectedNominalCodeId3
+                                TextProperty="NominalCodeDescription" ValueProperty="NominalCodeId"/>
+                                </div>
+                            }
+                           
+
+
+
+                    </div>
+                </div>
+          }
+            </div>
+             <button type="button" @onclick="@OnSubmit" class="btn btn-primary">Run Report</button>
+        </RadzenTemplateForm>
+   
+
+    <div>
+
+    </div>
+
+</container>
+}
+
+
+@code {
+    List<NumberList> numberList;
+    List<NumberList> groubByList;
+    List<ComparedOn> CompareOnList;
+    ComparedOn _comparedOn;
+    int compareOnId =0;
+    int numberToCompare =0;
+    int groupById = 0;
+    string dateType;
+    string groupByName = "";
+    string str1;
+    string str2;
+    string str3;
+    string DateName;
+    string errorMessage = "";
+    List<string> FL1;
+    List<string> FL2;
+    List<string> FL3;
+    bool spinner;
+
+    RunReport _storedReport1;
+
+    RunReport report = new RunReport();
+    int selectedDomId = 0;
+    int selectedDomId2 = 0;
+    int selectedDomId3 = 0;
+    int selectedDeptId = 0;
+    int selectedDeptId2 = 0;
+    int selectedDeptId3 = 0;
+    int selectedCatId = 0;
+    int selectedCatId2 = 0;
+    int selectedCatId3 = 0;
+    int selectedSubCatId = 0;
+    int selectedSubCatId2 = 0;
+    int selectedSubCatId3 = 0;
+    int selectedItemid = 0;
+    int selectedItemid2 = 0;
+    int selectedItemid3 = 0;
+    int selectedNominalCodeId = 0;
+    int selectedNominalCodeId2 = 0;
+    int selectedNominalCodeId3 = 0;
+    int selectedSellingPriceId = 0;
+    int selectedSellingPriceId2 = 0;
+    int selectedPaymentTypeId = 0;
+    int selectedPaymentTypeId2 = 0;
+    int selectedPaymentTypeId3 = 0;
+    int selectedDiscountId = 0;
+    int selectedDiscountId2 = 0;
+    int selectedDiscountId3 = 0;
+    int selectedTillid = 0;
+    int selectedTillid2 = 0;
+    int selectedTillid3 = 0;
+    int selectedClerkId = 0;
+    int selectedClerkId2 = 0;
+    int selectedClerkId3 = 0;
+    DateTime selectedStartDate;
+    DateTime selectedEndDate;
+    DateTime selectedStartDate2;
+    DateTime selectedEndDate2;
+    DateTime selectedStartDate3;
+    DateTime selectedEndDate3;
+
+    List<Domain> domainsList;
+    List<Domain> domainsList2;
+    List<Domain> domainsList3;
+    Domain _domain;
+    IEnumerable<Department> departmentsList;
+    IEnumerable<Department> departmentsList2;
+    IEnumerable<Department> departmentsList3;
+    Department _department;
+    IEnumerable<Category> categoriesList;
+    IEnumerable<Category> categoriesList2;
+    IEnumerable<Category> categoriesList3;
+    Category _category;
+    IEnumerable<SubCategory> subCategoriesList;
+    IEnumerable<SubCategory> subCategoriesList2;
+    IEnumerable<SubCategory> subCategoriesList3;
+    SubCategory _subCategory;
+    IEnumerable<Item> itemsList;
+    IEnumerable<Item> itemsList2;
+    IEnumerable<Item> itemsList3;
+    Item _item;
+    IEnumerable<NominalCode> nominalCodesList;
+    IEnumerable<NominalCode> nominalCodesList2;
+    IEnumerable<NominalCode> nominalCodesList3;
+    NominalCode _nominalCode;
+    IEnumerable<Discount> discountsList;
+    IEnumerable<Discount> discountsList2;
+    IEnumerable<Discount> discountsList3;
+    Discount _discount;
+    IEnumerable<Status> statusesList;
+    IEnumerable<Status> statusesList2;
+    IEnumerable<Status> statusesList3;
+    Status _status;
+    IEnumerable<PaymentType> paymentTypeList;
+    IEnumerable<PaymentType> paymentTypeList2;
+    IEnumerable<PaymentType> paymentTypeList3;
+    PaymentType _paymentType;
+    IEnumerable<Till> tillList;
+    IEnumerable<Till> tillList2;
+    IEnumerable<Till> tillList3;
+    Till _till;
+    IEnumerable<Clerk> clerkList;
+    IEnumerable<Clerk> clerkList2;
+    IEnumerable<Clerk> clerkList3;
+    Clerk _clerk;
+    DateTime dateRangeStart = new DateTime();
+    DateTime? value = DateTime.Now;
+    DateTime[] dates;
+
+    List<string> dateTypesList;
+    List<string> dateTypesList2;
+    List<string> dateTypesList3;
+
+    List<ModelList> transByDateList1;
+
+
+
+
+    protected override void OnInitialized()
+    {
+        spinner = false;
+        _domain = new Domain();
+        domainsList2 = new List<Domain>();
+        domainsList3 = new List<Domain>();
+        departmentsList = new List<Department>();
+        departmentsList2 = new List<Department>();
+        departmentsList3 = new List<Department>();
+        _department = new Department();
+        categoriesList = new List<Category>();
+        categoriesList2 = new List<Category>();
+        categoriesList3 = new List<Category>();
+        _category = new Category();
+        subCategoriesList = new List<SubCategory>();
+        subCategoriesList2 = new List<SubCategory>();
+        subCategoriesList3 = new List<SubCategory>();
+        _subCategory = new SubCategory();
+        _nominalCode = new NominalCode();
+        discountsList = new List<Discount>();
+        discountsList2 = new List<Discount>();
+        discountsList3 = new List<Discount>();
+        itemsList = new List<Item>();
+        itemsList2 = new List<Item>();
+        itemsList3 = new List<Item>();
+        _item = new Item();
+        numberList = new List<NumberList>();
+        groubByList = new List<NumberList>();
+        dateTypesList = new List<string>();
+        CompareOnList = new List<ComparedOn>();
+        _comparedOn = new ComparedOn();
+        dateType = "Transaction";
+        DateName = "Transaction";
+        clerkList = new List<Clerk>(); 
+        clerkList2 = new List<Clerk>(); 
+        clerkList3 = new List<Clerk>(); 
+        statusesList = new List<Status>();
+        statusesList2 = new List<Status>();
+        statusesList3 = new List<Status>();
+        dateRangeStart = new DateTime();
+        _storedReport1 = new RunReport();
+        domainsList = new List<Domain>();
+        domainsList2 = new List<Domain>();
+        domainsList3 = new List<Domain>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        numberList.Add(new NumberList
+        {
+            name= "one",
+            number = 1,
+        });
+        numberList.Add(new NumberList
+        {
+            name = "two",
+            number = 2,
+        });
+
+        numberList.Add(new NumberList
+            {
+                name = "three",
+                number = 3,
+            });
+
+
+        //list of possibly groupings
+        groubByList.Add(new NumberList
+        {
+            name = "date",
+            number = 1,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "day",
+            number = 2,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "week",
+            number = 3,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "month",
+            number = 4,
+        });
+
+        groubByList.Add(new NumberList
+        {
+            name = "domain",
+            number = 5,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "department",
+            number = 6,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "category",
+            number = 7,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "SubCategory",
+            number = 8,
+        });
+        groubByList.Add(new NumberList
+        {
+            name = "item",
+            number = 9,
+        });
+
+        CompareOnList =  await _ComparedOnService.GetComparedOnsAsync();
+
+        dateTypesList.Add("Booking Date");
+        dateTypesList.Add("Visit Date");
+
+
+        domainsList = await _populateDropdownService.GetDomains();
+        domainsList = domainsList.OrderByDescending(c => c.DomainName).ToList();
+        domainsList2 = await _populateDropdownService.GetDomains();
+        domainsList2 = domainsList.OrderByDescending(c => c.DomainName).ToList();
+        domainsList3 = await _populateDropdownService.GetDomains();
+        domainsList3 = domainsList.OrderByDescending(c => c.DomainName).ToList();
+
+
+        // nominalCodesList = await _populateDropdownService.GetNominalCodes();
+        tillList =  await _populateDropdownService.GetTills();
+        paymentTypeList = await _populateDropdownService.GetPaymentTypes();
+
+        tillList2 =  await _populateDropdownService.GetTills();
+        paymentTypeList2 = await _populateDropdownService.GetPaymentTypes();
+
+        tillList3 =  await _populateDropdownService.GetTills();
+        paymentTypeList3 = await _populateDropdownService.GetPaymentTypes();
+
+
+        // getting earliest date in transaction data
+        dateRangeStart = await _populateDropdownService.getDateStart();
+        dateRangeStart.AddDays(-1);
+        DateTime today = DateTime.Now;
+        TimeSpan daysMinus = today - dateRangeStart;
+        dates = new DateTime[] { DateTime.Today.AddDays(-daysMinus.Days), DateTime.Today.AddDays(1) };
+        //spinner = true;
+    }
+
+    protected async Task OnChangeDomain()
+    {
+        departmentsList = await _populateDropdownService.GetDepartmentsinDomain(selectedDomId);
+        departmentsList = departmentsList.OrderBy(c => c.DepartmentName).ToList();
+        discountsList = await _populateDropdownService.GetDiscoutDescpriptionInDomain(selectedDomId);
+        discountsList = discountsList.OrderBy(c => c.DiscountDescription).ToList();
+        clerkList = await _populateDropdownService.GetClerks(selectedDomId);
+        clerkList = clerkList.OrderBy(c => c.ClerkName).ToList();
+    }
+    protected async Task OnChangeDomain2()
+    {
+        departmentsList2 = await _populateDropdownService.GetDepartmentsinDomain(selectedDomId2);
+        departmentsList2 = departmentsList2.OrderBy(c => c.DepartmentName).ToList();
+        discountsList2 = await _populateDropdownService.GetDiscoutDescpriptionInDomain(selectedDomId2);
+        discountsList2 = discountsList2.OrderBy(c => c.DiscountDescription).ToList();
+        clerkList2 = await _populateDropdownService.GetClerks(selectedDomId2);
+        clerkList2 = clerkList2.OrderBy(c => c.ClerkName).ToList();
+
+    }
+    protected async Task OnChangeDomain3(object value)
+    {
+        departmentsList3 = await _populateDropdownService.GetDepartmentsinDomain(selectedDomId3);
+        departmentsList3 = departmentsList3.OrderBy(c => c.DepartmentName).ToList();
+        discountsList3 = await _populateDropdownService.GetDiscoutDescpriptionInDomain(selectedDomId3);
+        discountsList3 = discountsList3.OrderBy(c => c.DiscountDescription).ToList();
+        clerkList3 = await _populateDropdownService.GetClerks(selectedDomId3);
+        clerkList3 = clerkList3.OrderBy(c => c.ClerkName).ToList();
+
+    }
+
+    protected  async Task OnChangeDepartment(object value)
+    {
+        categoriesList = await _populateDropdownService.GetCategoriesInDepartment(selectedDeptId);
+        categoriesList = categoriesList.OrderBy(c => c.CategoryName).ToList();
+    }
+    protected  async Task OnChangeDepartment2(object value)
+    {
+        categoriesList2 = await _populateDropdownService.GetCategoriesInDepartment(selectedDeptId2);
+        categoriesList2 = categoriesList2.OrderBy(c => c.CategoryName).ToList();
+    }
+
+    protected async Task OnChangeDepartment3(object value)
+    {
+        categoriesList3 = await _populateDropdownService.GetCategoriesInDepartment(selectedDeptId3);
+        categoriesList3 = categoriesList3.OrderBy(c => c.CategoryName).ToList();
+    }
+
+    protected async Task OnChangeCategory(object value)
+    {
+        subCategoriesList = await _populateDropdownService.GetSubCategoriesInCatagories(selectedCatId);
+        subCategoriesList = subCategoriesList.OrderBy(c => c.SubCategoryName).ToList();
+    }
+    protected async Task OnChangeCategory2(object value)
+    {
+        subCategoriesList2 = await _populateDropdownService.GetSubCategoriesInCatagories(selectedCatId2);
+        subCategoriesList2 = subCategoriesList2.OrderBy(c => c.SubCategoryName).ToList();
+    }
+    protected async Task OnChangeCategory3(object value)
+    {
+        subCategoriesList3 = await _populateDropdownService.GetSubCategoriesInCatagories(selectedCatId3);
+        subCategoriesList3 = subCategoriesList3.OrderBy(c => c.SubCategoryName).ToList();
+    }
+
+
+    protected async Task OnChangeSubCat(object value)
+    {
+        itemsList = await _populateDropdownService.GetIteminSubCat(selectedSubCatId);
+        itemsList = itemsList.OrderBy(c => c.ItemDescription);
+    }
+
+    protected async Task OnChangeSubCat2(object value)
+    {
+        itemsList2 =  await _populateDropdownService.GetIteminSubCat(selectedSubCatId2);
+        itemsList2 = itemsList2.OrderBy(c => c.ItemDescription);
+    }
+
+    protected async Task OnChangeSubCat3(object value)
+    {
+        itemsList3 =  await _populateDropdownService.GetIteminSubCat(selectedSubCatId3);
+        itemsList3 = itemsList3.OrderBy(c => c.ItemDescription);
+    }
+
+    void OnChangeDateType() {
+        if (dateType == "")
+        {
+            dateType = "Transaction";
+            DateName = dateType;
+        }
+        else
+        {
+            DateName = dateType;
+        }
+
+    }
+    void OnClick(string buttonname)
+    {
+    }
+
+    bool busy;
+    async Task OnBusyClick()
+    {
+        busy = true;
+        await Task.Delay(2000);
+        busy = false;
+    }
+
+    void OnChange(DateTime? value, string StartDate, string format)
+    {
+
+    }
+
+
+    void DateRenderSpecial(DateRenderEventArgs args)
+    {
+        {
+            if (dates.Contains(args.Date))
+                args.Attributes.Add("style", "background-color: #ff6d41; border-color: white;");
+        }
+    }
+
+    void DateRender(DateRenderEventArgs args)
+    {
+        args.Disabled = args.Disabled || dates.Contains(args.Date);
+    }
+
+    void OnTodayClick()
+    {
+        value = DateTime.Now;
+    }
+
+    async Task OnSubmit()
+    {
+        
+
+        // move to try catch errors
+        if (selectedDomId == 0)
+        {
+            // send error must select a domain
+            // need a try catch above
+            errorMessage ="select a domain";
+        }
+        if (selectedStartDate == DateTime.MinValue)
+        {
+            // send error - please select a start date
+        }
+        if (selectedEndDate == DateTime.MinValue)
+        {
+            // send error - please select an end date
+        }
+
+        if(numberToCompare == 1)
+        {
+            StoreReport();
+            if(selectedDomId>0)
+            {
+                if(selectedDeptId>0)
+                {
+                    if(selectedCatId>0)
+                    {
+                        if(selectedSubCatId>0){
+                            if(selectedItemid>0)
+                            {
+                                if(selectedClerkId>0)
+                                {
+                                    if(selectedDiscountId>0)
+                                    {
+                                        if(selectedNominalCodeId>0)
+                                        {
+                                            if(selectedPaymentTypeId>0){
+                                                if(selectedTillid>0)
+                                                {
+                                                    switch (groupById)
+                                                    {
+                                                        case 1:// date
+                                                           
+                                                            break;
+
+                                                        case 2://dayofweek
+                                                               // query
+                                                            break;
+
+                                                        case 3://week
+                                                               //query
+                                                            break;
+
+                                                        case 4://month
+                                                               //query
+                                                            break;
+
+                                                        case 5: //domain
+                                                                //query
+                                                            break;
+
+                                                        case 6: //dept
+                                                                //query
+                                                            break;
+
+                                                        case 7:// cat
+                                                               //query
+                                                            break;
+
+                                                        case 8: //subcat
+                                                                //query
+                                                            break;
+
+                                                        case 9: //item
+                                                                //query
+                                                            break;
+
+                                                        default:
+                                                            //error message
+                                                            break;
+                                                    }
+                                                }//till
+                                                switch (groupById)
+                                                {
+                                                    case 1:// date
+                                                    
+                                                        break;
+
+                                                    case 2://dayofweek
+                                                           // query
+                                                        break;
+
+                                                    case 3://week
+                                                           //query
+                                                        break;
+
+                                                    case 4://month
+                                                           //query
+                                                        break;
+
+                                                    case 5: //domain
+                                                            //query
+                                                        break;
+
+                                                    case 6: //dept
+                                                            //query
+                                                        break;
+
+                                                    case 7:// cat
+                                                           //query
+                                                        break;
+
+                                                    case 8: //subcat
+                                                            //query
+                                                        break;
+
+                                                    case 9: //item
+                                                            //query
+                                                        break;
+
+                                                    default:
+                                                        //error message
+                                                        break;
+                                                }
+                                            }//paymentType
+                                            switch(groupById)
+                                            {
+                                                case 1:// date
+                                                    
+                                                    break;
+
+                                                case 2://dayofweek
+                                                       // query
+                                                    break;
+
+                                                case 3://week
+                                                       //query
+                                                    break;
+
+                                                case 4://month
+                                                       //query
+                                                    break;
+
+                                                case 5: //domain
+                                                        //query
+                                                    break;
+
+                                                case 6: //dept
+                                                        //query
+                                                    break;
+
+                                                case 7:// cat
+                                                       //query
+                                                    break;
+
+                                                case 8: //subcat
+                                                        //query
+                                                    break;
+
+                                                case 9: //item
+                                                        //query
+                                                    break;
+
+                                                default:
+                                                    //error message
+                                                    break;
+
+                                            }
+                                        }//nomcode
+                                        switch (groupById)
+                                        {
+                                            case 1:// date
+                                                
+                                                break;
+
+                                            case 2://dayofweek
+                                                   // query
+                                                break;
+
+                                            case 3://week
+                                                   //query
+                                                break;
+
+                                            case 4://month
+                                                   //query
+                                                break;
+
+                                            case 5: //domain
+                                                    //query
+                                                break;
+
+                                            case 6: //dept
+                                                    //query
+                                                break;
+
+                                            case 7:// cat
+                                                   //query
+                                                break;
+
+                                            case 8: //subcat
+                                                    //query
+                                                break;
+
+                                            case 9: //item
+                                                    //query
+                                                break;
+
+                                            default:
+                                                //error message
+                                                break;
+                                        }
+                                    }// discount
+                                    switch (groupById)
+                                    {
+                                        case 1:// date
+                                            
+                                            break;
+
+                                        case 2://dayofweek
+                                               // query
+                                            break;
+
+                                        case 3://week
+                                               //query
+                                            break;
+
+                                        case 4://month
+                                               //query
+                                            break;
+
+                                        case 5: //domain
+                                                //query
+                                            break;
+
+                                        case 6: //dept
+                                                //query
+                                            break;
+
+                                        case 7:// cat
+                                               //query
+                                            break;
+
+                                        case 8: //subcat
+                                                //query
+                                            break;
+
+                                        case 9: //item
+                                                //query
+                                            break;
+
+                                        default:
+                                            //error message
+                                            break;
+                                    }
+                                }// clerk
+                                switch (groupById)
+                                {
+                                    case 1:// date
+                                       
+                                        break;
+
+                                    case 2://dayofweek
+                                           // query
+                                        break;
+
+                                    case 3://week
+                                           //query
+                                        break;
+
+                                    case 4://month
+                                           //query
+                                        break;
+
+                                    case 5: //domain
+                                            //query
+                                        break;
+
+                                    case 6: //dept
+                                            //query
+                                        break;
+
+                                    case 7:// cat
+                                           //query
+                                        break;
+
+                                    case 8: //subcat
+                                            //query
+                                        break;
+
+                                    case 9: //item
+                                            //query
+                                        break;
+
+                                    default:
+                                        //error message
+                                        break;
+                                }
+                            }//Item
+                            switch (groupById)
+                            {
+                                case 1:// date
+                                    
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+                                    break;
+
+                                case 3://week
+                                       //query
+                                    break;
+
+                                case 4://month
+                                       //query
+                                    break;
+
+                                case 5: //domain
+                                        //query
+                                    break;
+
+                                case 6: //dept
+                                        //query
+                                    break;
+
+                                case 7:// cat
+                                       //query
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+                                    break;
+
+                                case 9: //item
+                                        //query
+                                    break;
+
+                                default:
+                                    //error message
+                                    break;
+                            }
+                        }//subcat
+                        switch (groupById)
+                        {
+                            case 1:// date
+                                
+                                break;
+
+                            case 2://dayofweek
+                                   // query
+                                break;
+
+                            case 3://week
+                                   //query
+                                break;
+
+                            case 4://month
+                                   //query
+                                break;
+
+                            case 5: //domain
+                                    //query
+                                break;
+
+                            case 6: //dept
+                                    //query
+                                break;
+
+                            case 7:// cat
+                                   //query
+                                break;
+
+                            case 8: //subcat
+                                    //query
+                                break;
+
+                            case 9: //item
+                                    //query
+                                break;
+
+                            default:
+                                //error message
+                                break;
+                        }
+                    }//cat
+                    switch (groupById)
+                    {
+                        case 1:// date
+                           
+                            break;
+
+                        case 2://dayofweek
+                               // query
+                            break;
+
+                        case 3://week
+                               //query
+                            break;
+
+                        case 4://month
+                               //query
+                            break;
+
+                        case 5: //domain
+                                //query
+                            break;
+
+                        case 6: //dept
+                                //query
+                            break;
+
+                        case 7:// cat
+                               //query
+                            break;
+
+                        case 8: //subcat
+                                //query
+                            break;
+
+                        case 9: //item
+                                //query
+                            break;
+
+                        default:
+                            //error message
+                            break;
+                    }
+                }//dep
+                switch (groupById)
+                {
+                    case 1:// date
+                        var result = await _getReportDataService.GetAllTransByDomainAndDateAsync(selectedStartDate, selectedEndDate, selectedDomId);
+                        _myStateContainer.OnStateChange += StateHasChanged;
+                        _myStateContainer.SetValue(result);
+                        
+                        navigationManager.NavigateTo("/Views/ChartPop");
+                        break;
+
+                    case 2://dayofweek
+                        var result2 = await _getReportDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId);
+                        _myStateContainer.OnStateChange += StateHasChanged;
+                        _myStateContainer.SetValue(result2);
+                        
+                        navigationManager.NavigateTo("/Views/ChartPop");
+                        break;
+                           // query
+                        
+
+                    case 3://week
+                           //query
+                        break;
+
+                    case 4://month
+                        var result4 = await _getReportDataService.GetAllTransByDomainByMonthAsync(selectedStartDate, selectedEndDate, selectedDomId);
+                        _myStateContainer.OnStateChange += StateHasChanged;
+                        _myStateContainer.SetValue(result4);
+
+                        navigationManager.NavigateTo("/Views/ChartPop");
+                           //query
+                        break;
+
+                    case 5: //domain
+
+                            //query
+                        break;
+
+                    case 6: //dept
+                        var result6 = await _getReportDataService.GetAllTransByDomainByDeptAsync(selectedStartDate, selectedEndDate, selectedDomId);
+                        _myStateContainer.OnStateChange += StateHasChanged;
+                        _myStateContainer.SetValue(result6);
+
+                        navigationManager.NavigateTo("/Views/ChartPop");
+                            //query
+                        break;
+
+                    case 7:// cat
+                           //query
+                        break;
+
+                    case 8: //subcat
+                            //query
+                        break;
+
+                    case 9: //item
+                            //query
+                        break;
+
+                    default:
+                        //error message
+                        break;
+
+                }//end of switch
+
+            }//dom
+
+        }// end of numtocompare == 1
+    }  // end of on Submit
+
+
+    void StoreReport()
+    {
+
+        // check if exists
+        _storedReport1.DomainId = selectedDomId;
+        if (selectedCatId > 0)
+        {
+            _storedReport1.CategoryId = selectedCatId;
+        }
+
+        if (selectedDeptId > 0)
+        {
+            _storedReport1.DepartmentId = selectedDeptId;
+        }
+
+        if (selectedSubCatId > 0)
+        { 
+            _storedReport1.SubCategoryId = selectedSubCatId;
+        }
+
+        if (selectedItemid > 0)
+        {
+            _storedReport1.ItemTypeId = selectedItemid;
+        } 
+        if(selectedDiscountId >0)
+        {
+            //need discount added to stored report
+        }   
+        if(selectedClerkId>0)
+        {
+            _storedReport1.ClerkId = selectedClerkId;
+        }
+        if(selectedNominalCodeId >0)
+        {
+            _storedReport1.nominalCodeId = selectedNominalCodeId;
+        }
+        if(selectedTillid >0)
+        {
+            _storedReport1.TillId = selectedTillid;
+
+        }
+
+    }
+    public void Dispose()
+    {
+        _myStateContainer.OnStateChange -= StateHasChanged;
+    }
+ }

@@ -1,0 +1,216 @@
+﻿@page "/chart"
+@inject DialogService DialogService
+@using System.Globalization;
+@using OTBIS.Web.Models.ChartArrays;
+@inject GetProductionService _getProductionService;
+@inject GetChartDataService _getChartDataService;
+
+
+@if (@GAresult == null || @NonGAresult == null  )
+{
+    <div class="spinner"></div>
+}
+else
+{
+
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    Gift Aid VS Non Gift Aid
+</RadzenText>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard Class="w-100 mb-4">
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+            <h4>Auto-size column series</h4>
+            <RadzenChart>
+                <RadzenColumnSeries Data="@GAresult" CategoryProperty="TransactionDateTime" Title="Gift Aid" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@NonGAresult" CategoryProperty="TransactionDateTime" Title="Non Gift Aid" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
+
+        </div>
+    </div>
+</div>
+
+    <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+        Gift Aid Trends
+    </RadzenText>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <RadzenCard Class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                    <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                    <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" Class="rz-color-danger-dark" />
+                    <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                    <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" Class="rz-color-success-dark" />
+                    <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                    <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" Class="rz-color-info-dark" />
+                    <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                    <RadzenLabel Text="Mode" For="mode" Class="rz-color-warning-darker" />
+                </RadzenCard>
+                <RadzenChart>
+                    <RadzenLineSeries Smooth="true" Data="@GAresultAnnual" CategoryProperty="TransactionDateTime" Title="GFT AID" ValueProperty="Net_Amount" RenderingOrder="1">
+                        <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                        <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
+                    <RadzenValueAxis Formatter="@FormatAsUK">
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Revenue in GBP" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </div>
+        </div>
+    </div>
+
+    <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    Radzen Blazor Chart pie series
+</RadzenText>
+
+    <div class="container">
+        <RadzenCard Class="mt-4 w-100 mb-4 d-flex align-items-center" >
+            <RadzenLabel Text="Color scheme:" Style="margin-right: 8px; vertical-align: middle;" />
+            <RadzenDropDown Data="@colorSchemes" @bind-Value="@colorScheme" />
+        </RadzenCard>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 offset-lg-3 my-5">
+                <RadzenCard Class="w-100 mb-4" >
+                    <RadzenCheckBox @bind-Value="@showDataLabels1" Name="dataLabels"></RadzenCheckBox>
+                    <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+                </RadzenCard>
+                <RadzenChart ColorScheme="@colorScheme">
+                    <RadzenPieSeries  Data="@MonthlySaleByCat" Title="Category" CategoryProperty="CategoryName" ValueProperty="Net_Amount">
+                        <RadzenSeriesDataLabels Visible="@showDataLabels1" />
+                    </RadzenPieSeries>
+                </RadzenChart>
+            </div>
+        </div>
+    </div>
+
+    <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+        Day of the Week Trends
+    </RadzenText>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <RadzenCard Class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                    <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                    <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" Class="rz-color-danger-dark" />
+                    <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                    <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" Class="rz-color-success-dark" />
+                    <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                    <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" Class="rz-color-info-dark" />
+                    <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                    <RadzenLabel Text="Mode" For="mode" Class="rz-color-warning-darker" />
+                </RadzenCard>
+                <RadzenChart>
+                    <RadzenLineSeries Smooth="true" Data="@SalesByMonDay" CategoryProperty="DayofWeek" Title="Monday" ValueProperty="Net_Amount" RenderingOrder="1">
+                        <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                        <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
+                    <RadzenValueAxis Formatter="@FormatAsUK">
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Revenue in GBP" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </div>
+        </div>
+    </div>
+
+
+}
+@code {
+    bool smooth = false;
+    bool showDataLabels = false;
+    bool showDataLabels1 = false;
+    bool trend = true;
+    bool median = false;
+    bool mean = false;
+    bool mode = false;
+
+    IEnumerable<ColorScheme> colorSchemes = Enum.GetValues(typeof(ColorScheme)).Cast<ColorScheme>();
+    ColorScheme colorScheme = ColorScheme.Palette;
+
+    List<string> data = new List<string>();
+
+
+
+
+
+
+
+    string FormatAsUK(object value)
+    {
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
+    }
+
+    string FormatAsMonth(object value)
+    {
+        if (value != null)
+        {
+            return Convert.ToDateTime(value).ToString("MMM");
+        }
+
+        return string.Empty;
+    }
+    TransBySubCat1[] GAresult;
+    TransBySubCat1[] NonGAresult;
+    TransBySubCat1[] GAresultAnnual;
+    TransNetByCat[] MonthlySaleByCat;
+    TransNetByDay[] SalesByMonDay;
+
+    protected override void OnInitialized()
+    {
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        GAresult = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 6, 21, 40));
+        NonGAresult = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 6, 21, 69));
+        GAresultAnnual = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), 6, 21, 40));
+        MonthlySaleByCat = await _getChartDataService.TransactionByDeptGrpByCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 13);
+      //SalesByMonDay = await _getProductionService.GetAllTransByDateRangeGrpByDayofWeekAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), DayOfWeek.Monday);
+
+    }
+
+    
+    void BusyDialog()
+    {
+         DialogService.Open("", ds =>
+    @<div>
+        <div class="row">
+            <div class="col text-center p-5">
+                <RadzenImage Path="images/community.svg" Style="display: block; width: 200px; margin-bottom: 40px;" />
+                <b>Loading, please wait...</b>
+            </div>
+        </div>
+    </div>, new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = false });
+    }
+  
+
+
+    
+}

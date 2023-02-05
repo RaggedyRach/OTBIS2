@@ -1,0 +1,135 @@
+﻿@*@page "/Views/ChartPop/{Id:int?}"*@
+@page "/Views/ChartPop"
+@inject MyStateContainer myStateContainer
+@inject GetProductionService _getProductionService;
+@inject GetReportDataService _getReportDataService;
+@inject GetChartDataService _getChartDataService;
+
+
+<h3>ChartPop</h3>
+
+@*
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    DataGrid <strong>Column Picker</strong>
+</RadzenText>
+<RadzenText TextStyle="TextStyle.Body1" Class="my-4">
+    Enable column picker by setting the AllowColumnPicking property to true.
+</RadzenText>*@
+@if (dataListTBD != null)
+{
+    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+<RadzenDataGrid Data="@dataListTBD" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+    <Columns>
+        <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+      
+        <RadzenDataGridColumn TItem="TransByDate" Property="TransDate" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
+        <RadzenDataGridColumn TItem="TransByDate" Property="TransCount" Title="Count" />
+        <RadzenDataGridColumn TItem="TransByDate" Property="Net_Value" Title="Net" />
+        <RadzenDataGridColumn TItem="TransByDate" Property="Vat_Value" Title="Vat"  />
+        <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Value" Title="Gross Value"  />
+        <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Sale_Value" Title="Sale Value" />
+        <RadzenDataGridColumn TItem="TransByDate" Property="Discount_Value" Title="Discount" />
+        
+    </Columns>
+</RadzenDataGrid>
+}
+
+@if (dataListTBM != null)
+{
+    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenDataGrid Data="@dataListTBM" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
+        <Columns>
+            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+*@
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Vat_Value" Title="Vat" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Value" Title="Gross Value" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Sale_Value" Title="Sale Value" />
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Discount_Value" Title="Discount" />
+
+        </Columns>
+    </RadzenDataGrid>
+}
+
+@if (datalistTBDept != null)
+{
+    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenDataGrid Data="@datalistTBDept" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
+        <Columns>
+            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+
+
+
+            <RadzenDataGridColumn TItem="TransByDept" Property="DepartmentId" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="TransCount" Title="Count" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="Net_Value" Title="Net" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="Vat_Value" Title="Vat" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Value" Title="Gross Value" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Sale_Value" Title="Sale Value" />
+            <RadzenDataGridColumn TItem="TransByDept" Property="Discount_Value" Title="Discount" />
+
+        </Columns>
+    </RadzenDataGrid>
+}
+
+
+@code {
+
+    ModelList _modelList;
+    //TransByDate _transByDate;
+    List<TransByDate> dataListTBD;
+    //TransByMonth _transByMonth;
+    List<TransByMonth> dataListTBM;
+    //TransByDept _transByDept;
+    List<TransByDept> datalistTBDept;
+
+    int id;
+    DateTime tranDate;
+    int count;
+    decimal net;
+    decimal vat;
+    decimal gross;
+    decimal saleV;
+    decimal discount;
+
+
+    bool idVisable = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _modelList = myStateContainer.Value;
+        dataListTBD = _modelList.transByDatesList;
+        dataListTBM = _modelList.transByMonthList;
+        datalistTBDept = _modelList.transByDeptList;
+        //if(_modelList.transByDatesList != null)
+        //{
+        //    dataListTBD = _modelList.transByDatesList;
+
+        //}
+        //if(_modelList.transByMonthList != null)
+        //{
+        //    dataListTBM = _modelList.transByMonthList;
+
+        //}
+        //if(_modelList.transByDeptList != null)
+        //{
+        //    datalistTBDept = _modelList.transByDeptList;
+        //}
+
+    }
+    
+
+    void PickedColumnsChanged(DataGridPickedColumnsChangedEventArgs<TransByDate> args)
+    {
+    }
+
+}
+
+    
+
+    
+
+

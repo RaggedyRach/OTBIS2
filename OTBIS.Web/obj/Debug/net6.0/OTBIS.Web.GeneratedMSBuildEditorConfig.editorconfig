@@ -1,0 +1,125 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = OTBIS.Web
+build_property.RootNamespace = OTBIS.Web
+build_property.ProjectDir = C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Administration.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5pc3RyYXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Chart.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhcnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/MyReports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xNeVJlcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnREaXNwbGF5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Setnotifications.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0bm90aWZpY2F0aW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Settings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0dGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Test.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/TestData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdERhdGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/ChartPop.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcQ2hhcnRQb3AucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/Columns.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENvbHVtbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/DataFilter.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXERhdGFGaWx0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/MyCustomDataFilterProperty.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE15Q3VzdG9tRGF0YUZpbHRlclByb3BlcnR5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7e94avmhc5
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportBuilder.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRCdWlsZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-jkkkyixp6r
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportCompare.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRDb21wYXJlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-89dpkl10bd
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportSummary.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRTdW1tYXJ5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-box9ynywqw
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-w2p2r57593
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-3lkrkf5164
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/LogOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

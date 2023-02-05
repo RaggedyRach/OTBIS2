@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-OTBIS.Web-5482C776-D141-49F2-9BFF-5A9FD8410DCA</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Reports\ChartView.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Reports\ReportBuilder.razor~RF4939bb0b.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9" />
+    <PackageReference Include="Radzen.Blazor" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\ArenaDataObjectsStaging\" />
+  </ItemGroup>
+
+</Project>

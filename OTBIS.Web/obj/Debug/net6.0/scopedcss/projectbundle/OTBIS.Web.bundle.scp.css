@@ -1,0 +1,301 @@
+/* _content/OTBIS.Web/Pages/Index.razor.rz.scp.css */
+body[b-7e94avmhc5] {
+}
+.buffer[b-7e94avmhc5] {
+    margin: 10px;
+}
+.main-back[b-7e94avmhc5]{
+    background: center;
+    background-color:red;
+}
+.visualRow[b-7e94avmhc5] {
+    align-content: center;
+}
+.row[b-7e94avmhc5] {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+.col[b-7e94avmhc5] {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+/* _content/OTBIS.Web/Pages/Reports/ReportBuilder.Razor.rz.scp.css */
+
+.spinner[b-jkkkyixp6r] {
+    border: 16px solid silver;
+    border-top: 16px solid #337AB7;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin-b-jkkkyixp6r 700ms linear infinite;
+    top: 40%;
+    left: 55%;
+    position: absolute;
+}
+
+@keyframes spin-b-jkkkyixp6r {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+.rz-dropdown[b-jkkkyixp6r] {
+    display: grid !important;
+}
+body[b-jkkkyixp6r] {
+}
+.grid-container[b-jkkkyixp6r] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+#blazor-error-ui[b-jkkkyixp6r] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-jkkkyixp6r] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* _content/OTBIS.Web/Pages/Reports/ReportCompare.Razor.rz.scp.css */
+
+.spinner[b-89dpkl10bd] {
+    border: 16px solid silver;
+    border-top: 16px solid #337AB7;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin-b-89dpkl10bd 700ms linear infinite;
+    top: 40%;
+    left: 55%;
+    position: absolute;
+}
+
+@keyframes spin-b-89dpkl10bd {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+.rz-dropdown[b-89dpkl10bd] {
+    display: grid !important;
+}
+body[b-89dpkl10bd] {
+}
+.grid-container[b-89dpkl10bd] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+#blazor-error-ui[b-89dpkl10bd] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-89dpkl10bd] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* _content/OTBIS.Web/Pages/Reports/ReportSummary.razor.rz.scp.css */
+body[b-box9ynywqw] {
+}
+.rz-dropdown[b-box9ynywqw] {
+    display: grid !important;
+}
+
+.grid-container[b-box9ynywqw] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    }
+#blazor-error-ui[b-box9ynywqw] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-box9ynywqw] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* _content/OTBIS.Web/Shared/MainLayout.razor.rz.scp.css */
+
+.page[b-w2p2r57593] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-w2p2r57593] {
+    flex: 1;
+}
+
+.sidebar[b-w2p2r57593] {
+    background-image: linear-gradient(180deg, #113e4a 10%, #b981a2 90%);
+}
+
+.top-row[b-w2p2r57593] {
+    background-color: #113e4a;
+    
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-w2p2r57593]  a, .top-row .btn-link[b-w2p2r57593] {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
+
+    .top-row a:first-child[b-w2p2r57593] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .rz-multiselect[b-w2p2r57593], .rz-dropdown[b-w2p2r57593] {
+    display: grid;
+    }
+
+    @media (max-width: 640.98px) {
+        .top-row:not(.auth)[b-w2p2r57593] {
+            display: none;
+        }
+
+        .top-row.auth[b-w2p2r57593] {
+            justify-content: space-between;
+        }
+
+        .top-row a[b-w2p2r57593], .top-row .btn-link[b-w2p2r57593] {
+            margin-left: 0;
+        }
+    }
+
+    @media (min-width: 641px) {
+        .page[b-w2p2r57593] {
+            flex-direction: row;
+        }
+
+        .sidebar[b-w2p2r57593] {
+            width: 250px;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .top-row[b-w2p2r57593] {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .top-row[b-w2p2r57593], article[b-w2p2r57593] {
+            padding-left: 2rem !important;
+            padding-right: 1.5rem !important;
+        }
+
+        .rep[b-w2p2r57593] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    }
+/* _content/OTBIS.Web/Shared/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-3lkrkf5164] {
+    background-color: rgba(106, 255, 255, 0.1);
+}
+
+.top-row[b-3lkrkf5164] {
+    height: 3.5rem;
+    background-color: #113e4a;
+}
+
+.navbar-brand[b-3lkrkf5164] {
+    font-size: 1.1rem;
+    padding-left: 25px;
+    
+}
+.navbar-brand img[b-3lkrkf5164] {
+    font-size: 1.1rem;
+    width: 150px;
+    height: auto;
+}
+
+.oi[b-3lkrkf5164] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-3lkrkf5164] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-3lkrkf5164] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-3lkrkf5164] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-3lkrkf5164]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-3lkrkf5164]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-3lkrkf5164]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-3lkrkf5164] {
+        display: none;
+    }
+
+    .collapse[b-3lkrkf5164] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}

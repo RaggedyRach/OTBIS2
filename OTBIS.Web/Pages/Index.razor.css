@@ -1,0 +1,18 @@
+﻿body {
+}
+.buffer {
+    margin: 10px;
+}
+.main-back{
+    background: center;
+    background-color:red;
+}
+.visualRow {
+    align-content: center;
+}
+.row {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+.col {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
