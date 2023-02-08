@@ -742,11 +742,7 @@ else{
             name = "day",
             number = 2,
         });
-        groubByList.Add(new NumberList
-        {
-            name = "week",
-            number = 3,
-        });
+       
         groubByList.Add(new NumberList
         {
             name = "month",
@@ -1383,7 +1379,7 @@ else{
                         break;
 
                     case 2://dayofweek
-                        var result2 = await _getReportDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId);
+                        var result2 = await _getReportDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, DayOfWeek.Monday);
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result2);
                         
@@ -1391,10 +1387,6 @@ else{
                         break;
                            // query
                         
-
-                    case 3://week
-                           //query
-                        break;
 
                     case 4://month
                         var result4 = await _getReportDataService.GetAllTransByDomainByMonthAsync(selectedStartDate, selectedEndDate, selectedDomId);
