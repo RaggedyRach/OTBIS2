@@ -235,3 +235,12 @@ C:\Users\Rachael\source\repos\OTBIS - OLDJAN23\OTBIS.Web\obj\Debug\net6.0\OTBIS.
 C:\Users\Rachael\source\repos\OTBIS - OLDJAN23\OTBIS.Web\obj\Debug\net6.0\ref\OTBIS.Web.dll
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Reports\ReportSummary.razor.rz.scp.css
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Reports\ReportBuilder.Razor.rz.scp.css
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\EntityFramework.SqlServer.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\EntityFramework.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\System.CodeDom.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
