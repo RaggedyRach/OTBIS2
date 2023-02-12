@@ -1,15 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace OTBIS.Web.Models.ReportObjects
 {
-    public class TransByMonth
+    public class TransByDay
     {
 
-        public int TransByMonthId { get; set; }
+        public int TransByDayId { get; set; }
 
-        public int? Month { get; set; }
+        public int DomainId { get; set; }
 
-        public string MonthName { get; set; }
+        public string DayName { get; set; }
+
+        public DateTime? TransDate { get; set; }
+
         public int? TransCount { get; set; }
 
         public decimal? Net_Value { get; set; }
@@ -23,7 +26,6 @@ namespace OTBIS.Web.Models.ReportObjects
         public decimal? Discount_Value { get; set; }
 
 
+
     }
-
-
 }

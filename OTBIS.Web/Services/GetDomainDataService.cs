@@ -17,12 +17,13 @@ using Microsoft.Data.SqlClient.Server;
 using Radzen;
 using OTBIS.Web.Models.ChartArrays;
 using System.Diagnostics;
+using Humanizer;
 //using System.Data.Entity.Core.Objects;
 //using System.Data.Entity;
 
 namespace OTBIS.Web.Services
 {
-    public class GetReportDataService
+    public class GetDomainDataService
     {
         #region Property
         private readonly StagingDbContext _stagingDbContext;
@@ -30,9 +31,11 @@ namespace OTBIS.Web.Services
         #endregion
 
         #region Constructor
-        public GetReportDataService(StagingDbContext stagingDbContext)
+        public GetDomainDataService(StagingDbContext stagingDbContext)
         {
             _stagingDbContext = stagingDbContext;
+
+             _stagingDbContext.Database.SetCommandTimeout(180);
 
         }
         #endregion
@@ -134,11 +137,6 @@ namespace OTBIS.Web.Services
 
         #endregion
 
-        
-      
-
-
-
 
         #region Get List of All Transactions by Month and domian
         public async Task<ModelList> GetAllTransByDomainByMonthAsync(DateTime startDate, DateTime endDate, int domainId)
@@ -175,23 +173,28 @@ namespace OTBIS.Web.Services
         #region Get List of All Transactions by Domain gr by Dept
         public async Task<ModelList> GetAllTransByDomainByDeptAsync(DateTime startDate, DateTime endDate, int domainId)
         {
+            var data = await (from t in _stagingDbContext.Transactions
+                              join dd in _stagingDbContext.DomainDepartments 
+                              on t.DepartmentId equals dd.DepartmentId
+                              join d in _stagingDbContext.Departments 
+                              on t.DepartmentId equals d.DepartmentId
 
-            var data = await (from i in _stagingDbContext.Transactions
-                              join j in _stagingDbContext.DomainDepartments on i.DepartmentId equals j.DepartmentId
-                              join k in _stagingDbContext.Departments on i.DepartmentId equals k.DepartmentId
-                              where j.DomainId.Equals(domainId)
-                              && i.TransactionDateTime >= startDate && i.TransactionDateTime <= endDate
-                              group i by new { i.DepartmentId } into g
+                              where dd.DomainId == domainId
+                              && t.TransactionDateTime >= startDate && t.TransactionDateTime <= endDate
+
+                              group new { t,d } by new { t.DepartmentId, d.DepartmentName } into g
+
                               select new TransByDept()
                               {
                                   DepartmentId = g.Key.DepartmentId.Value,
                                   //select department name
-                                  TransCount = g.Select(i => i.Sales_Ref).Distinct().Count(),
-                                  Net_Value = g.Sum(i => i.Net_Amount),
-                                  Vat_Value = g.Sum(i => i.Vat_Amount),
-                                  Gross_Value = g.Sum(i => i.Selling_Price),
-                                  Gross_Sale_Value = g.Sum(i => i.TransactionTotal),
-                                  Discount_Value = g.Sum(i => i.DiscountValue),
+                                  Department = g.Key.DepartmentName,
+                                  TransCount = g.Count(x=>x.t.Sales_Ref.HasValue),
+                                  Net_Value = g.Sum(x => x.t.Net_Amount.Value),
+                                  Vat_Value = g.Sum(x => x.t.Vat_Amount.Value),
+                                  Gross_Value = g.Sum(x => x.t.Selling_Price.Value),
+                                  Gross_Sale_Value = g.Sum(x => x.t.TransactionTotal.Value),
+                                  Discount_Value = g.Sum(x => x.t.DiscountValue.Value),
                               }).ToListAsync();
 
             ModelList dataList = new ModelList();
@@ -199,9 +202,128 @@ namespace OTBIS.Web.Services
 
 
             return dataList;
+   
+        }
+        #endregion
+
+        #region Get List of All Transactions by Domain gr by Cat
+        public async Task<ModelList> GetAllTransByDomainByCatAsync(DateTime startDate, DateTime endDate, int domainId)
+        {
+            var data = await (from t in _stagingDbContext.Transactions
+                              join dd in _stagingDbContext.DomainDepartments
+                              on t.DepartmentId equals dd.DepartmentId
+                              join c in _stagingDbContext.Categories
+                              on t.CategoryId equals c.CategoryId
+
+                              where dd.DomainId == domainId
+                              && t.TransactionDateTime >= startDate && t.TransactionDateTime <= endDate
+
+                              group new { t, c } by new { t.CategoryId, c.CategoryName } into g
+
+                              select new TransByCat()
+                              {
+                                  CategoryId = g.Key.CategoryId.Value,
+                                  //select department name
+                                  Category = g.Key.CategoryName,
+                                  TransCount = g.Count(x => x.t.Sales_Ref.HasValue),
+                                  Net_Value = g.Sum(x => x.t.Net_Amount.Value),
+                                  Vat_Value = g.Sum(x => x.t.Vat_Amount.Value),
+                                  Gross_Value = g.Sum(x => x.t.Selling_Price.Value),
+                                  Gross_Sale_Value = g.Sum(x => x.t.TransactionTotal.Value),
+                                  Discount_Value = g.Sum(x => x.t.DiscountValue.Value),
+                              }).ToListAsync();
+
+            ModelList dataList = new ModelList();
+            dataList.transByCatList = data;
+
+
+            return dataList;
 
         }
+        #endregion
 
+        #region Get List of All Transactions by Domain gr by SubCat
+        public async Task<ModelList> GetAllTransByDomainBySubCatAsync(DateTime startDate, DateTime endDate, int domainId)
+        {
+            var data = await (from t in _stagingDbContext.Transactions
+                              join dd in _stagingDbContext.DomainDepartments
+                              on t.DepartmentId equals dd.DepartmentId
+                              join sc in _stagingDbContext.SubCategories
+                              on t.SubCategoryId equals sc.SubCategoryId
+
+                              where dd.DomainId == domainId
+                              && t.TransactionDateTime >= startDate && t.TransactionDateTime <= endDate
+
+                              group new { t, sc } by new { t.SubCategoryId, sc.SubCategoryName } into g
+
+                              select new TransBySubCat()
+                              {
+                                  SubCategoryId = g.Key.SubCategoryId.Value,
+                                  //select department name
+                                  SubCategory = g.Key.SubCategoryName,
+                                  TransCount = g.Count(x => x.t.Sales_Ref.HasValue),
+                                  Net_Value = g.Sum(x => x.t.Net_Amount.Value),
+                                  Vat_Value = g.Sum(x => x.t.Vat_Amount.Value),
+                                  Gross_Value = g.Sum(x => x.t.Selling_Price.Value),
+                                  Gross_Sale_Value = g.Sum(x => x.t.TransactionTotal.Value),
+                                  Discount_Value = g.Sum(x => x.t.DiscountValue.Value),
+                              }).ToListAsync();
+
+            ModelList dataList = new ModelList();
+            dataList.transBySubCatList = data;
+
+
+            return dataList;
+
+        }
+        #endregion
+
+        #region Get List of All Transactions by Domain gr by SubCat
+        public async Task<ModelList> GetAllTransByDomainByItemAsync(DateTime startDate, DateTime endDate, int domainId)
+        {
+            var data = await (from t in _stagingDbContext.Transactions
+                              join dd in _stagingDbContext.DomainDepartments
+                                on t.DepartmentId equals dd.DepartmentId
+                              join d in _stagingDbContext.Domains
+                                on dd.DomainId equals d.DomainId               
+                              join dep in _stagingDbContext.Departments
+                                on t.DepartmentId equals dep.DepartmentId
+                              join c in _stagingDbContext.Categories
+                                on t.CategoryId equals c.CategoryId
+                              join sc in _stagingDbContext.SubCategories
+                                on t.SubCategoryId equals sc.SubCategoryId
+                              join i in _stagingDbContext.Items
+                                on t.ItemId equals i.ItemId
+
+                              where dd.DomainId == domainId
+                              && t.TransactionDateTime >= startDate && t.TransactionDateTime <= endDate
+
+                              group new { t, i, c, d, dep, sc } by new { t.ItemId, i.ItemDescription } into g
+
+                              select new TransByItem()
+                              {
+                                  
+                                  ItemId = g.Key.ItemId.Value,
+                                  Item = g.Key.ItemDescription,
+                                  TransCount = g.Count(x => x.t.Sales_Ref.HasValue),
+                                  Net_Value = g.Sum(x => x.t.Net_Amount.Value),
+                                  Vat_Value = g.Sum(x => x.t.Vat_Amount.Value),
+                                  Gross_Value = g.Sum(x => x.t.Selling_Price.Value),
+                                  Gross_Sale_Value = g.Sum(x => x.t.TransactionTotal.Value),
+                                  Discount_Value = g.Sum(x => x.t.DiscountValue.Value),
+                                  Domain = string.Join(",",g.Select(x=>x.d.DomainName).ToList()),
+                                  Department = string.Join(",", g.Select(x => x.dep.DepartmentName)),
+                                  Category = string.Join(",", g.Select(x => x.c.CategoryName)),
+                                  SubCategory = string.Join(",", g.Select(x => x.sc.SubCategoryName)),
+                              }).ToListAsync();
+
+            ModelList dataList = new ModelList();
+            dataList.transByItemList = data;
+
+
+            return dataList;
+
+        }
         #endregion
 
         #region test the day method

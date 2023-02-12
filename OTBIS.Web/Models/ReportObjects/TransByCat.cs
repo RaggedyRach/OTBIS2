@@ -2,14 +2,15 @@
 
 namespace OTBIS.Web.Models.ReportObjects
 {
-    public class TransByMonth
+    public class TransByCat
     {
 
-        public int TransByMonthId { get; set; }
+        public int TransByCattId { get; set; }
 
-        public int? Month { get; set; }
+        public int CategoryId { get; set; }   
 
-        public string MonthName { get; set; }
+        public string Category { get; set; }
+
         public int? TransCount { get; set; }
 
         public decimal? Net_Value { get; set; }
