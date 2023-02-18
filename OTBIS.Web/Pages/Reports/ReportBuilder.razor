@@ -1,6 +1,7 @@
 ﻿@page "/Reports/ReportBuilder"
 @using OTBIS.Web.Services
 
+
 @implements IDisposable
 
 @inject StagingDbContext _StagingDbContext;
@@ -19,6 +20,7 @@
 @inject MyStateContainer3 _myStateContainer3;
 @inject NavigationManager navigationManager;
 
+@inject NotificationService NotificationService;
 
 @if (CompareOnList== null || numberToCompare == null  )
 {
@@ -84,18 +86,17 @@ else{
 
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" Name="Transaction StartDate"> @DateName Start Date</RadzenText>
-                                    <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
+                                    <RadzenDatePicker  Min="dateRangeStart" Max="DateTime.Today" TValue="DateTime"  @bind-Value="selectedStartDate" />
                                                   
-                                                  @bind-Value="selectedStartDate" />
+                                                  
                                 </RadzenCard>
                             </div>
                             <div class="col-lg-6 col-xl-4 p-3">
 
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" Name="Transaction EndDate">@DateName End Date</RadzenText>
-                                    <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
-                                                  
-                                                  @bind-Value="selectedEndDate" />
+                                    <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today" ShowTime="true" TValue="DateTime"  @bind-Value="selectedEndDate" />
+                                        
                                 </RadzenCard>
                             </div>
                             <div class="form-group col-sm-4">
@@ -104,10 +105,19 @@ else{
                                 @*  <label for="Number">Select Number of Comparisons</label>*@
                                 <RadzenDropDown Style="Display:grid;" TValue="string" Data=@dateTypesList class="w-100" @bind-Value=@dateType
                                             Change=@(args => OnChangeDateType()) />
+                                @if(groupById == 2)
+                                {
+                               <RadzenText TextStyle="TextStyle.Subtitle1">Day of the Week</RadzenText>
+                                @*  <label for="Number">Select Number of Comparisons</label>*@
+                                <RadzenDropDown Style="Display:grid;"  Data=@dayOfWeekList class="w-100" @bind-Value=@selectedDayOfWeekId
+                                            TextProperty="name" ValueProperty="dayOfWeek" />
+                                }         
 
+                            </div>
                             </div>
                             @if (compareOnId == 17 && numberToCompare == 2)
                             {
+                                <div class="row mt-2">
                                 <div class="col-lg-6 col-xl-4 p-3">
 
                                     <RadzenCard>
@@ -126,14 +136,23 @@ else{
                                                   @bind-Value="selectedEndDate2" />
                                     </RadzenCard>
                                 </div>
-
+                                @if (groupById == 2)
+                                { <div class="form-group col-sm-4">
+                                    <RadzenText TextStyle="TextStyle.Subtitle1">2nd Day of the Week</RadzenText>
+                                 
+                                    <RadzenDropDown Style="Display:grid;"  Data=@dayOfWeekList class="w-100" @bind-Value=@selectedDayOfWeekId2
+                                        TextProperty="name" ValueProperty="dayOfWeek" />
+                                </div>
+                                }
+                                </div>
                             }
                             @if (compareOnId == 17 && numberToCompare == 3)
                             {
+                                        <div class="row mt-2">
                                 <div class="col-lg-6 col-xl-4 p-3">
 
                                     <RadzenCard>
-                                        <RadzenText TextStyle="TextStyle.Subtitle2" Name=" StartDate2">2nd @DateName Start Date</RadzenText>
+                                        <RadzenText style="float:left" TextStyle="TextStyle.Subtitle2" Name=" StartDate2">2nd @DateName Start Date</RadzenText>
                                         <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
                                                  
                                                   @bind-Value="selectedStartDate2" />
@@ -148,10 +167,21 @@ else{
                                                   @bind-Value="selectedEndDate2" />
                                     </RadzenCard>
                                 </div>
+                                @if (groupById == 2)
+                                {
+                                    <div class="form-group col-sm-4">
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">2nd Day of the Week</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;"  Data=@dayOfWeekList class="w-100" @bind-Value=@selectedDayOfWeekId2
+                                        TextProperty="name" ValueProperty="dayOfWeek" />
+                                    </div>
+                                }
+                                </div>
+                                <div class="row mt-2">
                                 <div class="col-lg-6 col-xl-4 p-3">
 
                                     <RadzenCard>
-                                        <RadzenText TextStyle="TextStyle.Subtitle2" Name=" StartDate3"> 3rd @DateName Start Date </RadzenText>
+                                        <RadzenText style="float:left" TextStyle="TextStyle.Subtitle2" Name=" StartDate3"> 3rd @DateName Start Date </RadzenText>
                                         <RadzenDatePicker Min="dateRangeStart" Max="DateTime.Today"
                                                  
                                                   @bind-Value="selectedStartDate3" />
@@ -166,8 +196,19 @@ else{
                                                   @bind-Value="selectedEndDate3" />
                                     </RadzenCard>
                                 </div>
-                            }
-                        </div>
+                                
+                                <div class="form-group col-sm-4">
+                                     @if(groupById == 2)
+                                        {
+                                        <RadzenText TextStyle="TextStyle.Subtitle1">3rd Day of the Week</RadzenText>
+
+                                        <RadzenDropDown Style="Display:grid;"  Data=@dayOfWeekList class="w-100" @bind-Value=@selectedDayOfWeekId3
+                                                TextProperty="name" ValueProperty="dayOfWeek" />
+                                            }
+                                </div>
+                                </div>
+                        }
+                        
 
                     </div>
                 </div>
@@ -542,14 +583,20 @@ else{
                                     </div>
                                 }
 
-
-
-
                             </div>
                         </div>
                     }
                 </div>
-                <button type="button" @onclick="@OnSubmit" @onBusyclick class="btn btn-primary">Run Report</button>
+                <div class="container-fluid">
+                   <RadzenRow class="rz-text-align-right rz-border-info-light">  
+                        <RadzenColumn Size="6" Offset="0" class="rz-background-color-info-lighter rz-color-info rz-p-5">
+                                <RadzenButton style="width: 160px" ButtonType="ButtonType.Submit" Icon="save" BusyText="Saving ..." IsBusy=@busy Click=@OnBusyClick Text="Run Report" />          
+                        </RadzenColumn>
+                    </RadzenRow>
+                </div>
+               
+              
+                
             </RadzenTemplateForm>
     </div>
 
@@ -560,11 +607,13 @@ else{
 @code {
     List<NumberList> numberList;
     List<NumberList> groubByList;
+    List<DateName> dayOfWeekList;
     List<ComparedOn> CompareOnList;
     ComparedOn _comparedOn;
     int compareOnId =0;
     int numberToCompare =0;
     int groupById = 0;
+    int dayOfWeekId = 0;
     string dateType;
     string groupByName = "";
     string str1;
@@ -576,7 +625,8 @@ else{
     List<string> FL2;
     List<string> FL3;
     bool spinner;
-
+    bool hidden;
+    string buttonText;
     RunReport _storedReport1;
 
     RunReport report = new RunReport();
@@ -612,13 +662,15 @@ else{
     int selectedClerkId = 0;
     int selectedClerkId2 = 0;
     int selectedClerkId3 = 0;
+    DayOfWeek selectedDayOfWeekId = 0;
+    DayOfWeek selectedDayOfWeekId2 = 0;
+    DayOfWeek selectedDayOfWeekId3 = 0;
     DateTime selectedStartDate;
     DateTime selectedEndDate;
     DateTime selectedStartDate2;
     DateTime selectedEndDate2;
     DateTime selectedStartDate3;
     DateTime selectedEndDate3;
-
     List<Domain> domainsList;
     List<Domain> domainsList2;
     List<Domain> domainsList3;
@@ -678,7 +730,9 @@ else{
 
     protected override void OnInitialized()
     {
-        spinner = false;
+        spinner = true;
+        buttonText = "Run Report";
+        hidden = true;
         _domain = new Domain();
         domainsList2 = new List<Domain>();
         domainsList3 = new List<Domain>();
@@ -703,6 +757,7 @@ else{
         itemsList3 = new List<Item>();
         _item = new Item();
         numberList = new List<NumberList>();
+        dayOfWeekList = new List<DateName>();
         groubByList = new List<NumberList>();
         dateTypesList = new List<string>();
         CompareOnList = new List<ComparedOn>();
@@ -787,6 +842,42 @@ else{
             number = 9,
         });
 
+        //list of days of week
+        dayOfWeekList.Add(new DateName
+        {
+            name = "Sunday",
+            dayOfWeek = DayOfWeek.Sunday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Monday",
+            dayOfWeek = DayOfWeek.Monday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Tuesday",
+            dayOfWeek = DayOfWeek.Tuesday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Wednesday",
+            dayOfWeek = DayOfWeek.Wednesday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Thursday",
+            dayOfWeek = DayOfWeek.Thursday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Friday",
+            dayOfWeek = DayOfWeek.Friday,
+        });
+         dayOfWeekList.Add(new DateName
+        {
+            name = "Saturday",
+            dayOfWeek = DayOfWeek.Saturday,
+        });
         CompareOnList =  await _ComparedOnService.GetComparedOnsAsync();
 
         dateTypesList.Add("Booking Date");
@@ -814,11 +905,18 @@ else{
 
         // getting earliest date in transaction data
         dateRangeStart = await _populateDropdownService.getDateStart();
-        dateRangeStart.AddDays(-1);
+        dateRangeStart = dateRangeStart.AddDays(-1);
         DateTime today = DateTime.Now;
-        TimeSpan daysMinus = today - dateRangeStart;
-        dates = new DateTime[] { DateTime.Today.AddDays(-daysMinus.Days), DateTime.Today.AddDays(1) };
+        //TimeSpan daysMinus = today - dateRangeStart;
+       // dates = new DateTime[] { DateTime.Today.AddDays(-daysMinus.Days), DateTime.Today.AddDays(1) };
         //spinner = true;
+
+         selectedStartDate = today;
+         selectedEndDate = today;
+         selectedStartDate2 = today;
+         selectedEndDate2 = today;
+        selectedStartDate3 = today;
+         selectedEndDate3 = today;
     }
 
     protected async Task OnChangeDomain()
@@ -915,24 +1013,7 @@ else{
         }
 
     }
-    
 
-    bool busy;
-    async Task OnBusyClick()
-    {
-        busy = true;
-        await Task.Delay(2000);
-        busy = false;
-    }
-
-   
-    void DateRenderSpecial(DateRenderEventArgs args)
-    {
-        {
-            if (dates.Contains(args.Date))
-                args.Attributes.Add("style", "background-color: #ff6d41; border-color: white;");
-        }
-    }
 
     void DateRender(DateRenderEventArgs args)
     {
@@ -944,8 +1025,18 @@ else{
         value = DateTime.Now;
     }
 
+
+    bool busy;
+    async Task OnClick(string text)
+    {
+        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Button Clicked", Detail = text });
+        hidden = false;
+    }
     async Task OnSubmit()
     {
+        buttonText = "running...";
+
+
         // move to try catch errors
         if (selectedDomId == 0)
         {
@@ -1206,15 +1297,15 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     case 2://dayofweek
-                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, DayOfWeek.Monday);
+                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, selectedDayOfWeekId);
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result2);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
                                     // query
 
@@ -1224,7 +1315,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result4);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1238,7 +1329,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result6);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1247,7 +1338,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result7);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1256,7 +1347,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result8);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1266,7 +1357,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result9);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     default:
@@ -1281,15 +1372,15 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 case 2://dayofweek
-                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, DayOfWeek.Monday);
+                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, selectedDayOfWeekId);
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result2);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
                                 // query
 
@@ -1299,7 +1390,7 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result4);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -1313,7 +1404,7 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result6);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -1322,7 +1413,7 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result7);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -1331,7 +1422,7 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result8);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -1341,7 +1432,7 @@ else{
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result9);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 default:
@@ -1356,15 +1447,15 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             case 2://dayofweek
-                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, DayOfWeek.Monday);
+                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, selectedDayOfWeekId);
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result2);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
                             // query
 
@@ -1374,7 +1465,7 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result4);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -1388,7 +1479,7 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result6);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -1397,7 +1488,7 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result7);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -1406,7 +1497,7 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result8);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -1416,7 +1507,7 @@ else{
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result9);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             default:
@@ -1432,16 +1523,16 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
 
                             break;
 
                         case 2://dayofweek
-                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, DayOfWeek.Monday);
+                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, selectedDayOfWeekId);
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result2);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             // query
                             break;
 
@@ -1450,7 +1541,7 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result4);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -1464,7 +1555,7 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result6);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -1474,7 +1565,7 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result7);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 8: //subcat
@@ -1483,7 +1574,7 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result8);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 9: //item
@@ -1492,7 +1583,7 @@ else{
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result9);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         default:
@@ -1500,22 +1591,22 @@ else{
                             break;
                     }
                 }//dep
-                switch (groupById)
+                switch (groupById)//dom
                 {
                     case 1:// date
                         var result = await _getDomainDataService.GetAllTransByDomainAndDateAsync(selectedStartDate, selectedEndDate, selectedDomId);
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     case 2://dayofweek
-                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, DayOfWeek.Monday);
+                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, selectedDayOfWeekId);
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result2);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
                     // query
 
@@ -1525,7 +1616,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result4);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -1539,7 +1630,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result6);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -1548,7 +1639,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result7);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -1557,7 +1648,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result8);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -1567,7 +1658,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result9);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     default:
@@ -1613,19 +1704,19 @@ else{
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(resultb);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
 
                                                             case 2://dayofweek
-                                                                var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, DayOfWeek.Monday);
+                                                                var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
                                                                 _myStateContainer.OnStateChange += StateHasChanged;
                                                                 _myStateContainer.SetValue(result2);
 
-                                                                 var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, DayOfWeek.Monday);
+                                                                 var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result2b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
                                                             // query
 
@@ -1639,7 +1730,7 @@ else{
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result4b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -1657,7 +1748,7 @@ else{
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result6b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -1670,7 +1761,7 @@ else{
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result7b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -1683,7 +1774,7 @@ else{
                                                                 _myStateContainer.OnStateChange += StateHasChanged;
                                                                 _myStateContainer.SetValue(result8b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -1697,7 +1788,7 @@ else{
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result9b);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
 
                                                     }
@@ -1886,19 +1977,19 @@ else{
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(resultb);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     case 2://dayofweek
-                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, DayOfWeek.Monday);
+                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, selectedDayOfWeekId);
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result2);
 
-                                         var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid2, DayOfWeek.Monday);
+                                         var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid2, selectedDayOfWeekId);
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result2b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
                                     // query
 
@@ -1912,7 +2003,7 @@ else{
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result4b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1930,7 +2021,7 @@ else{
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result6b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1943,7 +2034,7 @@ else{
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result7b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1956,7 +2047,7 @@ else{
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result8b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -1970,7 +2061,7 @@ else{
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result9b);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     default:
@@ -1989,19 +2080,19 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(resultb);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 case 2://dayofweek
-                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, DayOfWeek.Monday);
+                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, selectedDayOfWeekId);
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result2);
 
-                                    var result2b = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId2, DayOfWeek.Monday);
+                                    var result2b = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId2, selectedDayOfWeekId);
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result2b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
                                 // query
 
@@ -2015,7 +2106,7 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result4b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2033,7 +2124,7 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result6b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2046,7 +2137,7 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result7b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2059,7 +2150,7 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result8b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2073,7 +2164,7 @@ else{
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result9b);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 default:
@@ -2092,19 +2183,19 @@ else{
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(resultb);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             case 2://dayofweek
-                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, DayOfWeek.Monday);
+                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, selectedDayOfWeekId);
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result2);
 
-                                 var result2b = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId2, DayOfWeek.Monday);
+                                 var result2b = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId2, selectedDayOfWeekId);
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result2b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
                             // query
 
@@ -2118,7 +2209,7 @@ else{
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result4b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -2137,7 +2228,7 @@ else{
                                 _myStateContainer2.SetValue(result6b);
 
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -2150,7 +2241,7 @@ else{
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result7b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -2163,7 +2254,7 @@ else{
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result8b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -2177,7 +2268,7 @@ else{
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result9b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             default:
@@ -2197,20 +2288,20 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(resultb);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                         break;
                            
 
                         case 2://dayofweek
-                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, DayOfWeek.Monday);
+                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, selectedDayOfWeekId);
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result2);
 
-                            var result2b = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId2, DayOfWeek.Monday);
+                            var result2b = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId2, selectedDayOfWeekId);
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result2b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             // query
                             break;
 
@@ -2223,7 +2314,7 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result4b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -2241,7 +2332,7 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result6b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -2255,7 +2346,7 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result7b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 8: //subcat
@@ -2268,7 +2359,7 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result8b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 9: //item
@@ -2281,7 +2372,7 @@ else{
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result9b);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         default:
@@ -2304,19 +2395,19 @@ else{
                         _myStateContainer2.OnStateChange += StateHasChanged;
                         _myStateContainer2.SetValue(resultb);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     case 2://dayofweek
-                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, DayOfWeek.Monday);
+                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, selectedDayOfWeekId);
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result2);
 
-                        var result2b = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId2, DayOfWeek.Monday);
+                        var result2b = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId2, selectedDayOfWeekId);
                         _myStateContainer2.OnStateChange += StateHasChanged;
                         _myStateContainer2.SetValue(result2b);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
                     // query
 
@@ -2330,7 +2421,7 @@ else{
                         _myStateContainer2.OnStateChange += StateHasChanged;
                         _myStateContainer2.SetValue(result4b);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -2344,7 +2435,7 @@ else{
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result6);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -2357,7 +2448,7 @@ else{
                         _myStateContainer2.OnStateChange += StateHasChanged;
                         _myStateContainer2.SetValue(result7b);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -2371,7 +2462,7 @@ else{
                         _myStateContainer2.SetValue(result8b);
 
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -2386,7 +2477,7 @@ else{
                         _myStateContainer2.SetValue(result9b);
 
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     default:
@@ -2442,23 +2533,23 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(resultc);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
 
                                                             case 2://dayofweek
-                                                                var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, DayOfWeek.Monday);
+                                                                var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
                                                                 _myStateContainer.OnStateChange += StateHasChanged;
                                                                 _myStateContainer.SetValue(result2);
 
-                                                                 var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, DayOfWeek.Monday);
+                                                                 var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
                                                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                                                 _myStateContainer2.SetValue(result2b);
 
-                                                                var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid3, DayOfWeek.Monday);
+                                                                var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid3, selectedDayOfWeekId);
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result2c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
                                                             // query
 
@@ -2476,7 +2567,7 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result4c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -2498,7 +2589,7 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result6c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -2515,7 +2606,7 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result7c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -2532,7 +2623,7 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result8c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 //query
                                                                 break;
 
@@ -2550,7 +2641,7 @@ else{
                                                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                                                 _myStateContainer3.SetValue(result9c);
 
-                                                                navigationManager.NavigateTo("/Views/ChartPop");
+                                                                navigationManager.NavigateTo("/Views/ReportPop");
                                                                 break;
 
                                                     }
@@ -2743,23 +2834,23 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(resultc);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     case 2://dayofweek
-                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, DayOfWeek.Monday);
+                                        var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid, selectedDayOfWeekId);
                                         _myStateContainer.OnStateChange += StateHasChanged;
                                         _myStateContainer.SetValue(result2);
 
-                                         var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid2, DayOfWeek.Monday);
+                                         var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid2, selectedDayOfWeekId);
                                         _myStateContainer2.OnStateChange += StateHasChanged;
                                         _myStateContainer2.SetValue(result2b);
 
-                                         var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid3, DayOfWeek.Monday);
+                                         var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedItemid3, selectedDayOfWeekId);
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result2c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
                                     // query
 
@@ -2777,7 +2868,7 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result4c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -2800,7 +2891,7 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result6c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -2817,7 +2908,7 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result7c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -2834,7 +2925,7 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result8c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         //query
                                         break;
 
@@ -2852,7 +2943,7 @@ else{
                                         _myStateContainer3.OnStateChange += StateHasChanged;
                                         _myStateContainer3.SetValue(result9c);
 
-                                        navigationManager.NavigateTo("/Views/ChartPop");
+                                        navigationManager.NavigateTo("/Views/ReportPop");
                                         break;
 
                                     default:
@@ -2875,23 +2966,23 @@ else{
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(resultc);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 case 2://dayofweek
-                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, DayOfWeek.Monday);
+                                    var result2 = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId, selectedDayOfWeekId);
                                     _myStateContainer.OnStateChange += StateHasChanged;
                                     _myStateContainer.SetValue(result2);
 
-                                    var result2b = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId2, DayOfWeek.Monday);
+                                    var result2b = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId2, selectedDayOfWeekId);
                                     _myStateContainer2.OnStateChange += StateHasChanged;
                                     _myStateContainer2.SetValue(result2b);
 
-                                    var result2c = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId3, DayOfWeek.Monday);
+                                    var result2c = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId3, selectedDayOfWeekId);
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(result2c);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
                                 // query
 
@@ -2909,7 +3000,7 @@ else{
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(result4c);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2931,7 +3022,7 @@ else{
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(result6c);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2949,7 +3040,7 @@ else{
                                     _myStateContainer3.SetValue(result7c);
 
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2967,7 +3058,7 @@ else{
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(result8c);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     //query
                                     break;
 
@@ -2985,7 +3076,7 @@ else{
                                     _myStateContainer3.OnStateChange += StateHasChanged;
                                     _myStateContainer3.SetValue(result9c);
 
-                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    navigationManager.NavigateTo("/Views/ReportPop");
                                     break;
 
                                 default:
@@ -3008,23 +3099,23 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(resultc);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             case 2://dayofweek
-                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, DayOfWeek.Monday);
+                                var result2 = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId, selectedDayOfWeekId);
                                 _myStateContainer.OnStateChange += StateHasChanged;
                                 _myStateContainer.SetValue(result2);
 
-                                 var result2b = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId2, DayOfWeek.Monday);
+                                 var result2b = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId2, selectedDayOfWeekId);
                                 _myStateContainer2.OnStateChange += StateHasChanged;
                                 _myStateContainer2.SetValue(result2b);
 
-                                var result2c = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId3, DayOfWeek.Monday);
+                                var result2c = await _getCatDataService.GetAllTransByCatByDayAsync(selectedStartDate, selectedEndDate, selectedCatId3, selectedDayOfWeekId);
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result2c);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
                             // query
 
@@ -3042,7 +3133,7 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result4c);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -3064,7 +3155,7 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result6c);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -3081,7 +3172,7 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result7b);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -3098,7 +3189,7 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result8c);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 //query
                                 break;
 
@@ -3116,7 +3207,7 @@ else{
                                 _myStateContainer3.OnStateChange += StateHasChanged;
                                 _myStateContainer3.SetValue(result9c);
 
-                                navigationManager.NavigateTo("/Views/ChartPop");
+                                navigationManager.NavigateTo("/Views/ReportPop");
                                 break;
 
                             default:
@@ -3140,25 +3231,25 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(resultc);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                         break;
                            
 
                         case 2://dayofweek
-                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, DayOfWeek.Monday);
+                            var result2 = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId, selectedDayOfWeekId);
                             _myStateContainer.OnStateChange += StateHasChanged;
                             _myStateContainer.SetValue(result2);
 
-                            var result2b = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId2, DayOfWeek.Monday);
+                            var result2b = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId2, selectedDayOfWeekId);
                             _myStateContainer2.OnStateChange += StateHasChanged;
                             _myStateContainer2.SetValue(result2b);
 
                             
-                            var result2c = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId3, DayOfWeek.Monday);
+                            var result2c = await _getDeptDataService.GetAllTransByDeptByDayAsync(selectedStartDate, selectedEndDate, selectedDeptId3, selectedDayOfWeekId);
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result2c);
                             
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             // query
                             break;
 
@@ -3175,7 +3266,7 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result4c);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -3197,7 +3288,7 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result6c);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             //query
                             break;
 
@@ -3215,7 +3306,7 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result7c);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 8: //subcat
@@ -3232,7 +3323,7 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result8c);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         case 9: //item
@@ -3249,7 +3340,7 @@ else{
                             _myStateContainer3.OnStateChange += StateHasChanged;
                             _myStateContainer3.SetValue(result9c);
 
-                            navigationManager.NavigateTo("/Views/ChartPop");
+                            navigationManager.NavigateTo("/Views/ReportPop");
                             break;
 
                         default:
@@ -3276,24 +3367,24 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(resultc);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     case 2://dayofweek
-                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, DayOfWeek.Monday);
+                        var result2 = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId, selectedDayOfWeekId);
                         _myStateContainer.OnStateChange += StateHasChanged;
                         _myStateContainer.SetValue(result2);
 
-                        var result2b = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId2, DayOfWeek.Monday);
+                        var result2b = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId2, selectedDayOfWeekId);
                         _myStateContainer2.OnStateChange += StateHasChanged;
                         _myStateContainer2.SetValue(result2b);
 
 
-                        var result2c = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId3, DayOfWeek.Monday);
+                        var result2c = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId3, selectedDayOfWeekId);
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result2c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
                     // query
 
@@ -3311,7 +3402,7 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result4c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -3333,7 +3424,7 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result6c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -3350,7 +3441,7 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result7c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -3367,7 +3458,7 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result8c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         //query
                         break;
 
@@ -3385,7 +3476,7 @@ else{
                         _myStateContainer3.OnStateChange += StateHasChanged;
                         _myStateContainer3.SetValue(result9c);
 
-                        navigationManager.NavigateTo("/Views/ChartPop");
+                        navigationManager.NavigateTo("/Views/ReportPop");
                         break;
 
                     default:
@@ -3406,7 +3497,13 @@ else{
 
 
     }  // end of on Submit
-
+    
+    async Task OnBusyClick()
+    {
+        busy = true;
+        await Task.Delay(2000);
+        busy = false;
+    }
 
     void StoreReport()
     {

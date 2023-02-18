@@ -4,6 +4,7 @@
 @using OTBIS.Web.Models.ChartArrays;
 @inject GetProductionService _getProductionService;
 @inject GetChartDataService _getChartDataService;
+@inject GetDomainDataService _getDomainDataService;
 
 
 @if (@GAresult == null || @NonGAresult == null  )
@@ -192,7 +193,8 @@ else
         NonGAresult = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 6, 21, 69));
         GAresultAnnual = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), 6, 21, 40));
         MonthlySaleByCat = await _getChartDataService.TransactionByDeptGrpByCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 13);
-      //SalesByMonDay = await _getProductionService.GetAllTransByDateRangeGrpByDayofWeekAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), DayOfWeek.Monday);
+      SalesByMonDay = await _getDomainDataService.GetAllTransByDomainByDayAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), 1, DayOfWeek.Monday);
+        //SalesByMonDay = await _getProductionService.GetAllTransByDateRangeGrpByDayofWeekAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), DayOfWeek.Monday);
 
     }
 
