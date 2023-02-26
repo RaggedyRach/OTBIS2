@@ -5,9 +5,9 @@ using OTBIS.Web.Models;
 
 namespace OTBIS.Web.Data
 {
-    public class StagingDbContext : DbContext
+    public class StagingDbcontext : DbContext
     {
-        public StagingDbContext(DbContextOptions<StagingDbContext> options)
+        public StagingDbcontext(DbContextOptions<StagingDbcontext> options)
           : base(options)
         {
 
@@ -60,6 +60,10 @@ namespace OTBIS.Web.Data
         public DbSet<Logging> Loggings { get; set; }
 
         public DbSet<RunReport> RunReports { get; set; }
+
+        public DbSet<ReportCounter> ReportCounters { get; set; }
+
+        public DbSet<ReportFavorite> ReportFavorites { get; set; }
 
     }
     

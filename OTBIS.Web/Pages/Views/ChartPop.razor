@@ -1,8 +1,8 @@
 ﻿@*@page "/Views/ChartPop/{Id:int?}"*@
 @page "/Views/ChartPop"
-@inject MyStateContainer myStateContainer
-@inject MyStateContainer2 myStateContainer2
-@inject MyStateContainer3 myStateContainer3
+@inject MyStateContainer MyStateContainer
+@inject MyStateContainer2 MyStateContainer2
+@inject MyStateContainer3 MyStateContainer3
 @inject GetProductionService _getProductionService;
 @inject GetDomainDataService _getReportDataService;
 @inject GetChartDataService _getChartDataService;
@@ -11,22 +11,50 @@
 @using OTBIS.Web.Models.ChartArrays;
 @inject GetProductionService _getProductionService;
 @inject GetChartDataService _getChartDataService;
+@inject NavigationManager _navigationManager;
 
 
-<h3>ChartPop</h3>
 
 
-<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
-   <strong>Report</strong>
-</RadzenText>
 
-@if (dataListTBD != null && dataListTBD2 == null && dataListTBD3 == null)
-{
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-<RadzenDataGrid Data="@dataListTBD" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+<row>
+     <div class="buffer row align-items-center text-center">
+        <h1>Welcome to <spanO>OTBIS</spanO> Charts </h1>
+    
+    </div>
    
-</RadzenDataGrid>
-<div class="container my-5">
+</row>
+@if(
+    dataArrayTBD == null &&
+    dataArrayTBM == null &&
+    dataArrayTBDept == null &&
+    dataArrayTBCat == null &&
+    dataArrayTBSubCat == null &&
+    dataArrayTBItem == null &&
+
+    dataArrayTBD2 == null &&
+    dataArrayTBM2 == null &&
+    dataArrayTBDept2 == null &&
+    dataArrayTBCat2 == null &&
+    dataArrayTBSubCat2 == null &&
+    dataArrayTBItem2 == null &&
+
+    dataArrayTBD3 == null &&
+    dataArrayTBM3 == null &&
+    dataArrayTBDept3 == null &&
+    dataArrayTBCat3 == null &&
+    dataArrayTBSubCat3 == null &&
+    dataArrayTBItem3 == null 
+
+)
+{
+    <div class="spinner"></div>
+}
+else {
+@if (dataArrayTBD != null && dataArrayTBD2 == null && dataArrayTBD3 == null)
+{
+   
+<div class="Container my-5">
     <div class="row">
         <div class="col">
             <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem" >
@@ -40,7 +68,7 @@
                 <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
             </RadzenCard>
             <RadzenChart>
-                    <RadzenLineSeries Smooth="true" Data="@dataListTBD" CategoryProperty="Date" Title="2019" ValueProperty="Revenue" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD" CategoryProperty="TransDate"  ValueProperty="Net_Value" RenderingOrder="1">
                     <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                     <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -49,403 +77,695 @@
                 <RadzenCategoryAxis Padding="20" Formatter="@FormatAsDate" />
                 <RadzenValueAxis Formatter="@FormatAsUK">
                     <RadzenGridLines Visible="true" />
-                    <RadzenAxisTitle Text="Revenue in GBP" />
+                    <RadzenAxisTitle Text="Net_Value in GBP" />
                 </RadzenValueAxis>
             </RadzenChart>
         </div>
+        <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
     </div>
 </div>
 }
-@if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
+@if (dataArrayTBD != null && dataArrayTBD2 != null && dataArrayTBD3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBD2" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-
-            <RadzenDataGridColumn TItem="TransByDate" Property="TransDate" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+   <div class="Container my-5">
+    <div class="row">
+        <div class="col">
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem" >
+                <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+            </RadzenCard>
+            <RadzenChart>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD" CategoryProperty="TransDate"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                    <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                </RadzenLineSeries>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD2" CategoryProperty="TransDate" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                        <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                    </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Formatter="@FormatAsDate" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Net_Value in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+        <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+    </div>
+</div>
 }
-@if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
+@if (dataArrayTBD != null && dataArrayTBD2 != null && dataArrayTBD3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBD3" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-
-            <RadzenDataGridColumn TItem="TransByDate" Property="TransDate" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByDate" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+    <div class="Container my-5">
+    <div class="row">
+        <div class="col">
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem" >
+                <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+            </RadzenCard>
+            <RadzenChart>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD" CategoryProperty="TransDate"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                    <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                </RadzenLineSeries>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD2" CategoryProperty="TransDate" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                        <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                    </RadzenLineSeries>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD3" CategoryProperty="TransDate" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
+                        <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                        <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                    </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Formatter="@FormatAsDate" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Net_Value in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+        <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+    </div>
+</div>
 }
-@if (dataListTBM != null && dataListTBM2 == null && dataListTBM3 == null) 
+@if (dataArrayTBM != null && dataArrayTBM2 == null && dataArrayTBM3 == null) 
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBM" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-*@
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+   <div class="Container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard class="w-100 mb-4" >
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h4>Auto-size bar series</h4>
+            <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
+                <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenBarSeries>
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Net_Value in GBP" />
+                </RadzenValueAxis>
+                <RadzenBarOptions Radius="5" />
+            </RadzenChart>
+        </div>
+      
+    </div>
+            <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+</div>
 }
-@if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 == null)
-{
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBM2" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-        *@
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Discount_Value" Title="Discount" />
 
-        </Columns>
-    </RadzenDataGrid>
+@if (dataArrayTBM != null && dataArrayTBM2 != null && dataArrayTBM3 == null)
+{
+    <div class="Container">
+        <div class="row">
+            <div class="col-sm-12 my-5">
+                <RadzenCard class="w-100 mb-4">
+                    <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                    <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+                </RadzenCard>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Auto-size bar series</h4>
+                <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
+                    <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                        <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                    </RadzenBarSeries>
+                    <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="series 2" ValueProperty="Net_Value">
+                         <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                     </RadzenBarSeries>
+                    <RadzenValueAxis Formatter="@FormatAsUK">
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Net_Value in GBP" />
+                    </RadzenValueAxis>
+                    <RadzenBarOptions Radius="5" />
+                </RadzenChart>
+            </div>
+
+        </div>
+        <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+    </div>
 }
-@if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 != null)
-{
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBM3" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-        *@
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Discount_Value" Title="Discount" />
 
-        </Columns>
-    </RadzenDataGrid>
+@if (dataArrayTBM != null && dataArrayTBM2 != null && dataArrayTBM3 != null)
+{
+     <div class="Container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard class="w-100 mb-4" >
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h4>Auto-size bar series</h4>
+            <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
+                <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenBarSeries>
+                <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="series 2" ValueProperty="Net_Value">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenBarSeries>
+                    <RadzenBarSeries Data="@dataArrayTBM3" CategoryProperty="Month" Title="series 3" ValueProperty="Net_Value">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenBarSeries>
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Net_Value in GBP net" />
+                </RadzenValueAxis>
+                <RadzenBarOptions Radius="5" />
+            </RadzenChart>
+        </div>
+      
+    </div>
+            <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+</div>
 }
-@if (datalistTBDept != null && datalistTBDept2 == null && datalistTBDept3 == null)
+
+@if (dataArrayTBDept != null && dataArrayTBDept2 == null && dataArrayTBDept3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@datalistTBDept" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+      <div class="Container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard Class="w-100 mb-4">
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+            <h4>Auto-size column series</h4>
+            <RadzenChart>
+                        <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
 
+        </div>
+    </div>
+    <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+</div>
 
-
-            <RadzenDataGridColumn TItem="TransByDept" Property="DepartmentId" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
 }
-@if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 == null)
+@if (dataArrayTBDept != null && dataArrayTBDept2 != null && dataArrayTBDept3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBDept2" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+    
+      <div class="Container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard Class="w-100 mb-4">
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+            <h4>Auto-size column series</h4>
+            <RadzenChart>
+                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title="Departmen" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
 
-
-
-            <RadzenDataGridColumn TItem="TransByDept" Property="DepartmentId" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+        </div>
+    </div>
+    <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+</div>
 }
-@if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 != null)
+@if (dataArrayTBDept != null && dataArrayTBDept2 != null && dataArrayTBDept3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBDept3" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+         <div class="Container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenCard Class="w-100 mb-4">
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard>
+            <h4>Auto-size column series</h4>
+            <RadzenChart>
+                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@dataArrayTBDept3" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                    <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenColumnSeries>
+                
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
 
+        </div>
+    </div>
+    
+    <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+</div>
 
-
-            <RadzenDataGridColumn TItem="TransByDept" Property="DepartmentId" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByDept" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
 }
-@if (dataListTBCat != null && dataListTBCat2 == null && dataListTBCat3 == null)
+
+@if (dataArrayTBCat != null && dataArrayTBCat2 == null && dataArrayTBCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBCat" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-
-
-
-            <RadzenDataGridColumn TItem="TransByCat" Property="CategoryId" Title="CategoryId"  />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Category" Title="Category" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+        <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsCat" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 == null)
-{
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+@if (dataArrayTBCat != null && dataArrayTBCat2 != null && dataArrayTBCat3 == null)
+{<div class="Container my-5">
+    <div class="row">
+        <div class="col">
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem" >
+                <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+            </RadzenCard>
+            <RadzenChart>
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                    <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                </RadzenLineSeries>
 
+                <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                    <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                    <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                </RadzenLineSeries>
 
-
-            <RadzenDataGridColumn TItem="TransByCat" Property="CategoryId" Title="CategoryId"  />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Category" Title="Category" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+                <RadzenCategoryAxis Padding="20" Formatter="@FormatAsCat" />
+                <RadzenValueAxis Formatter="@FormatAsUK">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Net_Value in GBP" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+        <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+    </div>
+</div>
 }
-@if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 != null)
+@if (dataArrayTBCat != null && dataArrayTBCat2 != null && dataArrayTBCat3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+        <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat3" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-            <RadzenDataGridColumn TItem="TransByCat" Property="CategoryId" Title="CategoryId"  />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Category" Title="Category" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsCat" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBSubCat != null && dataListTBSubCat2 == null && dataListTBSubCat3 == null)
-{
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBSubCat" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
+@if (dataArrayTBSubCat != null && dataArrayTBSubCat2 == null && dataArrayTBSubCat3 == null)
+{    <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBSubCat" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategoryId" Title="SubCategoryId" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategory" Title="SubCategory" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+                      <RadzenCategoryAxis Padding="20" Formatter="@FormatAsSubCat" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 == null)
+@if (dataArrayTBSubCat != null && dataArrayTBSubCat2 != null && dataArrayTBSubCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBSubCat2" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+       <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBSubCat2" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategoryId" Title="SubCategoryId" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategory" Title="SubCategory" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+                      
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsSubCat" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 != null)
+@if (dataArrayTBSubCat != null && dataArrayTBSubCat2 != null && dataArrayTBSubCat3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBSubCat3" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+       <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBSubCat" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBSubCat2" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBSubCat3" CategoryProperty="SubCategory" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategoryId" Title="SubCategoryId" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="SubCategory" Title="SubCategory" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransBySubCat" Property="Discount_Value" Title="Discount" />
-
-        </Columns>
-    </RadzenDataGrid>
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsSubCat" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBItem != null && dataListTBItem2 == null && dataListTBItem3 == null)
+
+@if (dataArrayTBItem != null && dataArrayTBItem2 == null && dataArrayTBItem3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBItem" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+   <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-
-
-            <RadzenDataGridColumn TItem="TransByItem" Property="ItemId" Title="ItemId" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Item" Title="Item" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Discount_Value" Title="Discount" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Domain" Title="Domain" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Category" Title="Category" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="SubCategory" Title="SubCategory" />
-        </Columns>
-    </RadzenDataGrid>
+                     
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsItem" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
+@if (dataArrayTBItem != null && dataArrayTBItem2 != null && dataArrayTBItem3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+     <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-
-
-            <RadzenDataGridColumn TItem="TransByItem" Property="ItemId" Title="ItemId" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Item" Title="Item" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Discount_Value" Title="Discount" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Domain" Title="Domain" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Category" Title="Category" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="SubCategory" Title="SubCategory" />
-        </Columns>
-    </RadzenDataGrid>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem2" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
+                        
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsItem" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
 }
-@if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 != null)
+@if (dataArrayTBItem != null && dataArrayTBItem2 != null && dataArrayTBItem3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
-        <Columns>
-            <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
+     <div class="Container my-5">
+            <div class="row">
+                <div class="col">
+                    <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                        <RadzenCheckBox @bind-Value="@trend" Name="trend"></RadzenCheckBox>
+                        <RadzenLabel Text="Trend" For="trend" Style="margin-right: 1rem;" class="rz-color-danger-dark" />
+                        <RadzenCheckBox @bind-Value="@median" Name="median"></RadzenCheckBox>
+                        <RadzenLabel Text="Median" For="median" Style="margin-right: 1rem;" class="rz-color-success-dark" />
+                        <RadzenCheckBox @bind-Value="@mean" Name="mean"></RadzenCheckBox>
+                        <RadzenLabel Text="Mean" For="mean" Style="margin-right: 1rem;" class="rz-color-info-dark" />
+                        <RadzenCheckBox @bind-Value="@mode" Name="mode"></RadzenCheckBox>
+                        <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
+                    </RadzenCard>
+                    <RadzenChart>
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem2" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBItem3" CategoryProperty="Item" ValueProperty="Net_Value" RenderingOrder="1">
+                            <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
+                            <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
+                            <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
+                        </RadzenLineSeries>
 
-            <RadzenDataGridColumn TItem="TransByItem" Property="ItemId" Title="ItemId" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Item" Title="Item" SortOrder="SortOrder.Ascending" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="TransCount" Title="Count" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Net_Value" Title="Net" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Vat_Value" Title="Vat" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Value" Title="Gross Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Gross_Sale_Value" Title="Sale Value" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Discount_Value" Title="Discount" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Domain" Title="Domain" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Department" Title="Department" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="Category" Title="Category" />
-            <RadzenDataGridColumn TItem="TransByItem" Property="SubCategory" Title="SubCategory" />
-        </Columns>
-    </RadzenDataGrid>
+                        <RadzenCategoryAxis Padding="20" Formatter="@FormatAsItem" />
+                        <RadzenValueAxis Formatter="@FormatAsUK">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+                <RadzenButton Variant="Variant.Flat" Shade="Shade.Lighter" Click=@(args => OnClickMore()) Text="More" ButtonStyle="ButtonStyle.Primary" />
+            </div>
+        </div>
+    }
+    
+
 }
 @code {
 
     ModelList _modelList;
-    List<TransByDate>? dataListTBD;
-    List<TransByMonth>? dataListTBM;
-    List<TransByDept>? datalistTBDept;
-    List<TransByCat>? dataListTBCat;
-    List<TransBySubCat>? dataListTBSubCat;
-    List<TransByItem>? dataListTBItem;
+    TransByDate[] dataArrayTBD;
+    TransByMonth[] dataArrayTBM;
+    TransByDept[] dataArrayTBDept;
+    TransByCat[] dataArrayTBCat;
+    TransBySubCat[] dataArrayTBSubCat;
+    TransByItem[]dataArrayTBItem;
 
     ModelList _modelList2;
-    List<TransByDate>? dataListTBD2;
-    List<TransByMonth>? dataListTBM2;
-    List<TransByDept>? datalistTBDept2;
-    List<TransByCat>? dataListTBCat2;
-    List<TransBySubCat>? dataListTBSubCat2;
-    List<TransByItem>? dataListTBItem2;
+    TransByDate[] dataArrayTBD2;
+    TransByMonth[] dataArrayTBM2;
+    TransByDept[] dataArrayTBDept2;
+    TransByCat[] dataArrayTBCat2;
+    TransBySubCat[] dataArrayTBSubCat2;
+    TransByItem[] dataArrayTBItem2;
 
     ModelList _modelList3;
-    List<TransByDate>? dataListTBD3;
-    List<TransByMonth>? dataListTBM3;
-    List<TransByDept>? datalistTBDept3;
-    List<TransByCat>? dataListTBCat3;
-    List<TransBySubCat>? dataListTBSubCat3;
-    List<TransByItem>? dataListTBItem3;
+    TransByDate[] dataArrayTBD3;
+    TransByMonth[] dataArrayTBM3;
+    TransByDept[] dataArrayTBDept3;
+    TransByCat[] dataArrayTBCat3;
+    TransBySubCat[] dataArrayTBSubCat3;
+    TransByItem[]dataArrayTBItem3;
 
-    List<TransByDate>? mergedListTBD2;
-    List<TransByMonth>? mergedListTBM2;
-    List<TransByDept>? mergedListTBDept2;
-    List<TransByCat>? mergedListTBCat2;
-    List<TransBySubCat>? mergedListTBSubCat2;
-    List<TransByItem>? mergedListTBItem2;
-
-    List<TransByDate>? mergedListTBD3;
-    List<TransByMonth>? mergedListTBM3;
-    List<TransByDept>? mergedListTBDept3;
-    List<TransByCat>? mergedListTBCat3;
-    List<TransBySubCat>? mergedListTBSubCat3;
-    List<TransByItem>? mergedListTBItem3;
+    DateTime yearRange;
 
     bool trend = true;
     bool median = false;
@@ -462,257 +782,106 @@
     decimal saleV;
     decimal discount;
 
-
+    bool showDataLabels = false;
     bool idVisable = false;
 
-    protected override void OnInitialized()
+    IEnumerable<ColorScheme> colorSchemes = Enum.GetValues(typeof(ColorScheme)).Cast<ColorScheme>();
+    ColorScheme colorScheme = ColorScheme.Palette;
+
+    protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
-        _modelList = myStateContainer.Value;
+       _modelList = MyStateContainer.Value;
 
-        //_modelList.transByDatesList = new List<TransByDate>();
-        //_modelList.transByMonthList = new List<TransByMonth>();
-        //_modelList.transByDeptList = new List<TransByDept>();
-        //_modelList.transByCatList = new List<TransByCat>();
-        //_modelList.transBySubCatList = new List<TransBySubCat>();
-        //_modelList.transByItemList = new List<TransByItem>();
-        //_modelList.transByTillList = new List<TransByTill>();
+        if(_modelList?.transByDatesList !=null)
+        {
+            dataArrayTBD = _modelList?.transByDatesList.ToArray();
+        }
+        if(_modelList?.transByMonthList != null)
+        {
+            dataArrayTBM = _modelList?.transByMonthList.ToArray();  
+           
+        }
+        if(_modelList?.transByDeptList != null)
+        {
+            dataArrayTBDept = _modelList?.transByDeptList.ToArray();
+        }
 
+        if(_modelList?.transByCatList != null)
+        {
+            dataArrayTBCat = _modelList?.transByCatList.ToArray();  
+        }
 
-        dataListTBD = _modelList?.transByDatesList;
+        if (_modelList?.transBySubCatList != null)
+        {
+            dataArrayTBSubCat = _modelList?.transBySubCatList.ToArray();  
+        }
+        if (_modelList?.transByItemList != null)
+        {
 
-
-
-        dataListTBM = _modelList?.transByMonthList;
-
-        datalistTBDept = _modelList?.transByDeptList;
-
-        dataListTBCat = _modelList?.transByCatList;
-
-        dataListTBSubCat = _modelList?.transBySubCatList;
-
-        dataListTBItem = _modelList?.transByItemList;
-
-        _modelList2 = myStateContainer2.Value;
-        //_modelList2.transByDatesList = new List<TransByDate>();
-        //_modelList2.transByMonthList = new List<TransByMonth>();
-        //_modelList2.transByDeptList = new List<TransByDept>();
-        //_modelList2.transByCatList = new List<TransByCat>();
-        //_modelList2.transBySubCatList = new List<TransBySubCat>();
-        //_modelList2.transByItemList = new List<TransByItem>();
-        //_modelList2.transByTillList = new List<TransByTill>();
-
-
-        dataListTBD2 = _modelList2?.transByDatesList;
-
-        dataListTBM2 = _modelList2?.transByMonthList;
-
-        datalistTBDept2 = _modelList2?.transByDeptList;    
-
-        dataListTBCat2 = _modelList2?.transByCatList;
-
-        dataListTBSubCat2 = _modelList2?.transBySubCatList;
-
-        dataListTBItem2 = _modelList2?.transByItemList;
-
-
-        _modelList3 = myStateContainer3.Value;
-        //_modelList3.transByDatesList = new List<TransByDate>();
-        //_modelList3.transByMonthList = new List<TransByMonth>();
-        //_modelList3.transByDeptList = new List<TransByDept>();
-        //_modelList3.transByCatList = new List<TransByCat>();
-        //_modelList3.transBySubCatList = new List<TransBySubCat>();
-        //_modelList3.transByItemList = new List<TransByItem>();
-        //_modelList3.transByTillList = new List<TransByTill>();
-
-
-        dataListTBD3 = _modelList3?.transByDatesList;
-
-        dataListTBM3 = _modelList3?.transByMonthList;
-
-        datalistTBDept3 = _modelList3?.transByDeptList;    
-
-        dataListTBCat3 = _modelList3?.transByCatList;
-
-        dataListTBSubCat3 = _modelList3?.transBySubCatList;
-
-        dataListTBItem3 = _modelList3?.transByItemList;
-
-
-
-        mergedListTBD2 = new List<TransByDate>();
-        mergedListTBM2 = new List<TransByMonth>();
-        mergedListTBDept2 = new List<TransByDept>();
-        mergedListTBCat2 = new List<TransByCat>();
-        mergedListTBSubCat2 = new List<TransBySubCat>();
-        mergedListTBItem2 = new List<TransByItem>();
+            dataArrayTBItem = _modelList?.transByItemList.ToArray();
+        }
         
-        mergedListTBD3 = new List<TransByDate>();
-        mergedListTBM3 = new List<TransByMonth>();
-        mergedListTBDept3 = new List<TransByDept>();
-        mergedListTBCat3 = new List<TransByCat>();
-        mergedListTBSubCat3 = new List<TransBySubCat>();
-        mergedListTBItem3 = new List<TransByItem>();
-
-
-
-        if(dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
-        {
-            
-            foreach(var t in dataListTBD2)
-            {
-                mergedListTBD2.Add(t);
-            }
-            foreach(var x in dataListTBD)
-            {
-                mergedListTBD2.Add(x);
-            }
-        }
-        if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 == null)
-        {
-            foreach (var t in dataListTBM2)
-            {
-                mergedListTBM2.Add(t);
-            }
-            foreach (var x in dataListTBM)
-            {
-                mergedListTBM2.Add(x);
-            }
-        }
-        if (datalistTBDept2 != null && datalistTBDept != null && datalistTBDept3 == null)
-        {
-            foreach (var t in datalistTBDept2)
-            {
-                mergedListTBDept2.Add(t);
-            }
-
-            foreach (var x in datalistTBDept)
-            {
-                mergedListTBDept2.Add(x);
-            }
-        }
-        if (dataListTBCat2 != null && dataListTBCat != null && dataListTBCat3 == null)
-        {
-            foreach (var t in dataListTBCat)
-            {
-                mergedListTBCat2.Add(t);
-            }
-
-            foreach (var x in dataListTBCat2)
-            {
-                mergedListTBCat2.Add(x);
-            }
-        }
-        if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 == null)
-        {
-            foreach (var t in dataListTBSubCat)
-            {
-                mergedListTBSubCat2.Add(t);
-            }
-
-            foreach (var x in dataListTBSubCat2)
-            {
-                mergedListTBSubCat2.Add(x);
-            }
-        }
-          if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
-        {
-            foreach (var t in dataListTBItem)
-            {
-                mergedListTBItem2.Add(t);
-            }
-
-            foreach (var x in dataListTBItem2)
-            {
-                mergedListTBItem2.Add(x);
-            }
-        } 
+        _modelList2 = MyStateContainer2.Value;
         
-        mergedListTBD3 = new List<TransByDate>();
-
-
-        if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
+        if (_modelList2?.transByDatesList != null)
         {
-            foreach (var v in dataListTBD3)
-            {
-                mergedListTBD3.Add(v);
-            }
-            foreach (var t in dataListTBD2)
-            {
-                mergedListTBD3.Add(t);
-            }
-            foreach (var x in dataListTBD)
-            {
-                mergedListTBD3.Add(x);
-            }
+            dataArrayTBD2 = _modelList2?.transByDatesList.ToArray();
         }
-        if (datalistTBDept2 != null && datalistTBDept != null && datalistTBDept3 != null)
+        if (_modelList2?.transByMonthList != null)
         {
-             foreach (var v in datalistTBDept3)
-            {
-                mergedListTBDept3.Add(v);
-            }
-            foreach (var t in datalistTBDept2)
-            {
-                mergedListTBDept3.Add(t);
-            }
-
-            foreach (var x in datalistTBDept)
-            {
-                mergedListTBDept3.Add(x);
-            }
+            dataArrayTBM2 = _modelList2?.transByMonthList.ToArray();
         }
-        if (dataListTBCat2 != null && dataListTBCat != null && dataListTBCat3 != null)
+        if (_modelList2?.transByDeptList != null)
         {
-            foreach (var t in dataListTBCat)
-            {
-                mergedListTBCat3.Add(t);
-            }
-
-            foreach (var x in dataListTBCat2)
-            {
-                mergedListTBCat3.Add(x);
-            }
-            foreach (var v in dataListTBCat3)
-            {
-                mergedListTBCat3.Add(v);
-            }
-        }
-        if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 != null)
-        {
-            foreach (var t in dataListTBSubCat)
-            {
-                mergedListTBSubCat3.Add(t);
-            }
-
-            foreach (var x in dataListTBSubCat2)
-            {
-                mergedListTBSubCat3.Add(x);
-            }
-             foreach (var v in dataListTBSubCat3)
-            {
-                mergedListTBSubCat3.Add(v);
-            }
-        }
-        if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 != null)
-        {
-            foreach (var t in dataListTBItem)
-            {
-                mergedListTBItem3.Add(t);
-            }
-
-            foreach (var x in dataListTBItem2)
-            {
-                mergedListTBItem3.Add(x);
-            }
-             foreach (var v in dataListTBItem3)
-            {
-                mergedListTBItem3.Add(v);
-            }
-
+            dataArrayTBDept2 = _modelList2?.transByDeptList.ToArray();
         }
 
-    }
+        if (_modelList2?.transByCatList != null)
+        {
+            dataArrayTBCat2 = _modelList2?.transByCatList.ToArray();
+        }
+
+        if (_modelList2?.transBySubCatList != null)
+        {
+            dataArrayTBSubCat2 = _modelList2?.transBySubCatList.ToArray();
+        }
+        if (_modelList2?.transByItemList != null)
+        {
+
+            dataArrayTBItem2 = _modelList2?.transByItemList.ToArray();
+        }
+      
+        _modelList3 = MyStateContainer3.Value;
+        if (_modelList3?.transByDatesList != null)
+        {
+            dataArrayTBD3 = _modelList3?.transByDatesList.ToArray();
+        }
+        if (_modelList3?.transByMonthList != null)
+        {
+            dataArrayTBM3 = _modelList3?.transByMonthList.ToArray();
+        }
+        if (_modelList3?.transByDeptList != null)
+        {
+            dataArrayTBDept3 = _modelList3?.transByDeptList.ToArray();
+        }
+
+        if (_modelList3?.transByCatList != null)
+        {
+            dataArrayTBCat3 = _modelList3?.transByCatList.ToArray();
+        }
+
+        if (_modelList3?.transBySubCatList != null)
+        {
+            dataArrayTBSubCat3 = _modelList3?.transBySubCatList.ToArray();
+        }
+        if (_modelList3?.transByItemList != null)
+        {
+
+            dataArrayTBItem3 = _modelList3?.transByItemList.ToArray();
+        }
+        
+      }
     string FormatAsDate(object value)
     {
         if (value != null)
@@ -728,18 +897,73 @@
     {
         if (value != null)
         {
-            return Convert.ToDateTime(value).ToString("MMM");
+            return Convert.ToDateTime(value).ToString("yy-MMM");
         }
 
         return string.Empty;
     }
-     string FormatAsUK(object value)
+    string FormatAsDept(object value)
+    {
+        if (value != null)
+       
+        {
+            return dataArrayTBDept[2].ToString();
+            //  return Convert.ToDateTime(value).ToString("d");
+        }
+
+        return string.Empty;
+    }
+      string FormatAsCat(object value)
+    {
+        if (value != null)
+       
+        {
+            return dataArrayTBCat[2].ToString();
+            //  return Convert.ToDateTime(value).ToString("d");
+        }
+
+        return string.Empty;
+    }
+    
+    string FormatAsSubCat(object value)
+    {
+        if (value != null)
+       
+        {
+            return dataArrayTBSubCat[2].ToString();
+            //  return Convert.ToDateTime(value).ToString("d");
+        }
+
+        return string.Empty;
+    }
+    string FormatAsItem(object value)
+    {
+        if (value != null)
+       
+        {
+            return dataArrayTBItem[2].ToString();
+            //  return Convert.ToDateTime(value).ToString("d");
+        }
+
+        return string.Empty;
+    }
+
+    string FormatAsUK(object value)
     {
         return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
     }
     void PickedColumnsChanged(DataGridPickedColumnsChangedEventArgs<TransByDate> args)
     {
     }
+     void OnSeriesClick()
+    {
+        
+    }
+
+   async Task OnClickMore()
+   {
+       _navigationManager.NavigateTo("/Views/ReportPop");
+   }
 
 }
 

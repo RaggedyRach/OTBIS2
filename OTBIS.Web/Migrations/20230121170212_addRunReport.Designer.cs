@@ -11,7 +11,7 @@ using OTBIS.Web.Data;
 
 namespace OTBIS.Web.Migrations
 {
-    [DbContext(typeof(StagingDbContext))]
+    [DbContext(typeof(StagingDbcontext))]
     [Migration("20230121170212_addRunReport")]
     partial class addRunReport
     {

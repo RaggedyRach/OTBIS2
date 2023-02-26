@@ -1,14 +1,21 @@
 ﻿body {
 }
-.rz-dropdown {
-    display: grid !important;
+.buffer {
+    margin: 10px;
 }
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-    }
+.main-back{
+    background: center;
+    background-color:red;
+}
+.visualRow {
+    align-content: center;
+}
+.row {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+.col {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

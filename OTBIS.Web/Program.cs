@@ -16,7 +16,7 @@ using Radzen.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the Container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionStringStaging = builder.Configuration.GetConnectionString("Staging");
 
@@ -25,7 +25,7 @@ var connectionStringStaging = builder.Configuration.GetConnectionString("Staging
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<StagingDbContext>(options =>
+builder.Services.AddDbContext<StagingDbcontext>(options =>
     options.UseSqlServer(connectionStringStaging), ServiceLifetime.Transient);
 
 
@@ -54,6 +54,7 @@ builder.Services.AddScoped<GetItemDataService>();
 builder.Services.AddScoped<GetTillDataService>();
 builder.Services.AddScoped<ComparedOnService>();
 builder.Services.AddScoped<PopulateDropdownService>();
+builder.Services.AddScoped<StoreReportService>();
 
 builder.Services.AddSingleton<MyStateContainer>();
 builder.Services.AddSingleton<MyStateContainer2>();
@@ -62,12 +63,17 @@ builder.Services.AddSingleton<MyStateContainer3>();
 var app = builder.Build();
 
 
-    
 
-   
 
- //  await builder.Build().RunAsync();
 
+
+//  await builder.Build().RunAsync();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseResponseCompression();
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -76,6 +82,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    app.UseResponseCompression();
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();

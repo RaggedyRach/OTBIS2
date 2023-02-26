@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>OTBIS.Web</PageTitle>
+
+<div class="page">
+     <div class="sidebar">
+    <NavMenu />
+    </div>
+
+    <main>
+        <row>
+            <div class="top-row px-4 auth">
+                <LoginDisplay />
+
+            </div>
+            <div>
+               <RadzenDialog/>
+                <RadzenNotification/>
+               @* <RadzenContextMenu/>*@
+                <RadzenTooltip/>
+
+            </div>
+        
+        
+           
+        </row>
+        <article class="Content px-4">
+            @Body
+        </article>
+    </main>
+</div>

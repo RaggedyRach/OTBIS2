@@ -30,6 +30,7 @@ body[b-jkkkyixp6r] {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
+
 #blazor-error-ui[b-jkkkyixp6r] {
     background: lightyellow;
     bottom: 0;
@@ -40,6 +41,9 @@ body[b-jkkkyixp6r] {
     position: fixed;
     width: 100%;
     z-index: 1000;
+}
+spanO[b-jkkkyixp6r] {
+    color: #113e4a;
 }
 
     #blazor-error-ui .dismiss[b-jkkkyixp6r] {

@@ -9,13 +9,13 @@ namespace OTBIS.Web.Services
     public class PopulateDropdownService
     {
         #region Property
-        private readonly StagingDbContext _context;
+        private readonly StagingDbcontext _context;
         #endregion
 
         #region Constructor
-        public PopulateDropdownService(StagingDbContext StagingContext)
+        public PopulateDropdownService(StagingDbcontext Stagingcontext)
         {
-            _context = StagingContext;
+            _context = Stagingcontext;
         }
         #endregion
 

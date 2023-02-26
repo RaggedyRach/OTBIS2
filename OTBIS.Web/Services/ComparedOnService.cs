@@ -10,13 +10,13 @@ namespace OTBIS.Web.Services
 
     {
         #region Property
-        private readonly StagingDbContext _context;
+        private readonly StagingDbcontext _context;
         #endregion
 
         #region Constructor
-        public ComparedOnService(StagingDbContext StagingContext)
+        public ComparedOnService(StagingDbcontext Stagingcontext)
         {
-            _context = StagingContext;
+            _context = Stagingcontext;
         }
         #endregion
 
@@ -58,20 +58,20 @@ namespace OTBIS.Web.Services
         }
         #endregion
         //#region Property
-        //private readonly MyDbContext _MyDbContext;
+        //private readonly MyDbcontext _MyDbcontext;
         //#endregion
 
         //#region Constructor
-        //public Prod_TransactionService(MyDbContext myDbContext)
+        //public Prod_TransactionService(MyDbcontext myDbcontext)
         //{
-        //    _MyDbContext = myDbContext;
+        //    _MyDbcontext = myDbcontext;
         //}
         //#endregion
 
         //#region Get List of Transactions    
         //public async Task<List<ProdTransaction>> GetAllProdTransaction()
         //{
-        //    var data = await (from i in _MyDbContext.ProdTransactions
+        //    var data = await (from i in _MyDbcontext.ProdTransactions
         //                      where i.ValueDate >= DateTime.Now.AddDays(-7)
         //                      select i).OrderByDescending(c => c.ValueDate).ToListAsync();
         //    return data;
@@ -84,7 +84,7 @@ namespace OTBIS.Web.Services
         //{
         //    //_context.compareOn.Add(category);
             
-        //    //await _MyDbContext.SaveChangesAsync();
+        //    //await _MyDbcontext.SaveChangesAsync();
         //    return true;
         //}
         //#endregion

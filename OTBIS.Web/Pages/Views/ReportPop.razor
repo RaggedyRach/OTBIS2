@@ -1,8 +1,8 @@
 ﻿@*@page "/Views/ChartPop/{Id:int?}"*@
 @page "/Views/ReportPop"
-@inject MyStateContainer myStateContainer
-@inject MyStateContainer2 myStateContainer2
-@inject MyStateContainer3 myStateContainer3
+@inject MyStateContainer MyStateContainer
+@inject MyStateContainer2 MyStateContainer2
+@inject MyStateContainer3 MyStateContainer3
 @inject GetProductionService _getProductionService;
 @inject GetDomainDataService _getReportDataService;
 @inject GetChartDataService _getChartDataService;
@@ -11,14 +11,18 @@
 
 
 
-<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
-   <strong>Report</strong>
-</RadzenText>
+<row>
+        <div class="rep text-center">
+            <h1>REPORT</h1>
+        </div>
+    </row>
 
 @if (dataListTBD != null && dataListTBD2 == null && dataListTBD3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-<RadzenDataGrid Data="@dataListTBD" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+<RadzenDataGrid Data="@dataListTBD" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true"ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
     <Columns>
         <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
       
@@ -36,7 +40,9 @@
 @if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBD2" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+    <RadzenDataGrid Data="@mergedListTBD2" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -54,7 +60,9 @@
 @if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBD3" TItem="TransByDate" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+    <RadzenDataGrid Data="@mergedListTBD3" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -72,7 +80,9 @@
 @if (dataListTBM != null && dataListTBM2 == null && dataListTBM3 == null) 
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBM" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@dataListTBM" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 *@
@@ -90,7 +100,9 @@
 @if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBM2" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBM2" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
         *@
@@ -108,7 +120,9 @@
 @if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBM3" TItem="TransByMonth" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBM3" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
         *@
@@ -126,7 +140,9 @@
 @if (datalistTBDept != null && datalistTBDept2 == null && datalistTBDept3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@datalistTBDept" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@datalistTBDept" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -147,7 +163,9 @@
 @if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBDept2" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBDept2" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -168,7 +186,9 @@
 @if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBDept3" TItem="TransByDept" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBDept3" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -189,7 +209,9 @@
 @if (dataListTBCat != null && dataListTBCat2 == null && dataListTBCat3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBCat" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@dataListTBCat" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -209,8 +231,10 @@
 }
 @if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenButton Text="Toggle DomainID column visibility"  Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true"  ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -231,7 +255,9 @@
 @if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -252,7 +278,9 @@
 @if (dataListTBSubCat != null && dataListTBSubCat2 == null && dataListTBSubCat3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBSubCat" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@dataListTBSubCat" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -273,7 +301,9 @@
 @if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBSubCat2" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBSubCat2" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -294,7 +324,9 @@
 @if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBSubCat3" TItem="TransBySubCat" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBSubCat3" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransBySubCat" Property="TransByCatId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -315,7 +347,9 @@
 @if (dataListTBItem != null && dataListTBItem2 == null && dataListTBItem3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@dataListTBItem" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@dataListTBItem" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -339,7 +373,9 @@
 @if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -363,7 +399,9 @@
 @if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 != null)
 {
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" ColumnWidth="300px" AllowColumnPicking="true">
+    <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
 
@@ -424,35 +462,14 @@
     List<TransBySubCat>? mergedListTBSubCat3;
     List<TransByItem>? mergedListTBItem3;
 
-    int id;
-    DateTime tranDate;
-    int count;
-    decimal net;
-    decimal vat;
-    decimal gross;
-    decimal saleV;
-    decimal discount;
-
-
     bool idVisable = false;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _modelList = myStateContainer.Value;
-
-        //_modelList.transByDatesList = new List<TransByDate>();
-        //_modelList.transByMonthList = new List<TransByMonth>();
-        //_modelList.transByDeptList = new List<TransByDept>();
-        //_modelList.transByCatList = new List<TransByCat>();
-        //_modelList.transBySubCatList = new List<TransBySubCat>();
-        //_modelList.transByItemList = new List<TransByItem>();
-        //_modelList.transByTillList = new List<TransByTill>();
-
+        _modelList = MyStateContainer.Value;
 
         dataListTBD = _modelList?.transByDatesList;
-
-
 
         dataListTBM = _modelList?.transByMonthList;
 
@@ -464,16 +481,8 @@
 
         dataListTBItem = _modelList?.transByItemList;
 
-        _modelList2 = myStateContainer2.Value;
-        //_modelList2.transByDatesList = new List<TransByDate>();
-        //_modelList2.transByMonthList = new List<TransByMonth>();
-        //_modelList2.transByDeptList = new List<TransByDept>();
-        //_modelList2.transByCatList = new List<TransByCat>();
-        //_modelList2.transBySubCatList = new List<TransBySubCat>();
-        //_modelList2.transByItemList = new List<TransByItem>();
-        //_modelList2.transByTillList = new List<TransByTill>();
-
-
+        _modelList2 = MyStateContainer2.Value;
+ 
         dataListTBD2 = _modelList2?.transByDatesList;
 
         dataListTBM2 = _modelList2?.transByMonthList;
@@ -486,16 +495,7 @@
 
         dataListTBItem2 = _modelList2?.transByItemList;
 
-
-        _modelList3 = myStateContainer3.Value;
-        //_modelList3.transByDatesList = new List<TransByDate>();
-        //_modelList3.transByMonthList = new List<TransByMonth>();
-        //_modelList3.transByDeptList = new List<TransByDept>();
-        //_modelList3.transByCatList = new List<TransByCat>();
-        //_modelList3.transBySubCatList = new List<TransBySubCat>();
-        //_modelList3.transByItemList = new List<TransByItem>();
-        //_modelList3.transByTillList = new List<TransByTill>();
-
+        _modelList3 = MyStateContainer3.Value; 
 
         dataListTBD3 = _modelList3?.transByDatesList;
 
@@ -508,8 +508,6 @@
         dataListTBSubCat3 = _modelList3?.transBySubCatList;
 
         dataListTBItem3 = _modelList3?.transByItemList;
-
-
 
         mergedListTBD2 = new List<TransByDate>();
         mergedListTBM2 = new List<TransByMonth>();

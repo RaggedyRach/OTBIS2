@@ -1,6 +1,48 @@
-﻿@page "/Reports/MyReports"
-<h3>MyReports</h3>
+﻿@*@page "/Reports/MyReports"
+@inherits SideBarLayout
+@using OTBIS.Web.Services
+
+@inject StoreReportService _storeReportService;
+@inject NotificationService NotificationService;
+
+<Container>
+    <div class="buffer row align-items-center text-center">
+        <h1>Welcome to <spanO>OTBIS</spanO> MyReports </h1>
+    
+    </div>
+   <ErrorBoundary>
+    <ChildContent>
+            
+            <RadzenDataGrid Data="@myReportsList" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
+                            AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                            AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
+                <Columns>
+                    
+                    <RadzenDataGridColumn TItem="TransByCat" Property="CategoryId" Title="CategoryId" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Category" Title="Category" SortOrder="SortOrder.Ascending" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="TransCount" Title="Count" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Net_Value" Title="Net" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Vat_Value" Title="Vat" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Value" Title="Gross Value" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Sale_Value" Title="Sale Value" />
+                    <RadzenDataGridColumn TItem="TransByCat" Property="Discount_Value" Title="Discount" />
+
+                </Columns>
+            </RadzenDataGrid>
+     </ChildContent>
+     </ErrorBoundary>
+     </Container>
+
+
 
 @code {
+    List<RunReport> myReportsList;
+    protected override async Task OnInitializedAsync()
+    {
+        myReportsList = new List<RunReport>;
+        
+    }
+
 
 }
+*@

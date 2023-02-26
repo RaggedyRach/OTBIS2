@@ -4,6 +4,25 @@ body[b-7e94avmhc5] {
 .buffer[b-7e94avmhc5] {
     margin: 10px;
 }
+.card[b-7e94avmhc5] {
+    border: 20px;
+    background-color: #b981a2;
+    border-color: darkslateblue;
+    border-radius: 8px;
+    padding: 7px;
+    float: left;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+.card img[b-7e94avmhc5] {
+ 
+    padding: 7px;
+    float: left;
+    width: 270px;
+    height: 220px;
+    object-fit: cover;
+}
 .main-back[b-7e94avmhc5]{
     background: center;
     background-color:red;
@@ -12,11 +31,75 @@ body[b-7e94avmhc5] {
     align-content: center;
 }
 .row[b-7e94avmhc5] {
-    padding: calc(var(--bs-gutter-x) * .5);
+   /* padding: calc(var(--bs-gutter-x) * .5);*/
 }
 .col[b-7e94avmhc5] {
+   /* padding: calc(var(--bs-gutter-x) * .5);*/
+}
+span[b-7e94avmhc5] {
+    color: #113e4a;
+   font-weight: bolder;
+   font-size: larger;
+   font-size-adjust;
+}
+h1:focus[b-7e94avmhc5] {
+    outline: none;
+}
+#blazor-error-ui[b-7e94avmhc5] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-7e94avmhc5] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* _content/OTBIS.Web/Pages/Index2.razor.rz.scp.css */
+body[b-zvfl1b3d4o] {
+}
+.buffer[b-zvfl1b3d4o] {
+    margin: 10px;
+}
+.main-back[b-zvfl1b3d4o]{
+    background: center;
+    background-color:red;
+}
+.visualRow[b-zvfl1b3d4o] {
+    align-content: center;
+}
+.row[b-zvfl1b3d4o] {
     padding: calc(var(--bs-gutter-x) * .5);
 }
+.col[b-zvfl1b3d4o] {
+    padding: calc(var(--bs-gutter-x) * .5);
+}
+#blazor-error-ui[b-zvfl1b3d4o] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-zvfl1b3d4o] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
 /* _content/OTBIS.Web/Pages/Reports/ReportBuilder.Razor.rz.scp.css */
 
 .spinner[b-jkkkyixp6r] {
@@ -50,6 +133,7 @@ body[b-jkkkyixp6r] {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
+
 #blazor-error-ui[b-jkkkyixp6r] {
     background: lightyellow;
     bottom: 0;
@@ -60,6 +144,9 @@ body[b-jkkkyixp6r] {
     position: fixed;
     width: 100%;
     z-index: 1000;
+}
+spanO[b-jkkkyixp6r] {
+    color: #113e4a;
 }
 
     #blazor-error-ui .dismiss[b-jkkkyixp6r] {
@@ -119,19 +206,83 @@ body[b-89dpkl10bd] {
         right: 0.75rem;
         top: 0.5rem;
     }
-/* _content/OTBIS.Web/Pages/Reports/ReportSummary.razor.rz.scp.css */
-body[b-box9ynywqw] {
-}
-.rz-dropdown[b-box9ynywqw] {
-    display: grid !important;
+/* _content/OTBIS.Web/Shared/LoginDisplay.razor.rz.scp.css */
+.navbar-toggler[b-32g1d44yrw] {
+    background-color: rgba(106, 255, 255, 0.1);
 }
 
-.grid-container[b-box9ynywqw] {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+.top-row[b-32g1d44yrw] {
+    height: 10 rem;
+    background-color: #113e4a;
+}
+.login[b-32g1d44yrw] {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: snow;
+    font-size: large;
+    font-weight: 500;
+}
+.navbar-brand[b-32g1d44yrw] {
+    font-size: 1.1rem;
+    padding-left: 25px;
+}
+
+    .navbar-brand img[b-32g1d44yrw] {
+        font-size: 1.1rem;
+        width: 150px;
+        height: 45px;
     }
-#blazor-error-ui[b-box9ynywqw] {
+
+.oi[b-32g1d44yrw] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-32g1d44yrw] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-32g1d44yrw] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-32g1d44yrw] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-32g1d44yrw]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+        .nav-item[b-32g1d44yrw]  a.active {
+            background-color: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .nav-item[b-32g1d44yrw]  a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-32g1d44yrw] {
+        display: none;
+    }
+
+    .collapse[b-32g1d44yrw] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+#blazor-error-ui[b-32g1d44yrw] {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -143,12 +294,15 @@ body[b-box9ynywqw] {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss[b-box9ynywqw] {
+    #blazor-error-ui .dismiss[b-32g1d44yrw] {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;
         top: 0.5rem;
     }
+
+body[b-32g1d44yrw] {
+}
 /* _content/OTBIS.Web/Shared/MainLayout.razor.rz.scp.css */
 
 .page[b-w2p2r57593] {
@@ -174,7 +328,16 @@ main[b-w2p2r57593] {
     display: flex;
     align-items: center;
 }
+.navbar-brand[b-w2p2r57593] {
+    font-size: 1.1rem;
+    padding-left: 25px;
+}
 
+    .navbar-brand img[b-w2p2r57593] {
+        font-size: 1.1rem;
+        width: 150px;
+        height: auto;
+    }
     .top-row[b-w2p2r57593]  a, .top-row .btn-link[b-w2p2r57593] {
         white-space: nowrap;
         margin-left: 1.5rem;
@@ -228,6 +391,25 @@ main[b-w2p2r57593] {
         .rep[b-w2p2r57593] {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+    
+    }
+#blazor-error-ui[b-w2p2r57593] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-w2p2r57593] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
     }
 /* _content/OTBIS.Web/Shared/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-3lkrkf5164] {
@@ -299,3 +481,119 @@ main[b-w2p2r57593] {
         display: block;
     }
 }
+#blazor-error-ui[b-3lkrkf5164] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-3lkrkf5164] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+/* _content/OTBIS.Web/Shared/SideBarLayout.razor.rz.scp.css */
+
+.page[b-8v3d3wwux3] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-8v3d3wwux3] {
+    flex: 1;
+}
+
+.sidebar[b-8v3d3wwux3] {
+    background-image: linear-gradient(180deg, #113e4a 10%, #b981a2 90%);
+}
+
+.top-row[b-8v3d3wwux3] {
+    background-color: #113e4a;
+    
+    border-bottom: 1px solid #d6d5d5;
+    justify-Content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+#blazor-error-ui[b-8v3d3wwux3] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-8v3d3wwux3] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+    .top-row[b-8v3d3wwux3]  a, .top-row .btn-link[b-8v3d3wwux3] {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
+
+    .top-row a:first-child[b-8v3d3wwux3] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .rz-multiselect[b-8v3d3wwux3], .rz-dropdown[b-8v3d3wwux3] {
+    display: grid;
+    }
+
+    @media (max-width: 640.98px) {
+        .top-row:not(.auth)[b-8v3d3wwux3] {
+            display: none;
+        }
+
+        .top-row.auth[b-8v3d3wwux3] {
+            justify-Content: space-between;
+        }
+
+        .top-row a[b-8v3d3wwux3], .top-row .btn-link[b-8v3d3wwux3] {
+            margin-left: 0;
+        }
+    }
+
+    @media (min-width: 641px) {
+        .page[b-8v3d3wwux3] {
+            flex-direction: row;
+        }
+
+        .sidebar[b-8v3d3wwux3] {
+            width: 250px;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .top-row[b-8v3d3wwux3] {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .top-row[b-8v3d3wwux3], article[b-8v3d3wwux3] {
+            padding-left: 2rem !important;
+            padding-right: 1.5rem !important;
+        }
+
+        .rep[b-8v3d3wwux3] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    }

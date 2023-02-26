@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8+YcsrihsiBxxVo23spkayVXFeZBnkPagJtgDhuxsAE=",
+  "Hash": "mskDK138g+IL902ki9pHuMU+IkYaRgsA38XAocs8TNY=",
   "Source": "OTBIS.Web",
   "BasePath": "_content/OTBIS.Web",
   "Mode": "Default",
@@ -1683,6 +1683,23 @@
       "OriginalItemSpec": "wwwroot\\css\\images\\bar graph.png"
     },
     {
+      "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\brett-jordan-LPZy4da9aRo-unsplash.jpg",
+      "SourceId": "OTBIS.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\",
+      "BasePath": "_content/OTBIS.Web",
+      "RelativePath": "css/images/brett-jordan-LPZy4da9aRo-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\images\\brett-jordan-LPZy4da9aRo-unsplash.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\compare.png",
       "SourceId": "OTBIS.Web",
       "SourceType": "Discovered",
@@ -1698,6 +1715,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\images\\compare.png"
+    },
+    {
+      "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\curioso-photography-v5yPUQYbrcw-unsplash.jpg",
+      "SourceId": "OTBIS.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\",
+      "BasePath": "_content/OTBIS.Web",
+      "RelativePath": "css/images/curioso-photography-v5yPUQYbrcw-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\images\\curioso-photography-v5yPUQYbrcw-unsplash.jpg"
     },
     {
       "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\DataHero_Users_by_Creation_Date_and_Life_Cycle_Stage_1.png",
@@ -1734,6 +1768,23 @@
       "OriginalItemSpec": "wwwroot\\css\\images\\line-graph-excel.png"
     },
     {
+      "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg",
+      "SourceId": "OTBIS.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\",
+      "BasePath": "_content/OTBIS.Web",
+      "RelativePath": "css/images/lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\images\\lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg"
+    },
+    {
       "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\otbis-high-resolution-logo-color-on-transparent-background.png",
       "SourceId": "OTBIS.Web",
       "SourceType": "Discovered",
@@ -1766,6 +1817,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\images\\pie graph image.png"
+    },
+    {
+      "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\stellrweb-djb1whucfBY-unsplash.jpg",
+      "SourceId": "OTBIS.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\",
+      "BasePath": "_content/OTBIS.Web",
+      "RelativePath": "css/images/stellrweb-djb1whucfBY-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\images\\stellrweb-djb1whucfBY-unsplash.jpg"
     },
     {
       "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\sumary..jfif",

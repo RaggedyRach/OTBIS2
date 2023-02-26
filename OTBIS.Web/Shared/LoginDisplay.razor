@@ -1,6 +1,12 @@
 ﻿<AuthorizeView>
     <Authorized>
+
         <div>
+            <div class="container-fluid logo px-3">
+                
+>
+                @*<a class="navbar-brand pl-4" href="/"><img src="/css/images/otbis-high-resolution-logo-color-on-transparent-background.png" /></a>*@
+            </div>
             <div>
                 <a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a>
             </div>
@@ -13,7 +19,11 @@
 
     </Authorized>
     <NotAuthorized>
-        <a href="Identity/Account/Register">Register</a>
-        <a href="Identity/Account/Login">Log in</a>
+        <div class ="container-fluid logo px-3">
+            
+            @*<a class="navbar-brand pl-4" href="/"><img src="/css/images/otbis-high-resolution-logo-color-on-transparent-background.png" /></a>*@
+        </div>
+        <a class="login" href="Identity/Account/Register">Register</a>
+        <a class="login"  href="Identity/Account/Login">Log in</a>
     </NotAuthorized>
 </AuthorizeView>

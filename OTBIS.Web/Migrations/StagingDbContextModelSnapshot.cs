@@ -10,8 +10,8 @@ using OTBIS.Web.Data;
 
 namespace OTBIS.Web.Migrations
 {
-    [DbContext(typeof(StagingDbContext))]
-    partial class StagingDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(StagingDbcontext))]
+    partial class StagingDbcontextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -760,6 +760,53 @@ namespace OTBIS.Web.Migrations
                     b.ToTable("Loggings");
                 });
 
+            modelBuilder.Entity("OTBIS.Web.Models.ReportCounter", b =>
+                {
+                    b.Property<int>("ReportCounterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportCounterId"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RunReportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReportCounterId");
+
+                    b.ToTable("ReportCounters");
+                });
+
+            modelBuilder.Entity("OTBIS.Web.Models.ReportFavorite", b =>
+                {
+                    b.Property<int>("ReportFavoriteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportFavoriteId"), 1L, 1);
+
+                    b.Property<bool>("Favorite")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReportDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReportName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RunReportId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReportFavoriteId");
+
+                    b.ToTable("ReportFavorites");
+                });
+
             modelBuilder.Entity("OTBIS.Web.Models.RunReport", b =>
                 {
                     b.Property<int>("RunReportId")
@@ -771,37 +818,118 @@ namespace OTBIS.Web.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId3")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ClerkId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClerkId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClerkId3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompareOnId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DepartmentId3")
+                        .HasColumnType("int");
+
                     b.Property<int>("DomainId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DomainName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DomainId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DomainId3")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate2")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate3")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ItemTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ItemTypeId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ItemTypeId3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberToCompare")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate2")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate3")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SubCategoryId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubCategoryId3")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TillId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TillId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TillId3")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("discountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("discountId2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("discountId3")
                         .HasColumnType("int");
 
                     b.Property<int?>("nominalCodeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("nominalCodeId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("nominalCodeId3")
+                        .HasColumnType("int");
+
                     b.Property<int?>("paymentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("paymentTypeId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("paymentTypeId3")
                         .HasColumnType("int");
 
                     b.Property<int?>("sellingPriceId")
