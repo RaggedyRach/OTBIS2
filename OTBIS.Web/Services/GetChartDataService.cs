@@ -19,14 +19,14 @@ namespace OTBIS.Web.Services
     public class GetChartDataService
     {
         #region Property
-        private readonly StagingDbContext _stagingDbContext;
+        private readonly StagingDbcontext _StagingDbcontext;
 
         #endregion
 
         #region Constructor
-        public GetChartDataService(StagingDbContext stagingDbContext)
+        public GetChartDataService(StagingDbcontext StagingDbcontext)
         {
-            _stagingDbContext = stagingDbContext;
+            _StagingDbcontext = StagingDbcontext;
 
         }
         #endregion
@@ -40,7 +40,7 @@ namespace OTBIS.Web.Services
 
 
 
-        //var Test = await (from d in _stagingDbContext.Transactions
+        //var Test = await (from d in _StagingDbcontext.Transactions
         //                  where d.TransactionDateTime.Value.DayOfWeek.Equals(1)
         //                  select d
         //                     ).ToListAsync();
@@ -57,7 +57,7 @@ namespace OTBIS.Web.Services
         //               select b;
 
 
-        //var groupJoin = await (from d in _stagingDbContext.Transactions
+        //var groupJoin = await (from d in _StagingDbcontext.Transactions
         //                       where d.TransactionDateTime >= startDate
         //                        && d.TransactionDateTime <= endDate
         //                       select d                                
@@ -85,8 +85,8 @@ namespace OTBIS.Web.Services
         #region Get Tasks by dept gr by cat (dept, srt date, end date)
         public async Task<TransNetByCat[]> TransactionByDeptGrpByCatAsync(DateTime startDate, DateTime endDate, int deptid)
         {
-            var groupJoin = await (from d in _stagingDbContext.Transactions
-                                   join j in _stagingDbContext.Categories on d.CategoryId equals j.CategoryId
+            var groupJoin = await (from d in _StagingDbcontext.Transactions
+                                   join j in _StagingDbcontext.Categories on d.CategoryId equals j.CategoryId
                                    where d.DepartmentId == deptid && d.TransactionDateTime >= startDate && d.TransactionDateTime <= endDate
                                    group d by new { j.CategoryName } into g
                                    select new TransNetByCat()
@@ -102,7 +102,7 @@ namespace OTBIS.Web.Services
         #region Get Tasks by cat (dept, cat, srt date, end date)
         public async Task<List<Transaction>> TransactionByCatAsync(DateTime startDate, DateTime endDate, int deptid, int catid)
         {
-            var data = await (from i in _stagingDbContext.Transactions
+            var data = await (from i in _StagingDbcontext.Transactions
                               where i.TransactionDateTime >= startDate && i.TransactionDateTime <= endDate
                               && deptid == i.DepartmentId
                               && catid == i.CategoryId
@@ -117,9 +117,9 @@ namespace OTBIS.Web.Services
         #region Get Tasks by subcatagory (dept, cat, subcat x 2, srt date end date
         public async Task<TransBySubCat1[]> TransactionBySubCatAsync(DateTime startDate, DateTime endDate, int deptid, int catid, int subcatid1)
         {
-            var groupJoin = await (from d in _stagingDbContext.Transactions
-                                   join j in _stagingDbContext.Categories on d.CategoryId equals j.CategoryId
-                                   join i in _stagingDbContext.SubCategories on d.SubCategoryId equals i.SubCategoryId
+            var groupJoin = await (from d in _StagingDbcontext.Transactions
+                                   join j in _StagingDbcontext.Categories on d.CategoryId equals j.CategoryId
+                                   join i in _StagingDbcontext.SubCategories on d.SubCategoryId equals i.SubCategoryId
                                    where d.DepartmentId == deptid && d.SubCategoryId == subcatid1
                                    && j.CategoryId == catid
                                    && d.TransactionDateTime >= startDate && d.TransactionDateTime <= endDate

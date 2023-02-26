@@ -4,8 +4,14 @@
 @using OTBIS.Web.Models.ChartArrays;
 @inject GetProductionService _getProductionService;
 @inject GetChartDataService _getChartDataService;
+@inject GetDomainDataService _getDomainDataService;
+@inject MyStateContainer MyStateContainer
 
 
+
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    Gift Aid VS Non Gift Aid
+</RadzenText>
 @if (@GAresult == null || @NonGAresult == null  )
 {
     <div class="spinner"></div>
@@ -13,13 +19,7 @@
 else
 {
 
-<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
-    Gift Aid VS Non Gift Aid
-</RadzenText>
-
-
-
-<div class="container">
+    <div class="Container">
     <div class="row">
         <div class="col-sm-12 my-5">
             <RadzenCard Class="w-100 mb-4">
@@ -44,12 +44,18 @@ else
         </div>
     </div>
 </div>
-
+    }
+@if (@GAresultAnnual == null )
+{
+    <div class="spinner"></div>
+}
+else
+{
     <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
         Gift Aid Trends
     </RadzenText>
 
-    <div class="container my-5">
+    <div class="Container my-5">
         <div class="row">
             <div class="col">
                 <RadzenCard Class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
@@ -78,12 +84,18 @@ else
             </div>
         </div>
     </div>
-
+   }
+   @if (@MonthlySaleByCat == null )
+{
+    <div class="spinner"></div>
+}
+else
+{
     <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
-    Radzen Blazor Chart pie series
+   Shop Retail Sales by Category
 </RadzenText>
 
-    <div class="container">
+    <div class="Container">
         <RadzenCard Class="mt-4 w-100 mb-4 d-flex align-items-center" >
             <RadzenLabel Text="Color scheme:" Style="margin-right: 8px; vertical-align: middle;" />
             <RadzenDropDown Data="@colorSchemes" @bind-Value="@colorScheme" />
@@ -102,12 +114,18 @@ else
             </div>
         </div>
     </div>
-
+    }
+@if (@SalesByMonDay == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
     <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
         Day of the Week Trends
     </RadzenText>
 
-    <div class="container my-5">
+    <div class="Container my-5">
         <div class="row">
             <div class="col">
                 <RadzenCard Class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
@@ -121,7 +139,7 @@ else
                     <RadzenLabel Text="Mode" For="mode" Class="rz-color-warning-darker" />
                 </RadzenCard>
                 <RadzenChart>
-                    <RadzenLineSeries Smooth="true" Data="@SalesByMonDay" CategoryProperty="DayofWeek" Title="Monday" ValueProperty="Net_Amount" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@SalesByMonDay" CategoryProperty="TransDate" Title="Monday" ValueProperty="Net_Value" RenderingOrder="1">
                         <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                         <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                         <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -137,8 +155,8 @@ else
         </div>
     </div>
 
+    }
 
-}
 @code {
     bool smooth = false;
     bool showDataLabels = false;
@@ -153,10 +171,8 @@ else
 
     List<string> data = new List<string>();
 
-
-
-
-
+    ModelList _modelList;
+    List<TransByDate>? dataListTBD;
 
 
     string FormatAsUK(object value)
@@ -168,7 +184,7 @@ else
     {
         if (value != null)
         {
-            return Convert.ToDateTime(value).ToString("MMM");
+            return Convert.ToDateTime(value).ToString("yy-MMM");
         }
 
         return string.Empty;
@@ -177,23 +193,25 @@ else
     TransBySubCat1[] NonGAresult;
     TransBySubCat1[] GAresultAnnual;
     TransNetByCat[] MonthlySaleByCat;
-    TransNetByDay[] SalesByMonDay;
-
+    // TransNetByDay[] SalesByMonDay;
+    TransByDate[] SalesByMonDay;
     protected override void OnInitialized()
     {
 
 
     }
-
+    
     protected override async Task OnInitializedAsync()
     {
+        _modelList = MyStateContainer.Value;
+         dataListTBD = _modelList?.transByDatesList;
 
         GAresult = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 6, 21, 40));
         NonGAresult = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 6, 21, 69));
         GAresultAnnual = _getChartDataService.orderTransofSubCatByDate(await _getChartDataService.TransactionBySubCatAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), 6, 21, 40));
         MonthlySaleByCat = await _getChartDataService.TransactionByDeptGrpByCatAsync(DateTime.Today.AddDays(-91), DateTime.Today.AddDays(-60), 13);
-      //SalesByMonDay = await _getProductionService.GetAllTransByDateRangeGrpByDayofWeekAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), DayOfWeek.Monday);
-
+        SalesByMonDay = (await _getDomainDataService.GetAllTransByDomainByDayAsync(DateTime.Today.AddDays(-740), DateTime.Today.AddDays(-60), 1, DayOfWeek.Monday)).transByDatesList.ToArray();
+       
     }
 
     

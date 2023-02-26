@@ -19,14 +19,14 @@ namespace OTBIS.Web
     public class GetProductionService
     {
         #region Property
-        private readonly StagingDbContext _stagingDbContext;
+        private readonly StagingDbcontext _StagingDbcontext;
 
         #endregion
 
         #region Constructor
-        public GetProductionService(StagingDbContext stagingDbContext)
+        public GetProductionService(StagingDbcontext StagingDbcontext)
         {
-            _stagingDbContext = stagingDbContext;
+            _StagingDbcontext = StagingDbcontext;
 
         }
         #endregion
@@ -34,8 +34,8 @@ namespace OTBIS.Web
         #region Get List of All Transactions by Date Range and domian group by domain
         // public async Task<ModelList> GetAllTransByDomainAsync(DateTime startDate, DateTime endDate, int domainId)
         // {
-        //var data = await (from i in _stagingDbContext.Transactions
-        //                  join j in _stagingDbContext.DomainDepartments
+        //var data = await (from i in _StagingDbcontext.Transactions
+        //                  join j in _StagingDbcontext.DomainDepartments
         //                  on i.DepartmentId equals j.DepartmentId
         //                  where j.DomainId.Equals(domainId)
         //                  && i.TransactionDateTime >= startDate && i.TransactionDateTime <= endDate
@@ -78,8 +78,8 @@ namespace OTBIS.Web
         #region Get List of All Transactions by domain
         public async Task<List<Transaction>> GetAllTransByDomainAsync(int DomainId)
         {
-            var data = await (from i in _stagingDbContext.Transactions
-                              join j in _stagingDbContext.DomainDepartments
+            var data = await (from i in _StagingDbcontext.Transactions
+                              join j in _StagingDbcontext.DomainDepartments
                               on i.DepartmentId equals j.DepartmentId
                               where j.DomainId == DomainId
                               select i).OrderByDescending(c => c.TransactionDateTime).ToListAsync();
@@ -91,8 +91,8 @@ namespace OTBIS.Web
         #region Get List of All Transactions by domain within date
         public async Task<List<Transaction>> GetAllTransByDomainAsyncbyDate(int DomainId, DateTime startDate, DateTime endDate)
         {
-            var data = await (from i in _stagingDbContext.Transactions
-                              join j in _stagingDbContext.DomainDepartments
+            var data = await (from i in _StagingDbcontext.Transactions
+                              join j in _StagingDbcontext.DomainDepartments
                               on i.DepartmentId equals j.DepartmentId
                               where j.DomainId == DomainId && i.TransactionDateTime >= startDate && i.TransactionDateTime <= endDate
 

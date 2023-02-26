@@ -11,7 +11,7 @@ using OTBIS.Web.Data;
 
 namespace OTBIS.Web.Migrations
 {
-    [DbContext(typeof(StagingDbContext))]
+    [DbContext(typeof(StagingDbcontext))]
     [Migration("20221228212750_num2comparetbl")]
     partial class num2comparetbl
     {

@@ -21,12 +21,24 @@
       "PackagePath": "staticwebassets\\css\\images\\bar graph.png"
     },
     {
+      "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\brett-jordan-LPZy4da9aRo-unsplash.jpg",
+      "PackagePath": "staticwebassets\\css\\images\\brett-jordan-LPZy4da9aRo-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\compare.png",
       "PackagePath": "staticwebassets\\css\\images\\compare.png"
     },
     {
+      "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\curioso-photography-v5yPUQYbrcw-unsplash.jpg",
+      "PackagePath": "staticwebassets\\css\\images\\curioso-photography-v5yPUQYbrcw-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\line-graph-excel.png",
       "PackagePath": "staticwebassets\\css\\images\\line-graph-excel.png"
+    },
+    {
+      "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg",
+      "PackagePath": "staticwebassets\\css\\images\\lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg"
     },
     {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\otbis-high-resolution-logo-color-on-transparent-background.png",
@@ -35,6 +47,10 @@
     {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\pie graph image.png",
       "PackagePath": "staticwebassets\\css\\images\\pie graph image.png"
+    },
+    {
+      "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\stellrweb-djb1whucfBY-unsplash.jpg",
+      "PackagePath": "staticwebassets\\css\\images\\stellrweb-djb1whucfBY-unsplash.jpg"
     },
     {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\css\\images\\sumary..jfif",

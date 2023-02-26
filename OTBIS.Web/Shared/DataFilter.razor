@@ -1,7 +1,7 @@
 ﻿@*@page "/dataFilter"
 @using Microsoft.EntityFrameworkCore
 @using OTBIS.Web.Data.W5DataObjectsStaging
-@inject StagingDbContext _StagingDbContext;
+@inject StagingDbcontext _StagingDbcontext;
 
 
 
@@ -45,7 +45,7 @@
     {
         await base.OnInitializedAsync();
 
-        orders = dbContext.Orders.Include("Customer").Include("Employee").ToList();
+        orders = dbcontext.Orders.Include("Customer").Include("Employee").ToList();
         orderIds = orders.Select(o => o.OrderID).Distinct();
     }
 
@@ -59,7 +59,7 @@
                 {
                     Property = "Employee.LastName",
                     FilterValue = "Buchanan",
-                    FilterOperator = FilterOperator.Contains
+                    FilterOperator = FilterOperator.contains
                 });
         }
     }

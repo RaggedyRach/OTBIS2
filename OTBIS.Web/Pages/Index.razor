@@ -1,69 +1,97 @@
 ﻿@page "/"
 
+@inject DialogService DialogService
+@using System.Globalization;
+@using OTBIS.Web.Models.ChartArrays;
+@inject GetProductionService _getProductionService;
+@inject GetChartDataService _getChartDataService;
+@inject GetDomainDataService _getDomainDataService;
+@inject MyStateContainer myStatecontainer
+
+@inject NavigationManager navigationManager;
 <PageTitle>Index</PageTitle>
 
 
 
 
 <div class="buffer row align-items-center text-center">
-    <h1>Welcome to OTBIS! </h1>
-    <h2>Your one stop for all reporting Odyssey Trust Site Wide.</h2>
+    <h1>Welcome to <span>OTBIS</span> </h1>
+    <h2>Your one cont for all reporting Odyssey Trust Site Wide.</h2>
 </div>
 <container class="main-back">
 <div class="row align-items-center">
     <div class="col align-items-center visualRow">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/bar graph.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
+            <div class="card align-items-center" style="width: 18rem;">
+                <img src="/css/images/stellrweb-djb1whucfBY-unsplash.jpg" class="card-img-top" alt="...">
+                <div class="card-body align-items-center">
+                    <RadzenButton  ButtonStyle="ButtonStyle.Dark" class="rz-border-radius-6 rz-shadow-6 align-items-center" Click="@OnClickReportBuilder">
+                        Build A Report
+                        <RadzenBadge BadgeStyle="BadgeStyle.Warning" Shade="Shade.Lighter" IsPill="@true"  />
+                    </RadzenButton>
                 </div>
             </div>
     </div>
-    <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/pie graph image.png" class="card-img-top" alt="...">
+        <div class="col align-items-center">
+            <div class="card align-items-center" style="width: 18rem;">
+                <img src="/css/images/compare.png" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
+                    <p class="card-text">
+                        <RadzenButton ButtonStyle="ButtonStyle.Dark" class="rz-border-radius-6 rz-shadow-6" Click="@onClickMyReports">
+                            My Reports.
+                            <RadzenBadge BadgeStyle="BadgeStyle.Warning" Shade="Shade.Lighter" IsPill="@true"  class="rz-ml-2"  />
+                        </RadzenButton>
+                    </p>
                 </div>
             </div>
     </div>
-    <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/DataHero_Users_by_Creation_Date_and_Life_Cycle_Stage_1.png" class="card-img-top" alt="...">
+        <div class="col align-items-center">
+            <div class="card align-items-center" style="width: 18rem;">
+                <img src="/css/images/lxrcbsv-vVHXeu0YNbk-unsplash (1).jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
+                    <p class="card-text">
+                        <RadzenButton ButtonStyle="ButtonStyle.Dark" class="rz-border-radius-6 rz-shadow-6" Click="@onClickChart">
+                            My Charts
+                            <RadzenBadge BadgeStyle="BadgeStyle.Warning" Shade="Shade.Lighter" IsPill="@true" class="rz-ml-2" />
+                        </RadzenButton>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col align-items-center">
+            <div class="card align-items-center" style="width: 18rem;">
+                <img src="/css/images/curioso-photography-v5yPUQYbrcw-unsplash.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                        <RadzenButton ButtonStyle="ButtonStyle.Dark" class="rz-border-radius-6 rz-shadow-6" Click=@onClickSettings>
+                            My Profile
+                            <RadzenBadge BadgeStyle="BadgeStyle.Warning" Shade="Shade.Lighter" IsPill="@true" class="rz-ml-2"/>
+                        </RadzenButton>
+                    </p>
                 </div>
             </div>
     </div>
     </div>
+    </container>
 <div class="row align-items-center">
-    <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/line-graph-excel.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
-                </div>
-            </div>
-    </div>
-    <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/bar graph.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
-                </div>
-            </div>
-    </div>
-    <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/css/images/pie graph image.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Three of three columns.</p>
-                </div>
-            </div>
-    </div>
+   
 </div>
-<div class="row align-items-center">
 
- 
-</div>
-</container>
+@code {
+    void onClickChart()
+    {
+        navigationManager.NavigateTo("Chart");
+    }
+    void OnClickReportBuilder()
+    {
+        navigationManager.NavigateTo("/reports/ReportBuilder");
+    }
+    void onClickMyReports()
+    {
+        navigationManager.NavigateTo("reports/myreports");
+    }
+    void onClickSettings()
+    {
+        navigationManager.NavigateTo("settings");
+    }
+
+}

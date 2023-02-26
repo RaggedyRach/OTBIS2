@@ -3,6 +3,25 @@ body[b-7e94avmhc5] {
 .buffer[b-7e94avmhc5] {
     margin: 10px;
 }
+.card[b-7e94avmhc5] {
+    border: 20px;
+    background-color: #b981a2;
+    border-color: darkslateblue;
+    border-radius: 8px;
+    padding: 7px;
+    float: left;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+.card img[b-7e94avmhc5] {
+ 
+    padding: 7px;
+    float: left;
+    width: 270px;
+    height: 220px;
+    object-fit: cover;
+}
 .main-back[b-7e94avmhc5]{
     background: center;
     background-color:red;
@@ -11,8 +30,35 @@ body[b-7e94avmhc5] {
     align-content: center;
 }
 .row[b-7e94avmhc5] {
-    padding: calc(var(--bs-gutter-x) * .5);
+   /* padding: calc(var(--bs-gutter-x) * .5);*/
 }
 .col[b-7e94avmhc5] {
-    padding: calc(var(--bs-gutter-x) * .5);
+   /* padding: calc(var(--bs-gutter-x) * .5);*/
 }
+span[b-7e94avmhc5] {
+    color: #113e4a;
+   font-weight: bolder;
+   font-size: larger;
+   font-size-adjust;
+}
+h1:focus[b-7e94avmhc5] {
+    outline: none;
+}
+#blazor-error-ui[b-7e94avmhc5] {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-7e94avmhc5] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }

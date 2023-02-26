@@ -7,7 +7,7 @@
 @using Microsoft.EntityFrameworkCore
 @using OTBIS.Web.Services
 @*@inject GetProductionService _getProductionService;*@
-@*@inherits StagingDbContext ;*@
+@*@inherits StagingDbcontext ;*@
 
 
 
@@ -29,13 +29,13 @@
         <RadzenDataGridColumn TItem="OrderDetail" Property="OrderID" Title="OrderID" />
         <RadzenDataGridColumn TItem="OrderDetail" Property="ProductID" Title="ProductID" />
         <RadzenDataGridColumn TItem="OrderDetail" Property="UnitPrice" Title="Unit Price">
-            <Template Context="detail">
+            <Template context="detail">
                 @String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", detail.UnitPrice)
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="OrderDetail" Property="Quantity" Title="Quantity" />
         <RadzenDataGridColumn TItem="OrderDetail" Property="Discount" Title="Discount">
-            <Template Context="detail">
+            <Template context="detail">
                 @String.Format("{0}%", detail.Discount * 100)
             </Template>
         </RadzenDataGridColumn>
@@ -44,7 +44,7 @@
 @code {
     ////IEnumerable<OrderDetail> orderDetails;
     //#region Property
-    //private readonly StagingDbContext _stagingDbContext;
+    //private readonly StagingDbcontext _stagingDbcontext;
 
     //#endregion
 
@@ -54,7 +54,7 @@
 
 
 
-    //    ReportDisplay = _stagingDbContext.Categories;
+    //    ReportDisplay = _stagingDbcontext.Categories;
     //}
 }
 
