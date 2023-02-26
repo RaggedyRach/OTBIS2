@@ -65,6 +65,7 @@ namespace OTBIS.Web.Data
 
         public DbSet<ReportFavorite> ReportFavorites { get; set; }
 
+        public DbSet<ReportDetails> ReportDetails { get; set; } 
     }
     
  }

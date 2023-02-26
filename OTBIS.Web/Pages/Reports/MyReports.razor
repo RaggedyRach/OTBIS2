@@ -1,8 +1,9 @@
-﻿@*@page "/Reports/MyReports"
+﻿@page "/Reports/MyReports"
 @inherits SideBarLayout
 @using OTBIS.Web.Services
 
 @inject StoreReportService _storeReportService;
+
 @inject NotificationService NotificationService;
 
 <Container>
@@ -13,19 +14,50 @@
    <ErrorBoundary>
     <ChildContent>
             
-            <RadzenDataGrid Data="@myReportsList" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
+            <RadzenDataGrid Data="@myReportsList" TItem="ReportDetails" AllowVirtualization="true" Style="height:400px"
                             AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                             AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
                 <Columns>
-                    
-                    <RadzenDataGridColumn TItem="TransByCat" Property="CategoryId" Title="CategoryId" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Category" Title="Category" SortOrder="SortOrder.Ascending" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="TransCount" Title="Count" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Net_Value" Title="Net" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Vat_Value" Title="Vat" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Value" Title="Gross Value" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Gross_Sale_Value" Title="Sale Value" />
-                    <RadzenDataGridColumn TItem="TransByCat" Property="Discount_Value" Title="Discount" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ReportCount" Title="Count" SortOrder="SortOrder.Descending" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="Username" Title="User" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NumbertToCompare" Title="No. Comparison" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ComparedOnName" Title="Compared On" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="StartDate" Title="Start1"/>
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="EndDate" Title="End1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="StartDate2" Title="Start2"/>
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="EndDate2" Title="End2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="StartDate3" Title="Start3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="EndDate3" Title="End3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DomainName" Title="Domain 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DomainName2" Title="Domain 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DomainName3" Title="Domain 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DepartmentName" Title="Dept 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DepartmentName2" Title="Dept 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DepartmentName3" Title="Dept 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="CategoryName" Title="Cat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="CategoryName2" Title="Cat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="CategoryName3" Title="Cat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="SubCategoryNameId" Title="SubCat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="SubCategoryName2" Title="SubCat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="SubCategoryName3" Title="SubCat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ItemTypeName" Title="Item 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ItemTypeName2" Title="Item 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ItemTypeName3" Title="Item 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="PaymentTypeName" Title="Payment Type 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="PaymentTypeName2" Title="Payment Type 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="PaymentTypeName3" Title="Payment Type 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NominalCodeName" Title="Nominal Code 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NominalCodeName2" Title="Nominal Code 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NominalCodeName3" Title="Nominal Code 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DiscountName" Title="Discount 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DiscountName2" Title="Discount 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="DiscountName3" Title="Discount 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="TillName" Title="Till 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="TillName2" Title="Till 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="TillName3" Title="Till 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ClerkName" Title="Clerk 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ClerkName2" Title="Clerk 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ClerkName3" Title="Clerk 3" />
 
                 </Columns>
             </RadzenDataGrid>
@@ -36,13 +68,17 @@
 
 
 @code {
-    List<RunReport> myReportsList;
+    List<ReportDetails> myReportsList;
+    List<ReportCounter> myTopUsedList;
+
     protected override async Task OnInitializedAsync()
     {
-        myReportsList = new List<RunReport>;
+        myReportsList = new List<ReportDetails>();
+        myTopUsedList = await _storeReportService.MyMostUsed(1);
+        myReportsList = await _storeReportService.MyReportsList(myTopUsedList, 1);
+
         
     }
 
 
 }
-*@

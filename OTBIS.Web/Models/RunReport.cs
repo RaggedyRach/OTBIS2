@@ -48,9 +48,9 @@ namespace OTBIS.Web.Models
         public int? paymentTypeId3 { get; set; }
         public int? sellingPriceId { get; set; }
 
-        public int discountId { get; set; }
-        public int discountId2 { get; set; }
-        public int discountId3 { get; set; }
+        public int? discountId { get; set; }
+        public int? discountId2 { get; set; }
+        public int? discountId3 { get; set; }
         public int? TillId { get; set; }
         public int? TillId2 { get; set; }
         public int? TillId3 { get; set; }

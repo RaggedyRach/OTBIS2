@@ -607,7 +607,21 @@ else{
                         <RadzenColumn Size="6" Offset="0" class="rz-background-color-info-lighter rz-color-info rz-p-5">
                                 <RadzenButton style="width: 160px" ButtonType="ButtonType.Submit" Icon="save" BusyText="Saving ..." IsBusy=@busy Click=@OnBusyClick Text="Run Report" />          
                         </RadzenColumn>
-                    </RadzenRow>
+                   
+                   
+                    @*<div class="col-md-6">
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Switch</RadzenText>
+                        <RadzenSwitch @bind-Value=@favourite Change=@(args => OnFavourite()) />
+                    </div>*@
+                        <div class="col-md-6 col-lg-4 p-3">
+                        <RadzenCard>
+                         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Report Name</RadzenText>
+                          <RadzenTextBox @bind-Value=@reportName Placeholder="Name..."  class="w-100" />
+                             <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Favourite</RadzenText>
+                              <RadzenSwitch @bind-Value=@favourite Change=@(args => OnFavourite()) />
+                       </RadzenCard>
+                         </div>
+                      </RadzenRow>
                 </div>
                
               
@@ -635,11 +649,13 @@ else{
     int numberToCompare =0;
     int groupById = 0;
     int dayOfWeekId = 0;
+    int userId;
     string dateType;
     string groupByName = "";
     string str1;
     string str2;
     string str3;
+    string reportName = "";
     string DateName;
     string errorMessage = "";
     List<string> FL1;
@@ -748,7 +764,7 @@ else{
 
     [CascadingParameter]
     public Error? Error { get; set; }
-
+    bool favourite;
     bool stop;
 
     protected override void OnInitialized()
@@ -756,7 +772,8 @@ else{
         spinner = true;
         buttonText = "Run Report";
         hidden = true;
-
+        // get UserId from session
+        userId = 1;
 
         _domain = new Domain();
         domainsList2 = new List<Domain>();
@@ -1085,6 +1102,306 @@ else{
             StoreReport();
             if(selectedDomId>0 && stop == false)
             {
+                if (compareOnId > 6 && compareOnId <17 || compareOnId == 5)
+                {
+                    if(compareOnId == 5)// discounts
+                    {
+                        if (selectedDiscountId > 0 && stop == false)
+                        {
+                            switch (groupById) //discount
+
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+
+                                    //query
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+
+                            return;
+                        }// discount
+                    }
+                    if(compareOnId == 9)//nominal codes
+                    {
+                        if (selectedNominalCodeId > 0 && stop == false)
+                        {  switch (groupById) //nominalcode
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+
+                            }
+
+                            return;
+                        }//nomcode
+                    }
+                    if(compareOnId ==10)//payments types
+                    {
+                        if (selectedPaymentTypeId > 0 && stop == false)
+                        {   switch (groupById) //paymentype
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+
+                                    //query
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+
+                                    //query
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+
+                            return;
+                        }//paymentType
+                    }
+                    if(compareOnId ==13)//till
+                    {
+                        if (selectedTillid > 0 && stop == false)
+                        { switch (groupById) //till
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+
+                                    //query
+                                    break;
+
+                                case 7:// cat
+
+                                    //query
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+
+                            return;
+                        }//till
+
+                    }
+                    if (compareOnId == 14)//clerks
+                    {
+                        if (selectedClerkId > 0 && stop == false)
+                        { switch (groupById) //clerk
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+
+                                    //query
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+
+                            return;
+                        }// clerk
+                    }
+
+                }
+
 
                 if (selectedDeptId > 0 && stop == false)
                 {
@@ -1096,293 +1413,7 @@ else{
                         {
                             if (selectedItemid > 0 && stop == false)
                             {
-                                if (selectedClerkId > 0 && stop == false)
-                                {
 
-                                    if (selectedDiscountId > 0 && stop == false)
-                                    {
-
-                                        if (selectedNominalCodeId > 0 && stop == false)
-                                        {
-
-                                            if (selectedPaymentTypeId > 0 && stop == false)
-                                            {
-
-                                                if (selectedTillid > 0 && stop == false)
-                                                {
-                                                    switch (groupById) //till
-                                                    {
-                                                        case 1:// date
-
-                                                            break;
-
-                                                        case 2://dayofweek
-                                                               // query
-
-                                                            break;
-
-                                                        case 3://week
-                                                               //query
-
-                                                            break;
-
-                                                        case 4://month
-                                                               //query
-
-                                                            break;
-
-                                                        case 5: //domain
-                                                                //query
-
-                                                            break;
-
-                                                        case 6: //dept
-
-                                                            //query
-                                                            break;
-
-                                                        case 7:// cat
-
-                                                            //query
-                                                            break;
-
-                                                        case 8: //subcat
-                                                                //query
-
-                                                            break;
-
-                                                        case 9: //item
-                                                                //query
-
-                                                            break;
-
-                                                        default:
-                                                            //error message
-
-                                                            break;
-                                                    }
-
-                                                    return;
-                                                }//till
-                                                switch (groupById) //paymentype
-                                                {
-                                                    case 1:// date
-
-                                                        break;
-
-                                                    case 2://dayofweek
-                                                           // query
-
-                                                        break;
-
-                                                    case 3://week
-
-                                                        //query
-                                                        break;
-
-                                                    case 4://month
-                                                           //query
-
-                                                        break;
-
-                                                    case 5: //domain
-                                                            //query
-
-                                                        break;
-
-                                                    case 6: //dept
-                                                            //query
-
-                                                        break;
-
-                                                    case 7:// cat
-                                                           //query
-
-                                                        break;
-
-                                                    case 8: //subcat
-                                                            //query
-
-                                                        break;
-
-                                                    case 9: //item
-
-                                                        //query
-                                                        break;
-
-                                                    default:
-                                                        //error message
-
-                                                        break;
-                                                }
-
-                                                return;
-                                            }//paymentType
-                                            switch (groupById) //nominalcode
-                                            {
-                                                case 1:// date
-
-                                                    break;
-
-                                                case 2://dayofweek
-                                                       // query
-
-                                                    break;
-
-                                                case 3://week
-                                                       //query
-
-                                                    break;
-
-                                                case 4://month
-                                                       //query
-
-                                                    break;
-
-                                                case 5: //domain
-                                                        //query
-
-                                                    break;
-
-                                                case 6: //dept
-                                                        //query
-
-                                                    break;
-
-                                                case 7:// cat
-                                                       //query
-
-                                                    break;
-
-                                                case 8: //subcat
-                                                        //query
-
-                                                    break;
-
-                                                case 9: //item
-                                                        //query
-
-                                                    break;
-
-                                                default:
-                                                    //error message
-
-                                                    break;
-
-                                            }
-
-                                            return;
-                                        }//nomcode
-                                        switch (groupById) //discount
-
-                                        {
-                                            case 1:// date
-
-                                                break;
-
-                                            case 2://dayofweek
-                                                   // query
-
-                                                break;
-
-                                            case 3://week
-                                                   //query
-
-                                                break;
-
-                                            case 4://month
-                                                   //query
-
-                                                break;
-
-                                            case 5: //domain
-                                                    //query
-
-                                                break;
-
-                                            case 6: //dept
-
-                                                //query
-                                                break;
-
-                                            case 7:// cat
-                                                   //query
-
-
-                                                break;
-
-                                            case 8: //subcat
-                                                    //query
-
-                                                break;
-
-                                            case 9: //item
-                                                    //query
-
-                                                break;
-
-                                            default:
-                                                //error message
-
-                                                break;
-                                        }
-
-                                        return;
-                                    }// discount
-                                    switch (groupById) //clerk
-                                    {
-                                        case 1:// date
-
-                                            break;
-
-                                        case 2://dayofweek
-                                               // query
-
-                                            break;
-
-                                        case 3://week
-                                               //query
-
-                                            break;
-
-                                        case 4://month
-
-                                            //query
-                                            break;
-
-                                        case 5: //domain
-                                                //query
-
-                                            break;
-
-                                        case 6: //dept
-                                                //query
-
-                                            break;
-
-                                        case 7:// cat
-                                               //query
-
-                                            break;
-
-                                        case 8: //subcat
-                                                //query
-
-                                            break;
-
-                                        case 9: //item
-                                                //query
-
-                                            break;
-
-                                        default:
-                                            //error message
-
-                                            break;
-                                    }
-
-                                    return;
-                                }// clerk
                                 switch (groupById) //item
                                 {
                                     case 1:// date
@@ -1791,129 +1822,359 @@ else{
                 {
                     if(compareOnId == 5)// discounts
                     {
+                        if (selectedDiscountId > 0 && selectedDiscountId2 > 0)
+                        {
+
+
+                            switch (groupById) //discount
+                            {
+
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+                                    break;
+
+                                case 7:// cat
+
+                                    //query
+                                    break;
+
+                                case 8: //subcat
+
+                                    //query
+                                    break;
+
+                                case 9: //item
+
+                                    //query
+                                    break;
+
+                                default:
+
+                                    //error message
+                                    break;
+                            }
+                            return;
+                        }// discount
 
                     }
                     if(compareOnId == 9)//nominal codes
-                    {
+                    { if (selectedNominalCodeId > 0 && selectedNominalCodeId2>0)
+                        {
+
+
+                            switch (groupById) //nominalcode
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+                                    errorMessage = "select a group by";
+
+                                    break;
+
+                            }
+                            return;
+                        }//nomcode
 
                     }
                     if(compareOnId ==10)//payments types
                     {
-                        
+                        if (selectedPaymentTypeId > 0 && selectedPaymentTypeId2>0 )
+                        {
+
+
+                            switch (groupById) //paymentype
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    errorMessage = "please select a group by";
+                                    break;
+                            }
+                            return;
+                        }//paymentType
                     }
                     if(compareOnId ==13)//till
                     {
                         if (selectedTillid > 0 && selectedTillid2>0)
-                                                {
+                        {
 
-                                                    switch (groupById) //till
-                                                    {
-                                                        case 1:// date
-                                                            var result = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result);
+                            switch (groupById) //till
+                            {
+                                case 1:// date
+                                    var result = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result);
 
-                                                            var resultb = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(resultb);
+                                    var resultb = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(resultb);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
 
-                                                        case 2://dayofweek
-                                                            var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result2);
+                                case 2://dayofweek
+                                    var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result2);
 
-                                                            var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result2b);
+                                    var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result2b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
-                                                        // query
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
+                                // query
 
 
-                                                        case 4://month
-                                                            var result4 = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result4);
+                                case 4://month
+                                    var result4 = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result4);
 
-                                                            var result4b = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result4b);
+                                    var result4b = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result4b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
 
-                                                        case 5: //domain
+                                case 5: //domain
 
-                                                            //query
-                                                            break;
+                                    //query
+                                    break;
 
-                                                        case 6: //dept
-                                                            var result6 = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result6);
+                                case 6: //dept
+                                    var result6 = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result6);
 
-                                                            var result6b = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result6b);
+                                    var result6b = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result6b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
 
-                                                        case 7:// cat
-                                                            var result7 = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result7);
+                                case 7:// cat
+                                    var result7 = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result7);
 
-                                                            var result7b = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result7b);
+                                    var result7b = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result7b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
 
-                                                        case 8: //subcat
-                                                            var result8 = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result8);
+                                case 8: //subcat
+                                    var result8 = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result8);
 
-                                                            var result8b = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result8b);
+                                    var result8b = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result8b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
 
-                                                        case 9: //item
-                                                                //query
-                                                            var result9 = await _getItemDataService.GetAllTransByItemByItemAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result9);
+                                case 9: //item
+                                        //query
+                                    var result9 = await _getItemDataService.GetAllTransByItemByItemAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result9);
 
-                                                            var result9b = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result9b);
+                                    var result9b = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result9b);
 
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
 
-                                                    }
-                                                    return;
-                                                }//till
+                            }
+                            return;
+                        }//till
 
                     }
                     if(compareOnId ==14)//clerks
                     {
+                        if (selectedClerkId > 0 && selectedClerkId2 >0)
+                        {
+
+
+                            switch (groupById) //clerk
+                            {
+
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+
+                                    //query
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+
+                                    //error message
+                                    break;
+                            }
+                            return;
+                        }// clerk
 
                     }
-                   
+
                 }
 
                 if(selectedDeptId>0 && selectedDeptId >0)
@@ -1927,235 +2188,7 @@ else{
                             if (selectedItemid > 0 && selectedItemid2 >0)
                             {
 
-                                if (selectedClerkId > 0 && selectedClerkId2 >0)
-                                {
 
-                                    if (selectedDiscountId > 0 && selectedDiscountId2>0)
-                                    {
-
-                                        if (selectedNominalCodeId > 0 && selectedNominalCodeId2>0)
-                                        {
-
-                                            if (selectedPaymentTypeId > 0 && selectedPaymentTypeId2>0 )
-                                            {
-
-                                                
-                                                switch (groupById) //paymentype
-                                                {
-                                                    case 1:// date
-
-                                                        break;
-
-                                                    case 2://dayofweek
-                                                           // query
-
-                                                        break;
-
-                                                    case 3://week
-                                                           //query
-
-                                                        break;
-
-                                                    case 4://month
-                                                           //query
-
-                                                        break;
-
-                                                    case 5: //domain
-                                                            //query
-
-                                                        break;
-
-                                                    case 6: //dept
-                                                            //query
-
-                                                        break;
-
-                                                    case 7:// cat
-                                                           //query
-
-                                                        break;
-
-                                                    case 8: //subcat
-                                                            //query
-
-                                                        break;
-
-                                                    case 9: //item
-                                                            //query
-
-                                                        break;
-
-                                                    default:
-                                                        //error message
-
-                                                        errorMessage = "please select a group by";
-                                                        break;
-                                                }
-                                                return;
-                                            }//paymentType
-                                            switch (groupById) //nominalcode
-                                            {
-                                                case 1:// date
-
-                                                    break;
-
-                                                case 2://dayofweek
-                                                       // query
-
-                                                    break;
-
-                                                case 3://week
-                                                       //query
-
-                                                    break;
-
-                                                case 4://month
-                                                       //query
-
-                                                    break;
-
-                                                case 5: //domain
-                                                        //query
-
-                                                    break;
-
-                                                case 6: //dept
-                                                        //query
-
-                                                    break;
-
-                                                case 7:// cat
-                                                       //query
-
-                                                    break;
-
-                                                case 8: //subcat
-                                                        //query
-
-                                                    break;
-
-                                                case 9: //item
-                                                        //query
-
-                                                    break;
-
-                                                default:
-                                                    //error message
-                                                    errorMessage = "select a group by";
-
-                                                    break;
-
-                                            }
-                                            return;
-                                        }//nomcode
-                                        switch (groupById) //discount
-                                        {
-
-                                            case 1:// date
-
-                                                break;
-
-                                            case 2://dayofweek
-                                                   // query
-
-                                                break;
-
-                                            case 3://week
-                                                   //query
-
-                                                break;
-
-                                            case 4://month
-                                                   //query
-
-                                                break;
-
-                                            case 5: //domain
-                                                    //query
-
-                                                break;
-
-                                            case 6: //dept
-                                                    //query
-                                                break;
-
-                                            case 7:// cat
-
-                                                //query
-                                                break;
-
-                                            case 8: //subcat
-
-                                                //query
-                                                break;
-
-                                            case 9: //item
-
-                                                //query
-                                                break;
-
-                                            default:
-
-                                                //error message
-                                                break;
-                                        }
-                                        return;
-                                    }// discount
-                                    switch (groupById) //clerk
-                                    {
-
-                                        case 1:// date
-
-                                            break;
-
-                                        case 2://dayofweek
-                                               // query
-
-                                            break;
-
-                                        case 3://week
-                                               //query
-
-                                            break;
-
-                                        case 4://month
-                                               //query
-
-                                            break;
-
-                                        case 5: //domain
-                                                //query
-
-                                            break;
-
-                                        case 6: //dept
-
-                                            //query
-                                            break;
-
-                                        case 7:// cat
-                                               //query
-
-                                            break;
-
-                                        case 8: //subcat
-                                                //query
-
-                                            break;
-
-                                        case 9: //item
-                                                //query
-
-                                            break;
-
-                                        default:
-
-                                            //error message
-                                            break;
-                                    }
-                                    return;
-                                }// clerk
                                 switch (groupById) //item
                                 {
 
@@ -2755,379 +2788,400 @@ else{
             StoreReport();
             if(selectedDomId>0 && selectedDomId2 >0 && selectedDomId3>0)
             {
+                if (compareOnId > 6 && compareOnId <17 || compareOnId == 5)
+                {
+                    if(compareOnId == 5)// discounts
+                    { if(selectedDiscountId>0)
+                        {switch (groupById) //discount
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+                            return;
+                        }// discount
+
+                    }
+                    if(compareOnId == 9)// nominal codes
+                    {
+                        if (selectedNominalCodeId > 0)
+                        {
+
+                            switch (groupById) //nominalcode
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+
+                            }
+                            return;
+                        }//nomcode
+                    }
+                    if(compareOnId == 10)// payments tyes
+                    {
+                        if (selectedPaymentTypeId > 0)
+                        {
+
+                            switch (groupById) //paymentype
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+                            return;
+                        }//paymentType
+                    }
+                    if(compareOnId == 13)// tills
+                    {
+                        if(selectedTillid>0)
+                        {
+                            switch (groupById) //till
+                            {
+                                case 1:// date
+                                    var result = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result);
+
+                                    var resultb = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(resultb);
+
+                                    var resultc = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(resultc);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
+
+                                case 2://dayofweek
+                                    var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result2);
+
+                                    var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result2b);
+
+                                    var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid3, selectedDayOfWeekId);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result2c);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
+                                // query
+
+
+                                case 4://month
+                                    var result4 = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result4);
+
+                                    var result4b = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result4b);
+
+                                    var result4c = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result4c);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
+
+                                case 5: //domain
+
+                                    //query
+                                    break;
+
+                                case 6: //dept
+                                    var result6 = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result6);
+
+                                    var result6b = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result6b);
+
+                                    var result6c = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result6c);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
+
+                                case 7:// cat
+                                    var result7 = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result7);
+
+                                    var result7b = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result7b);
+
+                                    var result7c = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result7c);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
+
+                                case 8: //subcat
+                                    var result8 = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result8);
+
+                                    var result8b = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result8b);
+
+                                    var result8c = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result8c);
+
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    //query
+                                    break;
+
+                                case 9: //item
+                                        //query
+                                    var result9 = await _getItemDataService.GetAllTransByItemByItemAsync(selectedStartDate, selectedEndDate, selectedTillid);
+                                    _MyStateContainer.OnStateChange += StateHasChanged;
+                                    _MyStateContainer.SetValue(result9);
+
+                                    var result9b = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid2);
+                                    _MyStateContainer2.OnStateChange += StateHasChanged;
+                                    _MyStateContainer2.SetValue(result9b);
+
+                                    var result9c = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid3);
+                                    _MyStateContainer3.OnStateChange += StateHasChanged;
+                                    _MyStateContainer3.SetValue(result9c);
+
+
+                                    navigationManager.NavigateTo("/Views/ChartPop");
+                                    break;
+
+                            }
+                            return;
+                        }//till
+                    }
+                    if (compareOnId == 14)// clerks
+                    {
+                        if(selectedClerkId>0)
+                        { 
+                            switch (groupById) //clerk
+                            {
+                                case 1:// date
+
+                                    break;
+
+                                case 2://dayofweek
+                                       // query
+
+                                    break;
+
+                                case 3://week
+                                       //query
+
+                                    break;
+
+                                case 4://month
+                                       //query
+
+                                    break;
+
+                                case 5: //domain
+                                        //query
+
+                                    break;
+
+                                case 6: //dept
+                                        //query
+
+                                    break;
+
+                                case 7:// cat
+                                       //query
+
+                                    break;
+
+                                case 8: //subcat
+                                        //query
+
+                                    break;
+
+                                case 9: //item
+                                        //query
+
+                                    break;
+
+                                default:
+                                    //error message
+
+                                    break;
+                            }
+                            return;
+                        }// clerk
+                    }
+                }
+
                 if(selectedDeptId>0 && selectedDeptId2 >0 && selectedDeptId3 >0)
                 {
                     if(selectedCatId>0 && selectedCatId2 >0 && selectedCatId3 >0)
                     {
                         if(selectedSubCatId>0 && selectedCatId2 >0 && selectedCatId3 >0)
                         {
-                            if(selectedItemid>0)
-                            {
-                                if(selectedClerkId>0)
-                                {
-                                    if(selectedDiscountId>0)
-                                    {
-                                        if(selectedNominalCodeId>0)
-                                        {
-                                            if(selectedPaymentTypeId>0){
-                                                if(selectedTillid>0)
-                                                {
-                                                    switch (groupById) //till
-                                                    {
-                                                        case 1:// date
-                                                            var result = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result);
-
-                                                            var resultb = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(resultb);
-
-                                                            var resultc = await _getItemDataService.GetAllTransByItemAndDateAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(resultc);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
-
-                                                        case 2://dayofweek
-                                                            var result2 = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid, selectedDayOfWeekId);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result2);
-
-                                                            var result2b = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid2, selectedDayOfWeekId);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result2b);
-
-                                                            var result2c = await _getItemDataService.GetAllTransByItemByDayAsync(selectedStartDate, selectedEndDate, selectedTillid3, selectedDayOfWeekId);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result2c);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
-                                                        // query
-
-
-                                                        case 4://month
-                                                            var result4 = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result4);
-
-                                                            var result4b = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result4b);
-
-                                                            var result4c = await _getItemDataService.GetAllTransByItemByMonthAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result4c);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
-
-                                                        case 5: //domain
-
-                                                            //query
-                                                            break;
-
-                                                        case 6: //dept
-                                                            var result6 = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result6);
-
-                                                            var result6b = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result6b);
-
-                                                            var result6c = await _getItemDataService.GetAllTransByItemByDeptAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result6c);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
-
-                                                        case 7:// cat
-                                                            var result7 = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result7);
-
-                                                            var result7b = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result7b);
-
-                                                            var result7c = await _getItemDataService.GetAllTransByItemByCatAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result7c);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
-
-                                                        case 8: //subcat
-                                                            var result8 = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result8);
-
-                                                            var result8b = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result8b);
-
-                                                            var result8c = await _getItemDataService.GetAllTransByItemBySubCatAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result8c);
-
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            //query
-                                                            break;
-
-                                                        case 9: //item
-                                                                //query
-                                                            var result9 = await _getItemDataService.GetAllTransByItemByItemAsync(selectedStartDate, selectedEndDate, selectedTillid);
-                                                            _MyStateContainer.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer.SetValue(result9);
-
-                                                            var result9b = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid2);
-                                                            _MyStateContainer2.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer2.SetValue(result9b);
-
-                                                            var result9c = await _getTillDataService.GetAllTransByTillByItemAsync(selectedStartDate, selectedEndDate, selectedTillid3);
-                                                            _MyStateContainer3.OnStateChange += StateHasChanged;
-                                                            _MyStateContainer3.SetValue(result9c);
-
-
-                                                            navigationManager.NavigateTo("/Views/ChartPop");
-                                                            break;
-
-                                                    }
-                                                    return;
-                                                }//till
-                                                switch (groupById) //paymentype
-                                                {
-                                                    case 1:// date
-                                                    
-                                                        break;
-
-                                                    case 2://dayofweek
-                                                           // query
-                                                           
-                                                        break;
-
-                                                    case 3://week
-                                                           //query
-                                                           
-                                                        break;
-
-                                                    case 4://month
-                                                           //query
-                                                           
-                                                        break;
-
-                                                    case 5: //domain
-                                                            //query
-                                                            
-                                                        break;
-
-                                                    case 6: //dept
-                                                            //query
-                                                            
-                                                        break;
-
-                                                    case 7:// cat
-                                                           //query
-                                                           
-                                                        break;
-
-                                                    case 8: //subcat
-                                                            //query
-                                                            
-                                                        break;
-
-                                                    case 9: //item
-                                                            //query
-                                                            
-                                                        break;
-
-                                                    default:
-                                                        //error message
-                                                        
-                                                        break;
-                                                }
-                                                return;
-                                            }//paymentType
-                                            switch(groupById) //nominalcode
-                                            {
-                                                case 1:// date
-                                                
-                                                    break;
-
-                                                case 2://dayofweek
-                                                       // query
-                                                       
-                                                    break;
-
-                                                case 3://week
-                                                       //query
-                                                       
-                                                    break;
-
-                                                case 4://month
-                                                       //query
-                                                       
-                                                    break;
-
-                                                case 5: //domain
-                                                        //query
-                                                        
-                                                    break;
-
-                                                case 6: //dept
-                                                        //query
-                                                        
-                                                    break;
-
-                                                case 7:// cat
-                                                       //query
-                                                       
-                                                    break;
-
-                                                case 8: //subcat
-                                                        //query
-                                                        
-                                                    break;
-
-                                                case 9: //item
-                                                        //query
-                                                        
-                                                    break;
-
-                                                default:
-                                                    //error message
-                                                    
-                                                    break;
-
-                                            }
-                                            return;
-                                        }//nomcode
-                                        switch (groupById) //discount
-                                        {
-                                            case 1:// date
-                                            
-                                                break;
-
-                                            case 2://dayofweek
-                                                   // query
-                                                   
-
-                                                break;
-
-                                            case 3://week
-                                                   //query
-                                                
-                                                   break;
-
-                                            case 4://month
-                                                   //query
-                                                   
-                                                break;
-
-                                            case 5: //domain
-                                                    //query
-                                                    
-                                                break;
-
-                                            case 6: //dept
-                                                    //query
-                                                    
-                                                break;
-
-                                            case 7:// cat
-                                                   //query
-                                                   
-                                                break;
-
-                                            case 8: //subcat
-                                                    //query
-                                                    
-                                                break;
-
-                                            case 9: //item
-                                                    //query
-                                                    
-                                                break;
-
-                                            default:
-                                                //error message
-                                                
-                                                break;
-                                        }
-                                        return;
-                                    }// discount
-                                    switch (groupById) //clerk
-                                    {
-                                        case 1:// date
-                                        
-                                            break;
-
-                                        case 2://dayofweek
-                                               // query
-                                               
-                                            break;
-
-                                        case 3://week
-                                               //query
-                                               
-                                            break;
-
-                                        case 4://month
-                                               //query
-                                               
-                                            break;
-
-                                        case 5: //domain
-                                                //query
-                                                
-                                            break;
-
-                                        case 6: //dept
-                                                //query
-                                                
-                                            break;
-
-                                        case 7:// cat
-                                               //query
-                                               
-                                            break;
-
-                                        case 8: //subcat
-                                                //query
-                                                
-                                            break;
-
-                                        case 9: //item
-                                                //query
-                                                
-                                            break;
-
-                                        default:
-                                            //error message
-                                            
-                                            break;
-                                    }
-                                    return;
-                                }// clerk
+                            if(selectedItemid>0 && selectedItemid2 > 0 && selectedItemid3 >0)
+                            {        
                                 switch (groupById) //item
                                 {
                                     case 1:// date
@@ -3143,7 +3197,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(resultc);
 
-                                        
+
 
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         break;
@@ -3161,7 +3215,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result2c);
 
-                                        
+
 
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         break;
@@ -3181,7 +3235,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result4c);
 
-                                        
+
 
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         //query
@@ -3190,7 +3244,7 @@ else{
                                     case 5: //domain
 
                                         //query
-                                        
+
                                         break;
 
                                     case 6: //dept
@@ -3207,7 +3261,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result6c);
 
-                                        
+
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         //query
                                         break;
@@ -3225,7 +3279,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result7c);
 
-                                        
+
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         //query
                                         break;
@@ -3243,7 +3297,7 @@ else{
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result8c);
 
-                                        
+
 
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         //query
@@ -3262,13 +3316,13 @@ else{
                                         var result9c = await _getItemDataService.GetAllTransByItemByItemAsync(selectedStartDate, selectedEndDate, selectedItemid3);
                                         _MyStateContainer3.OnStateChange += StateHasChanged;
                                         _MyStateContainer3.SetValue(result9c);
-                                        
+
                                         navigationManager.NavigateTo("/Views/ChartPop");
                                         break;
 
                                     default:
                                         //error message
-                                        
+
                                         break;
                                 }
                                 return;
@@ -3287,7 +3341,7 @@ else{
                                     var resultc = await _getSubCatDataService.GetAllTransBySubCatAndDateAsync(selectedStartDate, selectedEndDate, selectedSubCatId3);
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(resultc);
-                                    
+
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     break;
 
@@ -3303,7 +3357,7 @@ else{
                                     var result2c = await _getSubCatDataService.GetAllTransBySubCatByDayAsync(selectedStartDate, selectedEndDate, selectedSubCatId3, selectedDayOfWeekId);
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result2c);
-                                    
+
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     break;
                                 // query
@@ -3321,7 +3375,7 @@ else{
                                     var result4c = await _getSubCatDataService.GetAllTransBySubCatByMonthAsync(selectedStartDate, selectedEndDate, selectedSubCatId3);
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result4c);
-                                    
+
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     //query
                                     break;
@@ -3329,7 +3383,7 @@ else{
                                 case 5: //domain
 
                                     //query
-                                    
+
                                     break;
 
                                 case 6: //dept
@@ -3345,7 +3399,7 @@ else{
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result6c);
 
-                                    
+
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     //query
                                     break;
@@ -3363,7 +3417,7 @@ else{
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result7c);
 
-                                    
+
 
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     //query
@@ -3383,7 +3437,7 @@ else{
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result8c);
 
-                                    
+
 
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     //query
@@ -3403,14 +3457,14 @@ else{
                                     _MyStateContainer3.OnStateChange += StateHasChanged;
                                     _MyStateContainer3.SetValue(result9c);
 
-                                    
+
 
                                     navigationManager.NavigateTo("/Views/ChartPop");
                                     break;
 
                                 default:
                                     //error message
-                                    
+
                                     break;
                             }
                             return;
@@ -3430,7 +3484,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(resultc);
 
-                                
+
 
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 break;
@@ -3448,7 +3502,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result2c);
 
-                                
+
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 break;
                             // query
@@ -3467,7 +3521,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result4c);
 
-                                
+
 
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 //query
@@ -3476,7 +3530,7 @@ else{
                             case 5: //domain
 
                                 //query
-                                
+
                                 break;
 
                             case 6: //dept
@@ -3492,7 +3546,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result6c);
 
-                                
+
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 //query
                                 break;
@@ -3510,7 +3564,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result7b);
 
-                                
+
 
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 //query
@@ -3529,7 +3583,7 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result8c);
 
-                                
+
 
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 //query
@@ -3549,13 +3603,13 @@ else{
                                 _MyStateContainer3.OnStateChange += StateHasChanged;
                                 _MyStateContainer3.SetValue(result9c);
 
-                                
+
                                 navigationManager.NavigateTo("/Views/ChartPop");
                                 break;
 
                             default:
                                 //error message
-                                
+
                                 break;
                         }
                         return;
@@ -3576,7 +3630,7 @@ else{
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(resultc);
 
-                            
+
 
                             navigationManager.NavigateTo("/Views/ChartPop");
                             break;
@@ -3596,7 +3650,7 @@ else{
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result2c);
 
-                            
+
 
                             navigationManager.NavigateTo("/Views/ChartPop");
                             // query
@@ -3615,7 +3669,7 @@ else{
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result4c);
 
-                            
+
                             navigationManager.NavigateTo("/Views/ChartPop");
                             //query
                             break;
@@ -3623,7 +3677,7 @@ else{
                         case 5: //domain
 
                             //query
-                            
+
                             break;
 
                         case 6: //dept
@@ -3639,7 +3693,7 @@ else{
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result6c);
 
-                            
+
                             navigationManager.NavigateTo("/Views/ChartPop");
                             //query
                             break;
@@ -3657,7 +3711,7 @@ else{
                             var result7c = await _getDeptDataService.GetAllTransByDeptByCatAsync(selectedStartDate, selectedEndDate, selectedDeptId3);
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result7c);
-                            
+
                             navigationManager.NavigateTo("/Views/ChartPop");
                             break;
 
@@ -3674,7 +3728,7 @@ else{
                             var result8c = await _getDeptDataService.GetAllTransByDeptBySubCatAsync(selectedStartDate, selectedEndDate, selectedDeptId3);
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result8c);
-                            
+
                             navigationManager.NavigateTo("/Views/ChartPop");
                             break;
 
@@ -3691,13 +3745,13 @@ else{
                             var result9c = await _getDeptDataService.GetAllTransByDeptByItemAsync(selectedStartDate, selectedEndDate, selectedDeptId3);
                             _MyStateContainer3.OnStateChange += StateHasChanged;
                             _MyStateContainer3.SetValue(result9c);
-                            
+
                             navigationManager.NavigateTo("/Views/ChartPop");
                             break;
 
                         default:
                             //error message
-                            
+
                             break;
                     }
                     return;
@@ -3721,9 +3775,9 @@ else{
                         var resultc = await _getDomainDataService.GetAllTransByDomainAndDateAsync(selectedStartDate, selectedEndDate, selectedDomId3);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(resultc);
-                        
+
                         navigationManager.NavigateTo("/Views/ChartPop");
-                        
+
                         break;
 
                     case 2://dayofweek
@@ -3739,7 +3793,7 @@ else{
                         var result2c = await _getDomainDataService.GetAllTransByDomainByDayAsync(selectedStartDate, selectedEndDate, selectedDomId3, selectedDayOfWeekId);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result2c);
-                        
+
 
                         navigationManager.NavigateTo("/Views/ChartPop");
                         break;
@@ -3758,7 +3812,7 @@ else{
                         var result4c = await _getDomainDataService.GetAllTransByDomainByMonthAsync(selectedStartDate, selectedEndDate, selectedDomId3);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result4c);
-                        
+
 
                         navigationManager.NavigateTo("/Views/ChartPop");
                         //query
@@ -3767,7 +3821,7 @@ else{
                     case 5: //domain
 
                         //query
-                        
+
                         break;
 
                     case 6: //dept
@@ -3783,7 +3837,7 @@ else{
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result6c);
 
-                        
+
                         navigationManager.NavigateTo("/Views/ChartPop");
                         //query
                         break;
@@ -3800,7 +3854,7 @@ else{
                         var result7c = await _getDomainDataService.GetAllTransByDomainByCatAsync(selectedStartDate, selectedEndDate, selectedDomId3);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result7c);
-                        
+
                         navigationManager.NavigateTo("/Views/ChartPop");
                         //query
                         break;
@@ -3817,7 +3871,7 @@ else{
                         var result8c = await _getDomainDataService.GetAllTransByDomainBySubCatAsync(selectedStartDate, selectedEndDate, selectedDomId3);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result8c);
-                        
+
                         navigationManager.NavigateTo("/Views/ChartPop");
                         //query
                         break;
@@ -3835,13 +3889,13 @@ else{
                         var result9c = await _getDomainDataService.GetAllTransByDomainByItemAsync(selectedStartDate, selectedEndDate, selectedDomId3);
                         _MyStateContainer3.OnStateChange += StateHasChanged;
                         _MyStateContainer3.SetValue(result9c);
-                        
+
                         navigationManager.NavigateTo("/Views/ChartPop");
                         break;
 
                     default:
                         //error message
-                        
+
                         break;
 
                 }//end of switch
@@ -3856,7 +3910,7 @@ else{
 
 
         }// end of numtocompare == 3
-       
+
 
     }  // end of on Submit
 
@@ -3866,7 +3920,11 @@ else{
         await Task.Delay(2000);
         busy = true;
     }
-
+    async Task  OnFavourite()
+    {
+        favourite = true;
+        
+    }
     async Task StoreReport()
     {
 
@@ -3875,7 +3933,7 @@ else{
             _storedReport1.CompareOnId = compareOnId;
             _storedReport1.DomainId = selectedDomId;
             //change to get userId 
-            _storedReport1.UserId = 1; 
+            _storedReport1.UserId = userId; 
             if(numberToCompare >= 1)
             {
                 if (selectedCatId > 0)
@@ -3999,19 +4057,31 @@ else{
         }
         // if report on system
         bool reportExist = await _storeReportService.CheckDatabaseForReport(_storedReport1); 
-        
-        
+
+
         // if exists edit count
         if(reportExist)
         {
             int reportIdDb = await _storeReportService.CheckDatabaseForReportId(_storedReport1);
-           _storeReportService.UpdateReportCount(reportIdDb);
+            _storeReportService.UpdateReportCount(reportIdDb);
+            if(favourite==true)
+            {
+                //add favourite to the database
+                
+            _storeReportService.AddMyFavourites(reportIdDb, reportName, userId);
+            await _StagingDbcontext.SaveChangesAsync();
+            }
         } else 
         {
             // if does not exist add to db
             _StagingDbcontext.RunReports.Add(_storedReport1);
             await _StagingDbcontext.SaveChangesAsync();
             _storeReportService.PutReportIntoDatabse(_storedReport1);
+              await _StagingDbcontext.SaveChangesAsync();
+            //add to favourite
+            int reportIdDb = await _storeReportService.CheckDatabaseForReportId(_storedReport1);
+            _storeReportService.AddMyFavourites(reportIdDb, reportName, userId);
+            await _StagingDbcontext.SaveChangesAsync();
         }
 
      

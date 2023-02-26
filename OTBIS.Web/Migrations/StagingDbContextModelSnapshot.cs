@@ -779,6 +779,151 @@ namespace OTBIS.Web.Migrations
                     b.ToTable("ReportCounters");
                 });
 
+            modelBuilder.Entity("OTBIS.Web.Models.ReportDetails", b =>
+                {
+                    b.Property<int>("ReportDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportDetailsId"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClerkName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClerkName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClerkName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompareOnName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiscountName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiscountName2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiscountName3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Domain2Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Domain3Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DomainName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate2")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate3")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ItemTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemTypeName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemTypeName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NominalCodeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NominalCodeName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NominalCodeName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberToCompare")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentTypeName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentTypeName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReportCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RunReportsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SellingPriceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate2")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate3")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubCategoryName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubCategoryName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubCategoryNameId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TillName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TillName2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TillName3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReportDetailsId");
+
+                    b.ToTable("ReportDetails");
+                });
+
             modelBuilder.Entity("OTBIS.Web.Models.ReportFavorite", b =>
                 {
                     b.Property<int>("ReportFavoriteId")
@@ -905,13 +1050,13 @@ namespace OTBIS.Web.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("discountId")
+                    b.Property<int?>("discountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("discountId2")
+                    b.Property<int?>("discountId2")
                         .HasColumnType("int");
 
-                    b.Property<int>("discountId3")
+                    b.Property<int?>("discountId3")
                         .HasColumnType("int");
 
                     b.Property<int?>("nominalCodeId")

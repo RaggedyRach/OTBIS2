@@ -1,4 +1,7 @@
-﻿namespace OTBIS.Web.Models
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+
+namespace OTBIS.Web.Models
 {
     public class ReportCounter
     {
