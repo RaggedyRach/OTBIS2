@@ -12,7 +12,7 @@ namespace OTBIS.Web.Models
 
         public int ReportCount { get; set; }
 
-        public string UserName { get; set; } = "Rachael";
+        public string UserName { get; set; }
         public int NumberToCompare { get; set; }
 
         public string CompareOnName { get; set; }

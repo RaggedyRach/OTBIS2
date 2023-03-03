@@ -1,13 +1,15 @@
 ﻿@*@page "/Views/ChartPop/{Id:int?}"*@
 @page "/Views/ReportPop"
+@using OTBIS.Web.Services
+
+@inject StoreReportService _storeReportService;
 @inject MyStateContainer MyStateContainer
 @inject MyStateContainer2 MyStateContainer2
 @inject MyStateContainer3 MyStateContainer3
 @inject GetProductionService _getProductionService;
 @inject GetDomainDataService _getReportDataService;
 @inject GetChartDataService _getChartDataService;
-
-
+@inject NavigationManager navigationManager;
 
 
 
@@ -19,10 +21,13 @@
 
 @if (dataListTBD != null && dataListTBD2 == null && dataListTBD3 == null)
 {
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
+<RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
+
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
-<RadzenDataGrid Data="@dataListTBD" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
+<RadzenDataGrid @ref="gridByDate" Data="@dataListTBD" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
-                AllowSorting="true"ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+                AllowSorting="true"ColumnWidth="150px" AllowColumnResize="true" AllowPaging="true" PageSize="20" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
     <Columns>
         <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
       
@@ -38,7 +43,11 @@
 </RadzenDataGrid>
 }
 @if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
+
 {
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
+<RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
+
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
     <RadzenDataGrid Data="@mergedListTBD2" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
@@ -59,6 +68,8 @@
 }
 @if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
 {
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
     <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
     <RadzenDataGrid Data="@mergedListTBD3" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
@@ -462,6 +473,15 @@
     List<TransBySubCat>? mergedListTBSubCat3;
     List<TransByItem>? mergedListTBItem3;
 
+    string name = "";
+
+    RadzenDataGrid<TransByDate> gridByDate;
+     RadzenDataGrid<TransByMonth> gridByMonth;
+      RadzenDataGrid<TransByDept> gridByDept;
+       RadzenDataGrid<TransByCat> gridByCat;
+       RadzenDataGrid<TransBySubCat> gridBySubCat;
+       RadzenDataGrid<TransByItem> gridByItem;
+
     bool idVisable = false;
 
     protected override void OnInitialized()
@@ -682,7 +702,18 @@
         }
 
     }
-    
+    public void ExportByDate(string name, string type)
+    {
+       
+        _storeReportService.ExportByDate(name, type, new Query() 
+            { 
+                OrderBy = gridByDate.Query.OrderBy, 
+                Filter = gridByDate.Query.Filter, 
+                Select = string.Join(",", gridByDate.ColumnsCollection.Where(c => c.GetVisible())
+                        .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property))
+            });
+        
+    }
 
     void PickedColumnsChanged(DataGridPickedColumnsChangedEventArgs<TransByDate> args)
     {

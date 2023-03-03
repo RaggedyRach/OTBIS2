@@ -14,9 +14,9 @@
    <ErrorBoundary>
     <ChildContent>
             
-            <RadzenDataGrid Data="@myReportsList" TItem="ReportDetails" AllowVirtualization="true" Style="height:400px"
+            <RadzenDataGrid Data="@myReportsList" TItem="ReportDetails" AllowVirtualization="true" Style="height:400px" AllowColumnResize="true"
                             AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
-                            AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
+                            AllowSorting="true" ColumnWidth="200px" AllowColumnPicking="true">
                 <Columns>
                     <RadzenDataGridColumn TItem="ReportDetails" Property="ReportCount" Title="Count" SortOrder="SortOrder.Descending" />
                     <RadzenDataGridColumn TItem="ReportDetails" Property="Username" Title="User" />

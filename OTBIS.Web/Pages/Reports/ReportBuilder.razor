@@ -948,17 +948,18 @@ else{
         // getting earliest date in transaction data
         dateRangeStart = await _populateDropdownService.getDateStart();
         dateRangeStart = dateRangeStart.AddDays(-1);
-        DateTime today = DateTime.Now;
+        DateTime today = DateTime.Now.Date;
         //TimeSpan daysMinus = today - dateRangeStart;
         // dates = new DateTime[] { DateTime.Today.AddDays(-daysMinus.Days), DateTime.Today.AddDays(1) };
         //spinner = true;
 
-        selectedStartDate = today;
-        selectedEndDate = today;
-        selectedStartDate2 = today;
-        selectedEndDate2 = today;
-        selectedStartDate3 = today;
-        selectedEndDate3 = today;
+        
+        selectedStartDate = today.AddDays(-1);
+        selectedEndDate = today.AddDays(1).AddSeconds(-1);
+        selectedStartDate2 = today.AddDays(-1);
+        selectedEndDate2 = today.AddDays(1).AddSeconds(-1);
+        selectedStartDate3 = today.AddDays(-1);
+        selectedEndDate3 = today.AddDays(1).AddSeconds(-1);
     }
 
     protected async Task OnChangeDomain()
@@ -3923,7 +3924,7 @@ else{
     async Task  OnFavourite()
     {
         favourite = true;
-        
+
     }
     async Task StoreReport()
     {
@@ -3932,6 +3933,8 @@ else{
             _storedReport1.NumberToCompare = numberToCompare;
             _storedReport1.CompareOnId = compareOnId;
             _storedReport1.DomainId = selectedDomId;
+            _storedReport1.StartDate = selectedStartDate;
+            _storedReport1.EndDate = selectedEndDate;
             //change to get userId 
             _storedReport1.UserId = userId; 
             if(numberToCompare >= 1)
@@ -3976,6 +3979,18 @@ else{
             }
             if(numberToCompare >=2)
             {
+                if(selectedDomId2 >0)
+                {
+                    _storedReport1.DomainId2 = selectedDomId2;
+                }
+                if(selectedStartDate2 != DateTime.Today.Date.AddDays(-1))
+                {
+                    _storedReport1.StartDate2 = selectedStartDate2;
+                }
+                if(selectedEndDate2 != DateTime.Today.Date.AddDays(1).AddSeconds(-1))
+                {
+                    _storedReport1.EndDate2 = selectedEndDate2;
+                }
                 if (selectedCatId2 > 0)
                 {
                     _storedReport1.CategoryId2 = selectedCatId2;
@@ -4016,6 +4031,15 @@ else{
             }
             if(numberToCompare >= 3)
             {
+                if(selectedStartDate3 != DateTime.Today.Date.AddDays(-1))
+                {
+                    _storedReport1.StartDate3 = selectedStartDate3; 
+                }
+                if(selectedEndDate3 != DateTime.Today.Date.AddDays(1).AddSeconds(-1))
+                {
+                    _storedReport1.EndDate3 = selectedEndDate3;
+                }
+                
                 if (selectedCatId3 > 0)
                 {
                     _storedReport1.CategoryId3 = selectedCatId3;
