@@ -13,6 +13,20 @@ namespace OTBIS.Web.Pages
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
+#line 1 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_ViewImports.cshtml"
+using OTBIS.Web.Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_Layout.cshtml"
 using Microsoft.AspNetCore.Components.Web;
 
@@ -57,9 +71,9 @@ using Microsoft.AspNetCore.Components.Web;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
             WriteLiteral("\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf4459", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf4876", async() => {
                 WriteLiteral("\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("base", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf4863", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("base", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf5280", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -78,7 +92,7 @@ using Microsoft.AspNetCore.Components.Web;
     <link href=""OTBIS.Web.styles.css"" rel=""stylesheet"" />
     <link rel=""stylesheet"" href=""_content/Radzen.Blazor/css/material-base.css"">
     ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("component", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf6254", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("component", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf6671", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_ComponentTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper>();
@@ -119,7 +133,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ComponentTagHelper.RenderMode = global::Mi
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf9005", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf9422", async() => {
                 WriteLiteral("\r\n    ");
 #nullable restore
 #line (18,6)-(18,18) 6 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_Layout.cshtml"
@@ -129,7 +143,7 @@ Write(RenderBody());
 #line hidden
 #nullable disable
                 WriteLiteral("\r\n\r\n    <div id=\"blazor-error-ui\">\r\n        ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf9583", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf10000", async() => {
                     WriteLiteral("\r\n            An error has occurred. This application may no longer respond until reloaded.\r\n        ");
                 }
                 );
@@ -145,7 +159,7 @@ Write(RenderBody());
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n        ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf10964", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7948be52f42bee494b4c1e6453fe5be228a82388a8533329077e24ab0a53d7bf11382", async() => {
                     WriteLiteral("\r\n            An unhandled exception has occurred. See browser dev tools for details.\r\n        ");
                 }
                 );

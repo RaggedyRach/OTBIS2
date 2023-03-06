@@ -1,0 +1,232 @@
+﻿@using OTBIS.Web.Areas.Identity;
+@using OTBIS.Web.Data;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+
+
+
+@inject UserManager<OTBIS.Web.Data.ApplicationUser> _UserManager
+@inject RoleManager<IdentityRole> _RoleManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject DialogService dialogService
+@inject UserService userService
+@inject NavigationManager navigationManager
+
+<div class="row">
+    <div class="col-lg-12 d-flex">
+        <RadzenCard Style="width: 100%; overflow: hidden; border: var(--rz-grid-cell-border)" Class="rz-shadow-0">
+
+            <div class="row">
+                <div class="col-lg-6 d-flex">
+                    <div class="col">
+                        <span style="color:red">@strError</span>
+                        <RadzenText TextStyle="TextStyle.Subtitle1">First Name </RadzenText>
+                        <RadzenTextBox @bind-Value="user.firstName" Style="width: 150px" />
+
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">UserName </RadzenText>
+                        <RadzenTextBox @bind-Value="user.UserName" Style="width: 250px" />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Password </RadzenText>
+                        <RadzenTextBox @bind-Value="user.PasswordHash" Style="width: 250px" />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Department </RadzenText>
+
+
+                        <RadzenDropDown AllowClear="true" TValue="string" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100" Data=@Departments @bind-Value="user.department"
+                                        Placeholder="Select Department..." />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Job Title </RadzenText>
+                        <RadzenTextBox @bind-Value="user.jobTitle" Style="width: 250px" />
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex">
+                    <div class="col">
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Last Name </RadzenText>
+                        <RadzenTextBox @bind-Value="user.lastName" Style="width: 175px" />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Email </RadzenText>
+                        <RadzenTextBox @bind-Value="user.Email" Style="width: 250px" />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">Mobile Number </RadzenText>
+                        <RadzenTextBox @bind-Value="user.mobilePhone" Style="width: 250px" />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">User Role </RadzenText>
+                        <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowFiltering="true" Class="w-100" Data=@userRolesName @bind-Value=UpdatedUserRole
+                                        Placeholder="Select Role..." />
+
+                        <RadzenText TextStyle="TextStyle.Subtitle1">User Active? </RadzenText>
+                        <RadzenCheckBox @bind-Value=@user.status Name="CheckBox1" />
+                    </div>
+                </div>
+            </div>
+        </RadzenCard>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-end">
+
+        <RadzenButton Click="@((args) => dialogService.Close(false))" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Light" Text="Cancel" Style="width: 120px" Class="me-1" />
+        <RadzenButton Click="@((args) => SaveUser())" Variant="Variant.Flat" Text="Add User" Style="width: 120px" />
+    </div>
+</div>
+
+@code {
+    ApplicationUser user = new ApplicationUser();
+    string strError = "";
+    string ADMINISTRATION_ROLE = "Administrators";
+    string CurrentUserRole;
+    IList<string> CurrentUserRoles;
+    string UpdatedUserRole;
+    List<IdentityRole> userRoles = new List<IdentityRole>();
+    List<string> userRolesName = new List<string>();
+    List<string> Departments = new List<string>();
+    bool ShowPopup = false;
+    IdentityRole CurrentUserRoleModel = new IdentityRole();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //Get all User Roles
+        userRoles = await userService.GetAllUserRoles();
+
+        //Populate the DDL list
+        foreach (var i in userRoles)
+        {
+            userRolesName.Add(i.Name);
+        }
+
+
+        Departments.Add("Executive");
+        Departments.Add("Corporate");
+        Departments.Add("Car Park");
+        Departments.Add("Food and Bev");
+        Departments.Add("Operations");
+
+    }
+
+    async Task SaveUser()
+    {
+        try
+        {
+            // Is this an existing user?
+
+            // Get the user
+
+
+            //Validation Checks to ensure that all fields are have value
+            if (user.UserName == "" || user.UserName == null)
+            {
+                strError = "Enter Username";
+                return;
+
+            }
+
+            if (user.Email == "" || user.Email == null)
+            {
+                strError = "Enter Email";
+                return;
+            }
+            if (user.firstName == "" || user.firstName == null)
+            {
+                strError = "Enter FirstName";
+                return;
+            }
+            if (user.lastName == "" || user.lastName == null)
+            {
+                strError = "Enter LastName";
+                return;
+            }
+            if (user.department == "" || user.department == null)
+            {
+                strError = "Enter department";
+                return;
+            }
+            if (user.mobilePhone == "" || user.mobilePhone == null)
+            {
+                strError = "Enter MobilePhone";
+                return;
+            }
+            if (user.jobTitle == "" || user.jobTitle == null)
+            {
+                strError = "Enter Job Title";
+                return;
+            }
+
+
+
+            if (UpdatedUserRole == "" || UpdatedUserRole == null)
+            {
+                strError = "Enter User Role";
+                return;
+            }
+
+
+            //Update the details
+
+            //Check to make sure no one has the same email address
+            var checkemail = await _UserManager.FindByEmailAsync(user.Email);
+
+            if (checkemail != null)
+            {
+                //Someone has same email, so throw exception
+                {
+                    strError = "Email already in use";
+                }
+                // Keep the popup opened
+                return;
+            }
+
+
+
+
+
+            var CreateResult =
+                await _UserManager
+                .CreateAsync(user, user.PasswordHash);
+            if (!CreateResult.Succeeded)
+            {
+                if (CreateResult
+                    .Errors
+                    .FirstOrDefault() != null)
+                {
+                    strError =
+                        CreateResult
+                        .Errors
+                        .FirstOrDefault()
+                        .Description;
+                }
+                else
+                {
+                    strError = "Error";
+                    // Keep the popup opened
+                    return;
+                }
+
+
+            }
+            else
+            {
+                //add the user roles
+                //var updatedUserRole = await _RoleManager.FindByIdAsync(UpdatedUserRole);
+                await _UserManager.AddToRoleAsync(user, UpdatedUserRole);
+
+            }
+
+
+
+            //Close the dialog window
+            dialogService.Close(false);
+
+            //Redirect to the admin home page
+            navigationManager.NavigateTo("/administration", true);
+
+        }
+        catch (Exception ex)
+        {
+            strError = ex.GetBaseException().Message;
+        }
+    }
+}

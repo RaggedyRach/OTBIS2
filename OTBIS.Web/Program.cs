@@ -33,11 +33,13 @@ builder.Services.AddDbContext<StagingDbcontext>(options =>
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<OTBIS.Web.Data.ApplicationUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<OTBIS.Web.Data.ApplicationUser>>();
 
 
 builder.Services.AddScoped<DialogService>();
@@ -55,6 +57,7 @@ builder.Services.AddScoped<GetTillDataService>();
 builder.Services.AddScoped<ComparedOnService>();
 builder.Services.AddScoped<PopulateDropdownService>();
 builder.Services.AddScoped<StoreReportService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddSingleton<MyStateContainer>();
 builder.Services.AddSingleton<MyStateContainer2>();

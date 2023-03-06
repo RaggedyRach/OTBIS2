@@ -17,7 +17,7 @@ using Microsoft.Data.SqlClient.Server;
 using Radzen;
 using OTBIS.Web.Models.ChartArrays;
 using System.Diagnostics;
-using Humanizer;
+//using Humanizer;
 
 
 namespace OTBIS.Web.Services

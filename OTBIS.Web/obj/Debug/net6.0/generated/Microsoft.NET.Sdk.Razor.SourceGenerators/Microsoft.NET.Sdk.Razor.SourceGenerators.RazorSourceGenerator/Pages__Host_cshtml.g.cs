@@ -12,6 +12,20 @@ namespace OTBIS.Web.Pages
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+#nullable restore
+#line 1 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\Pages\_ViewImports.cshtml"
+using OTBIS.Web.Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute("RouteTemplate", "/")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute("Identifier", "/Pages/_Host.cshtml")]
     [global::System.Runtime.CompilerServices.CreateNewOnMetadataUpdateAttribute]
@@ -47,7 +61,7 @@ namespace OTBIS.Web.Pages
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
             WriteLiteral("\r\n<div id=\"blazor-error-ui\">\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588073557", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588073974", async() => {
                 WriteLiteral("\r\n        An error has occurred. This application may no longer respond until reloaded.\r\n    ");
             }
             );
@@ -63,7 +77,7 @@ namespace OTBIS.Web.Pages
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588074862", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("environment", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588075279", async() => {
                 WriteLiteral("\r\n        An unhandled exception has occurred. See browser dev tools for details.\r\n    ");
             }
             );
@@ -82,7 +96,7 @@ namespace OTBIS.Web.Pages
             BeginWriteAttribute("href", " href=\"", 426, "\"", 433, 0);
             EndWriteAttribute();
             WriteLiteral(" class=\"reload\">Reload</a>\r\n    <a class=\"dismiss\">🗙</a>\r\n</div>\r\n\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("component", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588076382", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("component", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9ae04cdd857da713218e2c76d0261c4eacdad60c9e82c3677de73371a8e588076799", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_ComponentTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper>();

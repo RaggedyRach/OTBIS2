@@ -17,7 +17,7 @@ using Microsoft.Data.SqlClient.Server;
 using Radzen;
 using OTBIS.Web.Models.ChartArrays;
 using System.Diagnostics;
-using Humanizer;
+//using Humanizer;
 //using System.Data.Entity.Core.Objects;
 //using System.Data.Entity;
 

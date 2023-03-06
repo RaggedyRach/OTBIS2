@@ -1,6 +1,9 @@
 ﻿@*@page "/Views/ChartPop/{Id:int?}"*@
 @page "/Views/ReportPop"
+@using ClosedXML.Excel;
 @using OTBIS.Web.Services
+@using ClosedXML
+@using ClosedXML.Report
 
 @inject StoreReportService _storeReportService;
 @inject MyStateContainer MyStateContainer
@@ -22,12 +25,13 @@
 @if (dataListTBD != null && dataListTBD2 == null && dataListTBD3 == null)
 {
     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
-<RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
 
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
 <RadzenDataGrid @ref="gridByDate" Data="@dataListTBD" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
-                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
-                AllowSorting="true"ColumnWidth="150px" AllowColumnResize="true" AllowPaging="true" PageSize="20" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" 
+                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true"ColumnWidth="150px" AllowColumnResize="true" 
+                AllowPaging="true" PageSize="20" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
     <Columns>
         <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
       
@@ -476,18 +480,18 @@
     string name = "";
 
     RadzenDataGrid<TransByDate> gridByDate;
-     RadzenDataGrid<TransByMonth> gridByMonth;
-      RadzenDataGrid<TransByDept> gridByDept;
-       RadzenDataGrid<TransByCat> gridByCat;
-       RadzenDataGrid<TransBySubCat> gridBySubCat;
-       RadzenDataGrid<TransByItem> gridByItem;
+    RadzenDataGrid<TransByMonth> gridByMonth;
+    RadzenDataGrid<TransByDept> gridByDept;
+    RadzenDataGrid<TransByCat> gridByCat;
+    RadzenDataGrid<TransBySubCat> gridBySubCat;
+    RadzenDataGrid<TransByItem> gridByItem;
 
     bool idVisable = false;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _modelList = MyStateContainer.Value;
+        // _modelList = MyStateContainer.Value.;
 
         dataListTBD = _modelList?.transByDatesList;
 
@@ -501,8 +505,8 @@
 
         dataListTBItem = _modelList?.transByItemList;
 
-        _modelList2 = MyStateContainer2.Value;
- 
+        // _modelList2 = MyStateContainer2.Value;
+
         dataListTBD2 = _modelList2?.transByDatesList;
 
         dataListTBM2 = _modelList2?.transByMonthList;
@@ -515,7 +519,7 @@
 
         dataListTBItem2 = _modelList2?.transByItemList;
 
-        _modelList3 = MyStateContainer3.Value; 
+        // _modelList3 = MyStateContainer3.Value; 
 
         dataListTBD3 = _modelList3?.transByDatesList;
 
@@ -535,7 +539,7 @@
         mergedListTBCat2 = new List<TransByCat>();
         mergedListTBSubCat2 = new List<TransBySubCat>();
         mergedListTBItem2 = new List<TransByItem>();
-        
+
         mergedListTBD3 = new List<TransByDate>();
         mergedListTBM3 = new List<TransByMonth>();
         mergedListTBDept3 = new List<TransByDept>();
@@ -547,7 +551,7 @@
 
         if(dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
         {
-            
+
             foreach(var t in dataListTBD2)
             {
                 mergedListTBD2.Add(t);
@@ -604,7 +608,7 @@
                 mergedListTBSubCat2.Add(x);
             }
         }
-          if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
+        if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
         {
             foreach (var t in dataListTBItem)
             {
@@ -616,7 +620,7 @@
                 mergedListTBItem2.Add(x);
             }
         } 
-        
+
         mergedListTBD3 = new List<TransByDate>();
 
 
@@ -637,7 +641,7 @@
         }
         if (datalistTBDept2 != null && datalistTBDept != null && datalistTBDept3 != null)
         {
-             foreach (var v in datalistTBDept3)
+            foreach (var v in datalistTBDept3)
             {
                 mergedListTBDept3.Add(v);
             }
@@ -678,7 +682,7 @@
             {
                 mergedListTBSubCat3.Add(x);
             }
-             foreach (var v in dataListTBSubCat3)
+            foreach (var v in dataListTBSubCat3)
             {
                 mergedListTBSubCat3.Add(v);
             }
@@ -694,7 +698,7 @@
             {
                 mergedListTBItem3.Add(x);
             }
-             foreach (var v in dataListTBItem3)
+            foreach (var v in dataListTBItem3)
             {
                 mergedListTBItem3.Add(v);
             }
@@ -702,20 +706,73 @@
         }
 
     }
+
+
+
+
     public void ExportByDate(string name, string type)
     {
+        var wb = new XLWorkbook();
+
+      //  var wb = new IXLTemplate();
+       // wb.Workbook.Author = "Rachael";
+        //wb.Workbook.SaveAs = name + "." + type;
+
+     
+        wb.Properties.Author = "Rachael McKeown";
+        wb.Properties.Title = "Report Download";
+        wb.Properties.Subject = "OTIS Report";
+
+
+        var ws = wb.Worksheets.Add("Download");
+        ws.Cell(1,1).Value = "date";
+        ws.Cell(1, 2).Value = "count";
+        ws.Cell(1, 3).Value = "net";
+        ws.Cell(1,4).Value = "vat";
+        ws.Cell(1,5).Value = "gross";
+        ws.Cell(1,6).Value = "sale amount";
+        ws.Cell(1, 7).Value = "discount";
+
        
-        _storeReportService.ExportByDate(name, type, new Query() 
-            { 
-                OrderBy = gridByDate.Query.OrderBy, 
-                Filter = gridByDate.Query.Filter, 
-                Select = string.Join(",", gridByDate.ColumnsCollection.Where(c => c.GetVisible())
-                        .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property))
-            });
+
+
+
+        for(int row = 1; row< dataListTBD.Count(); row++)
+        {
+            ws.Cell(row +1, 1).Value = dataListTBD[row].TransDate;
+            ws.Cell(row +1, 2).Value = dataListTBD[row].TransCount;
+            ws.Cell(row +1, 3).Value = dataListTBD[row].Net_Value;
+            ws.Cell(row +1, 4).Value = dataListTBD[row].Vat_Value;
+            ws.Cell(row +1, 5).Value = dataListTBD[row].Gross_Value;
+            ws.Cell(row +1, 6).Value = dataListTBD[row].Gross_Sale_Value;
+            ws.Cell(row +1, 7).Value = dataListTBD[row].Discount_Value;
+        }
+
+        MemoryStream XLSStream = new();
+        wb.SaveAs(XLSStream);
+        
+        //foreach(var i in gridByDate)
+        //{
+        //      int j =1;
+        //         ws.Cell(j, ) = gridByDate.ColumnsCollection.Where(c => c.GetVisible())
+        //        .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property));
+        //        j++;
+        //}
+       
+    
+
+        //_storeReportService.ExportByDate(name, type, new Query() 
+        //    { 
+        //        OrderBy = gridByDate.Query.OrderBy, 
+        //        Filter = gridByDate.Query.Filter, 
+        //        Select = string.Join(",", gridByDate.ColumnsCollection.Where(c => c.GetVisible())
+        //                .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property))
+        //    });
+
         
     }
 
-    void PickedColumnsChanged(DataGridPickedColumnsChangedEventArgs<TransByDate> args)
+    void PickedColumnsChanged()
     {
     }
 

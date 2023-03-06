@@ -1,7 +1,338 @@
 ﻿@page "/administration"
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@using OTBIS.Web.Areas.Identity.Pages.Account.Manage;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject UserManager<OTBIS.Web.Data.ApplicationUser> _UserManager
+@inject RoleManager<IdentityRole> _RoleManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject DialogService DialogService
 
-<h3>Administration</h3>
+<h3>User Management</h3>
+
+<br />
+<AuthorizeView>
+    <Authorized>
+
+        @if (@context.User.IsInRole(ADMINISTRATION_ROLE))
+        {
+            <RadzenGrid 
+                AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" 
+                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                 AllowColumnResize="true" 
+                AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged"
+                FilterMode="FilterMode.Simple" PageSize="10" AllowPaging="true" AllowSorting="true"
+                    Data="@ColUsers.OrderBy(x => x.lastName)"
+                    TItem="ApplicationUser" ColumnWidth="100px" >
+                <Columns>
+
+                    <RadzenGridColumn TItem="ApplicationUser" Property="username" Title="User Name" Filterable="false" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="firstName" Title="First Name" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="lastName" Title="Last Name" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="Email" Title="Email" Filterable="false" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="department" Title="Department" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="mobilePhone" Filterable="false" Title="Mobile" />
+                    <RadzenGridColumn TItem="ApplicationUser" Property="jobTitle" Filterable="false" Title="Job title" />
+                    <RadzenGridColumn TItem="ApplicationUser" Filterable="false" Property="id" Width="50px" Title="">
+                        <Template Context="ApplicationUser">
+                            <RadzenButton Text="Edit" Size="Radzen.ButtonSize.Small"
+                                      Click="@(args =>
+                                           DialogService.Open<EditUser>($"Update User {ApplicationUser.firstName}",
+                                           new Dictionary<string, object>() { { "user", ApplicationUser } },
+                                           new DialogOptions(){ Width = "700px", Height = "600px", Resizable = true, Draggable = true }))" />
+                        </Template>
+                    </RadzenGridColumn>
+
+                </Columns>
+            </RadzenGrid>
+            <br />
+
+            <RadzenButton Text="New User" Size="Radzen.ButtonSize.Medium"
+                      Click="@(args =>
+                                           DialogService.Open<CreateUser>($"New User",
+                                           new Dictionary<string, object>() {  },
+                                           new DialogOptions(){ Width = "700px", Height = "600px", Resizable = true, Draggable = true }))" />
+        }
+        else
+        {
+            <p>You're not signed in as a user in @ADMINISTRATION_ROLE.</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You're not loggged in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    string ADMINISTRATION_ROLE = "Administrators";
+    System.Security.Claims.ClaimsPrincipal CurrentUser;
 
+
+    // Property used to add or edit the currently selected user
+    ApplicationUser objUser = new ApplicationUser();
+    // Tracks the selected role for the currently selected user
+    string CurrentUserRole { get; set; } = "Users";
+    // Collection to display the existing users
+    List<ApplicationUser> ColUsers = new List<ApplicationUser>();
+    // Options to display in the roles dropdown when editing a user
+    List<string> Options = new List<string>() { "Users", "Administrators" };
+    // To hold any possible errors
+    string strError = "";
+    // To enable showing the Popup
+    bool ShowPopup = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetUsers();
+        // ensure there is a ADMINISTRATION_ROLE
+        var RoleResult = await _RoleManager.FindByNameAsync(ADMINISTRATION_ROLE);
+        if (RoleResult == null)
+        {
+            // Create ADMINISTRATION_ROLE Role
+            await _RoleManager.CreateAsync(new IdentityRole(ADMINISTRATION_ROLE));
+        }
+        // Ensure a user named Admin@BlazorHelpWebsite.com is an Administrator
+        var user = await _UserManager.FindByNameAsync("dmckeown10@gmail.com");
+        if (user != null)
+        {
+            // Is Admin@BlazorHelpWebsite.com in administrator role?
+            var UserResult = await _UserManager.IsInRoleAsync(user, ADMINISTRATION_ROLE);
+            if (!UserResult)
+            {
+                // Put admin in Administrator role
+                await _UserManager.AddToRoleAsync(user, ADMINISTRATION_ROLE);
+            }
+        }
+        // Get the current logged in user
+        CurrentUser = (await authenticationStateTask).User;
+
+
+    }
+
+    protected override void OnInitialized()
+    {
+        GetUsers();
+    }
+
+
+    void AddNewUser()
+    {
+        // Make new user
+        objUser = new ApplicationUser();
+        objUser.PasswordHash = "*****";
+        // Set Id to blank so we know it is a new record
+        objUser.Id = "";
+        // Open the Popup
+        ShowPopup = true;
+    }
+    async Task SaveUser()
+    {
+        try
+        {
+            // Is this an existing user?
+            if (objUser.Id != "")
+            {
+                // Get the user
+                var user = await _UserManager.FindByIdAsync(objUser.Id);
+                // Update Email
+                user.UserName = objUser.UserName;
+                user.Email = objUser.Email;
+                user.firstName = objUser.firstName;
+                user.lastName = objUser.lastName;
+                user.department = objUser.department;
+                user.mobilePhone = objUser.mobilePhone;
+                user.status = true;
+                user.jobTitle = objUser.jobTitle;
+                // Update the user
+                await _UserManager.UpdateAsync(user);
+                // Only update password if the current value
+                // is not the default value
+                if (objUser.PasswordHash != "*****")
+                {
+                    var resetToken =
+                        await _UserManager.GeneratePasswordResetTokenAsync(user);
+                    var passworduser =
+                        await _UserManager.ResetPasswordAsync(
+                            user,
+                            resetToken,
+                            objUser.PasswordHash);
+                    if (!passworduser.Succeeded)
+                    {
+                        if (passworduser.Errors.FirstOrDefault() != null)
+                        {
+                            strError =
+                                passworduser
+                                .Errors
+                                .FirstOrDefault()
+                                .Description;
+                        }
+                        else
+                        {
+                            strError = "Pasword error";
+                        }
+                        // Keep the popup opened
+                        return;
+                    }
+                }
+                // Handle Roles
+                // Is user in administrator role?
+                var UserResult =
+                    await _UserManager
+                    .IsInRoleAsync(user, ADMINISTRATION_ROLE);
+                // Is Administrator role selected
+                // but user is not an Administrator?
+                if (
+                    (CurrentUserRole == ADMINISTRATION_ROLE)
+                    &
+                    (!UserResult))
+                {
+                    // Put admin in Administrator role
+                    await _UserManager
+                        .AddToRoleAsync(user, ADMINISTRATION_ROLE);
+                }
+                else
+                {
+                    // Is Administrator role not selected
+                    // but user is an Administrator?
+                    if ((CurrentUserRole != ADMINISTRATION_ROLE)
+                        &
+                        (UserResult))
+                    {
+                        // Remove user from Administrator role
+                        await _UserManager
+                            .RemoveFromRoleAsync(user, ADMINISTRATION_ROLE);
+                    }
+                }
+            }
+            else
+            {
+                // Insert new user
+                var NewUser =
+                    new ApplicationUser
+                        {
+                            UserName = objUser.UserName,
+                            Email = objUser.Email,
+                            firstName = objUser.firstName,
+                            lastName = objUser.lastName,
+                            department = objUser.department,
+                            mobilePhone = objUser.mobilePhone,
+                            status = true,
+                            jobTitle = objUser.jobTitle,
+
+
+
+                        };
+                var CreateResult =
+                    await _UserManager
+                    .CreateAsync(NewUser, objUser.PasswordHash);
+                if (!CreateResult.Succeeded)
+                {
+                    if (CreateResult
+                        .Errors
+                        .FirstOrDefault() != null)
+                    {
+                        strError =
+                            CreateResult
+                            .Errors
+                            .FirstOrDefault()
+                            .Description;
+                    }
+                    else
+                    {
+                        strError = "Create error";
+                    }
+                    // Keep the popup opened
+                    return;
+                }
+                else
+                {
+                    // Handle Roles
+                    if (CurrentUserRole == ADMINISTRATION_ROLE)
+                    {
+                        // Put admin in Administrator role
+                        await _UserManager
+                            .AddToRoleAsync(NewUser, ADMINISTRATION_ROLE);
+                    }
+                }
+            }
+            // Close the Popup
+            ShowPopup = false;
+            // Refresh Users
+            GetUsers();
+        }
+        catch (Exception ex)
+        {
+            strError = ex.GetBaseException().Message;
+        }
+    }
+    async Task EditUser(ApplicationUser _IdentityUser)
+    {
+        // Set the selected user
+        // as the current user
+        objUser = _IdentityUser;
+        // Get the user
+        var user = await _UserManager.FindByIdAsync(objUser.Id);
+        if (user != null)
+        {
+            // Is user in administrator role?
+            var UserResult =
+                await _UserManager
+                .IsInRoleAsync(user, ADMINISTRATION_ROLE);
+            if (UserResult)
+            {
+                CurrentUserRole = ADMINISTRATION_ROLE;
+            }
+            else
+            {
+                CurrentUserRole = "Users";
+            }
+        }
+        // Open the Popup
+        ShowPopup = true;
+    }
+    async Task DeleteUser()
+    {
+    }
+
+
+    void ClosePopup()
+    {
+        // Close the Popup
+        ShowPopup = false;
+    }
+
+    public void GetUsers()
+    {
+        // clear any error messages
+        strError = "";
+        // Collection to hold users
+        ColUsers = new List<ApplicationUser>();
+        // get users from _UserManager
+        var user = _UserManager.Users.Select(x => new ApplicationUser
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                Email = x.Email,
+                PasswordHash = "*****",
+                firstName = x.firstName,
+                lastName = x.lastName,
+                department = x.department,
+                mobilePhone = x.mobilePhone,
+                status = x.status,
+                jobTitle = x.jobTitle
+
+            });
+        foreach (var item in user)
+        {
+            ColUsers.Add(item);
+        }
+    }
+    void PickedColumnsChanged(DataGridPickedColumnsChangedEventArgs<TransByDate> args)
+    {
+    }
 }
+
