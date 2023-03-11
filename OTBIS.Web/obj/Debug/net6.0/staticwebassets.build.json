@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZOQVkt7hBTDmu9AH3tZV0qTo+KCzpp0Ej9LNXPu30Lc=",
+  "Hash": "ijF40p3YQVnmHtrgXSCnzi+oP0StYDYfjaWomlD4E2E=",
   "Source": "OTBIS.Web",
   "BasePath": "_content/OTBIS.Web",
   "Mode": "Default",
@@ -2038,6 +2038,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\js\\openfile.js",
+      "SourceId": "OTBIS.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\",
+      "BasePath": "_content/OTBIS.Web",
+      "RelativePath": "js/openfile.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\openfile.js"
     },
     {
       "Identity": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\templates\\templateByDate.xlsx",

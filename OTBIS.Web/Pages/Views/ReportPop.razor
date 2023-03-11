@@ -13,7 +13,7 @@
 @inject GetDomainDataService _getReportDataService;
 @inject GetChartDataService _getChartDataService;
 @inject NavigationManager navigationManager;
-
+@inject IJSRuntime js
 
 
 <row>
@@ -22,19 +22,20 @@
         </div>
     </row>
 
+
+
 @if (dataListTBD != null && dataListTBD2 == null && dataListTBD3 == null)
 {
     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
-    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
 
 <RadzenDataGrid @ref="gridByDate" Data="@dataListTBD" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" 
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true"ColumnWidth="150px" AllowColumnResize="true" 
                 AllowPaging="true" PageSize="20" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
+
     <Columns>
-        <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDate" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-      
+              
         <RadzenDataGridColumn TItem="TransByDate" Property="TransDate" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
         <RadzenDataGridColumn TItem="TransByDate" Property="TransCount" Title="Count" />
         <RadzenDataGridColumn TItem="TransByDate" Property="Net_Value" Title="Net" />
@@ -50,9 +51,7 @@
 
 {
      <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
-<RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
-
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    
     <RadzenDataGrid Data="@mergedListTBD2" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
@@ -73,8 +72,7 @@
 @if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
 {
     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDate(@name, "excel"))" class="mb-4 me-2" />
-    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => ExportByDate(@name, "csv"))" class="mb-4" />
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    
     <RadzenDataGrid Data="@mergedListTBD3" TItem="TransByDate" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true" PickedColumnsChanged="@PickedColumnsChanged">
@@ -94,13 +92,12 @@
 }
 @if (dataListTBM != null && dataListTBM2 == null && dataListTBM3 == null) 
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByMonth(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@dataListTBM" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-*@
+       
             <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
@@ -114,14 +111,13 @@
 }
 @if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByMonth(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBM2" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-        *@
-            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
+          
+            <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Month" SortOrder="SortOrder.Ascending" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="Vat_Value" Title="Vat" />
@@ -134,13 +130,12 @@
 }
 @if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDept(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBM3" TItem="TransByMonth" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
-            @*<RadzenDataGridColumn Visible="@idVisable" TItem="TransByMonth" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-        *@
+          
             <RadzenDataGridColumn TItem="TransByMonth" Property="Month" Title="Date" SortOrder="SortOrder.Ascending" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="TransCount" Title="Count" />
             <RadzenDataGridColumn TItem="TransByMonth" Property="Net_Value" Title="Net" />
@@ -154,14 +149,12 @@
 }
 @if (datalistTBDept != null && datalistTBDept2 == null && datalistTBDept3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+   <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDept(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@datalistTBDept" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByDept" Property="TransByDateId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-
-
 
             <RadzenDataGridColumn TItem="TransByDept" Property="DepartmentId" Title="Date" FormatString="{0:d}" SortOrder="SortOrder.Ascending" />
             <RadzenDataGridColumn TItem="TransByDept" Property="Department" Title="Department" />
@@ -177,7 +170,7 @@
 }
 @if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDept(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBDept2" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -200,7 +193,7 @@
 }
 @if (datalistTBDept != null && datalistTBDept2 != null && datalistTBDept3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByDept(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBDept3" TItem="TransByDept" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -223,7 +216,7 @@
 }
 @if (dataListTBCat != null && dataListTBCat2 == null && dataListTBCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@dataListTBCat" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -246,7 +239,7 @@
 }
 @if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility"  Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true"  ColumnWidth="300px" AllowColumnPicking="true">
@@ -269,7 +262,7 @@
 }
 @if (dataListTBCat != null && dataListTBCat2 != null && dataListTBCat3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBCat3" TItem="TransByCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -292,7 +285,7 @@
 }
 @if (dataListTBSubCat != null && dataListTBSubCat2 == null && dataListTBSubCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportBySubCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@dataListTBSubCat" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -315,7 +308,7 @@
 }
 @if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportBySubCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBSubCat2" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -338,7 +331,7 @@
 }
 @if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportBySubCat(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBSubCat3" TItem="TransBySubCat" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -361,7 +354,7 @@
 }
 @if (dataListTBItem != null && dataListTBItem2 == null && dataListTBItem3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+ <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByItem(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@dataListTBItem" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -387,14 +380,12 @@
 }
 @if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByItem(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
         <Columns>
             <RadzenDataGridColumn Visible="@idVisable" TItem="TransByItem" Property="TransByItemId" Title="ID" Width="80px" TextAlign="TextAlign.Center" Frozen="true" />
-
-
 
             <RadzenDataGridColumn TItem="TransByItem" Property="ItemId" Title="ItemId" />
             <RadzenDataGridColumn TItem="TransByItem" Property="Item" Title="Item" SortOrder="SortOrder.Ascending" />
@@ -413,7 +404,7 @@
 }
 @if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 != null)
 {
-    <RadzenButton Text="Toggle DomainID column visibility" Click=@(() => idVisable = !idVisable) Class="my-3" />
+     <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => ExportByItem(@name, "excel"))" class="mb-4 me-2" />
     <RadzenDataGrid Data="@mergedListTBItem2" TItem="TransByItem" AllowVirtualization="true" Style="height:400px"
                 AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
                 AllowSorting="true" ColumnWidth="300px" AllowColumnPicking="true">
@@ -436,6 +427,8 @@
             <RadzenDataGridColumn TItem="TransByItem" Property="SubCategory" Title="SubCategory" />
         </Columns>
     </RadzenDataGrid>
+
+
 }
 @code {
 
@@ -491,7 +484,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        // _modelList = MyStateContainer.Value.;
+        _modelList = MyStateContainer.Value;
 
         dataListTBD = _modelList?.transByDatesList;
 
@@ -505,7 +498,7 @@
 
         dataListTBItem = _modelList?.transByItemList;
 
-        // _modelList2 = MyStateContainer2.Value;
+        _modelList2 = MyStateContainer2.Value;
 
         dataListTBD2 = _modelList2?.transByDatesList;
 
@@ -519,7 +512,7 @@
 
         dataListTBItem2 = _modelList2?.transByItemList;
 
-        // _modelList3 = MyStateContainer3.Value; 
+        _modelList3 = MyStateContainer3.Value; 
 
         dataListTBD3 = _modelList3?.transByDatesList;
 
@@ -551,74 +544,40 @@
 
         if(dataListTBD != null && dataListTBD2 != null && dataListTBD3 == null)
         {
+            mergedListTBD2.AddRange(dataListTBD);
+            mergedListTBD2.AddRange(dataListTBD2);
 
-            foreach(var t in dataListTBD2)
-            {
-                mergedListTBD2.Add(t);
-            }
-            foreach(var x in dataListTBD)
-            {
-                mergedListTBD2.Add(x);
-            }
         }
         if (dataListTBM != null && dataListTBM2 != null && dataListTBM3 == null)
         {
-            foreach (var t in dataListTBM2)
-            {
-                mergedListTBM2.Add(t);
-            }
-            foreach (var x in dataListTBM)
-            {
-                mergedListTBM2.Add(x);
-            }
+            mergedListTBM2.AddRange(dataListTBM);
+            mergedListTBM2.AddRange(dataListTBM2);
+
         }
         if (datalistTBDept2 != null && datalistTBDept != null && datalistTBDept3 == null)
         {
-            foreach (var t in datalistTBDept2)
-            {
-                mergedListTBDept2.Add(t);
-            }
+            mergedListTBDept2.AddRange(datalistTBDept);
+            mergedListTBDept2.AddRange(datalistTBDept2);
 
-            foreach (var x in datalistTBDept)
-            {
-                mergedListTBDept2.Add(x);
-            }
         }
         if (dataListTBCat2 != null && dataListTBCat != null && dataListTBCat3 == null)
         {
-            foreach (var t in dataListTBCat)
-            {
-                mergedListTBCat2.Add(t);
-            }
 
-            foreach (var x in dataListTBCat2)
-            {
-                mergedListTBCat2.Add(x);
-            }
+            mergedListTBCat2.AddRange(dataListTBCat);
+            mergedListTBCat2.AddRange(dataListTBCat2);
         }
         if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 == null)
         {
-            foreach (var t in dataListTBSubCat)
-            {
-                mergedListTBSubCat2.Add(t);
-            }
 
-            foreach (var x in dataListTBSubCat2)
-            {
-                mergedListTBSubCat2.Add(x);
-            }
+            mergedListTBSubCat2.AddRange(dataListTBSubCat);
+            mergedListTBSubCat2.AddRange(dataListTBSubCat);
+
         }
         if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 == null)
         {
-            foreach (var t in dataListTBItem)
-            {
-                mergedListTBItem2.Add(t);
-            }
+            mergedListTBItem2.AddRange(dataListTBItem);
+            mergedListTBItem2.AddRange(dataListTBItem2);
 
-            foreach (var x in dataListTBItem2)
-            {
-                mergedListTBItem2.Add(x);
-            }
         } 
 
         mergedListTBD3 = new List<TransByDate>();
@@ -626,150 +585,157 @@
 
         if (dataListTBD != null && dataListTBD2 != null && dataListTBD3 != null)
         {
-            foreach (var v in dataListTBD3)
-            {
-                mergedListTBD3.Add(v);
-            }
-            foreach (var t in dataListTBD2)
-            {
-                mergedListTBD3.Add(t);
-            }
-            foreach (var x in dataListTBD)
-            {
-                mergedListTBD3.Add(x);
-            }
+            mergedListTBD3.AddRange(dataListTBD);
+            mergedListTBD3.AddRange(dataListTBD2);
+            mergedListTBD3.AddRange(dataListTBD3);
+
         }
         if (datalistTBDept2 != null && datalistTBDept != null && datalistTBDept3 != null)
         {
-            foreach (var v in datalistTBDept3)
-            {
-                mergedListTBDept3.Add(v);
-            }
-            foreach (var t in datalistTBDept2)
-            {
-                mergedListTBDept3.Add(t);
-            }
+            mergedListTBDept3.AddRange(datalistTBDept);
+            mergedListTBDept3.AddRange(datalistTBDept); 
+            mergedListTBDept3.AddRange(datalistTBDept3);
 
-            foreach (var x in datalistTBDept)
-            {
-                mergedListTBDept3.Add(x);
-            }
         }
         if (dataListTBCat2 != null && dataListTBCat != null && dataListTBCat3 != null)
         {
-            foreach (var t in dataListTBCat)
-            {
-                mergedListTBCat3.Add(t);
-            }
-
-            foreach (var x in dataListTBCat2)
-            {
-                mergedListTBCat3.Add(x);
-            }
-            foreach (var v in dataListTBCat3)
-            {
-                mergedListTBCat3.Add(v);
-            }
+            mergedListTBCat3.AddRange(dataListTBCat);
+            mergedListTBCat3.AddRange(dataListTBCat2);
+            mergedListTBCat3.AddRange(dataListTBCat3);
+           
         }
         if (dataListTBSubCat != null && dataListTBSubCat2 != null && dataListTBSubCat3 != null)
         {
-            foreach (var t in dataListTBSubCat)
-            {
-                mergedListTBSubCat3.Add(t);
-            }
-
-            foreach (var x in dataListTBSubCat2)
-            {
-                mergedListTBSubCat3.Add(x);
-            }
-            foreach (var v in dataListTBSubCat3)
-            {
-                mergedListTBSubCat3.Add(v);
-            }
+            mergedListTBSubCat3.AddRange(dataListTBSubCat);
+            mergedListTBSubCat3.AddRange(dataListTBSubCat2);
+            mergedListTBSubCat3.AddRange(dataListTBSubCat3);
+            
         }
         if (dataListTBItem != null && dataListTBItem2 != null && dataListTBItem3 != null)
         {
-            foreach (var t in dataListTBItem)
-            {
-                mergedListTBItem3.Add(t);
-            }
-
-            foreach (var x in dataListTBItem2)
-            {
-                mergedListTBItem3.Add(x);
-            }
-            foreach (var v in dataListTBItem3)
-            {
-                mergedListTBItem3.Add(v);
-            }
+            mergedListTBItem3.AddRange(dataListTBItem);
+            mergedListTBItem3.AddRange(dataListTBItem2);
+            mergedListTBItem3.AddRange(dataListTBItem3);
 
         }
 
     }
 
-
-
-
-    public void ExportByDate(string name, string type)
+    public async void ExportByDate(string name, string type)
     {
-        var wb = new XLWorkbook();
+        List<TransByDate> dataList = dataListTBD;
 
-      //  var wb = new IXLTemplate();
-       // wb.Workbook.Author = "Rachael";
-        //wb.Workbook.SaveAs = name + "." + type;
-
-     
-        wb.Properties.Author = "Rachael McKeown";
-        wb.Properties.Title = "Report Download";
-        wb.Properties.Subject = "OTIS Report";
-
-
-        var ws = wb.Worksheets.Add("Download");
-        ws.Cell(1,1).Value = "date";
-        ws.Cell(1, 2).Value = "count";
-        ws.Cell(1, 3).Value = "net";
-        ws.Cell(1,4).Value = "vat";
-        ws.Cell(1,5).Value = "gross";
-        ws.Cell(1,6).Value = "sale amount";
-        ws.Cell(1, 7).Value = "discount";
-
-       
-
-
-
-        for(int row = 1; row< dataListTBD.Count(); row++)
+        if(dataListTBD2 != null)
         {
-            ws.Cell(row +1, 1).Value = dataListTBD[row].TransDate;
-            ws.Cell(row +1, 2).Value = dataListTBD[row].TransCount;
-            ws.Cell(row +1, 3).Value = dataListTBD[row].Net_Value;
-            ws.Cell(row +1, 4).Value = dataListTBD[row].Vat_Value;
-            ws.Cell(row +1, 5).Value = dataListTBD[row].Gross_Value;
-            ws.Cell(row +1, 6).Value = dataListTBD[row].Gross_Sale_Value;
-            ws.Cell(row +1, 7).Value = dataListTBD[row].Discount_Value;
+            dataList.AddRange(dataListTBD2);    
+        }
+        if (dataListTBD3 != null)
+        {
+            dataList.AddRange(dataListTBD3);
         }
 
-        MemoryStream XLSStream = new();
-        wb.SaveAs(XLSStream);
+        TransByDate[] dataArray =  dataList.ToArray();
+
+        var xls = new Excel();
+        await xls.ExportReportTBD(js, dataArray, "export.xlsx");
+
+    }
+
+    public async void ExportByMonth(string name, string type)
+    {
+        List<TransByMonth> dataList = dataListTBM;
+
+        if(dataListTBM2 != null)
+        {
+            dataList.AddRange(dataListTBM2);    
+        }
+        if (dataListTBD3 != null)
+        {
+            dataList.AddRange(dataListTBM3);
+        }
+
+        TransByMonth[] dataArray =  dataList.ToArray();
+
+        var xls = new Excel();
+        await xls.ExportReportTBM(js, dataArray, "export.xlsx");
+
+    }
+    public async void ExportByDept(string name, string type)
+    {
+        List<TransByDept> dataList = datalistTBDept;
+
+        if(datalistTBDept2 != null)
+        {
+            dataList.AddRange(datalistTBDept2);    
+        }
+        if (datalistTBDept3 != null)
+        {
+            dataList.AddRange(datalistTBDept3);
+        }
         
-        //foreach(var i in gridByDate)
-        //{
-        //      int j =1;
-        //         ws.Cell(j, ) = gridByDate.ColumnsCollection.Where(c => c.GetVisible())
-        //        .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property));
-        //        j++;
-        //}
+        TransByDept[] dataArray =  dataList.ToArray();
+        
+        var xls = new Excel();
+        await xls.ExportReportTBDept(js, dataArray, "export.xlsx");
+
+    }
        
-    
+    public async void ExportByCat(string name, string type)
+    {
+        List<TransByCat> dataList = dataListTBCat;
 
-        //_storeReportService.ExportByDate(name, type, new Query() 
-        //    { 
-        //        OrderBy = gridByDate.Query.OrderBy, 
-        //        Filter = gridByDate.Query.Filter, 
-        //        Select = string.Join(",", gridByDate.ColumnsCollection.Where(c => c.GetVisible())
-        //                .Select(c => c.Property.Contains(".") ? $"{c.Property} as {c.Property.Replace(".", "_")}" : c.Property))
-        //    });
-
+        if(dataListTBCat2 != null)
+        {
+            dataList.AddRange(dataListTBCat2);    
+        }
+        if (dataListTBCat3 != null)
+        {
+            dataList.AddRange(dataListTBCat3);
+        }
         
+        TransByCat[] dataArrayCat =  dataList.ToArray();
+        
+        var xls = new Excel();
+        await xls.ExportReportTBCat(js, dataArrayCat, "export.xlsx");
+
+    }
+        public async void ExportBySubCat(string name, string type)
+    {
+        List<TransBySubCat> dataList = dataListTBSubCat;
+
+        if(dataListTBSubCat2 != null)
+        {
+            dataList.AddRange(dataListTBSubCat2);    
+        }
+        if (dataListTBSubCat3 != null)
+        {
+            dataList.AddRange(dataListTBSubCat3);
+        }
+        
+        TransBySubCat[] dataArray =  dataList.ToArray();
+        
+        var xls = new Excel();
+        await xls.ExportReportTBSubCat(js, dataArray, "export.xlsx");
+
+    }
+    public async void ExportByItem(string name, string type)
+    {
+        List<TransByItem> dataList = dataListTBItem;
+
+        if (dataListTBItem2 != null)
+        {
+            dataList.AddRange(dataListTBItem2);
+        }
+        if (dataListTBItem3 != null)
+        {
+            dataList.AddRange(dataListTBItem3);
+        }
+
+        TransByItem[] dataArray = dataList.ToArray();
+
+        var xls = new Excel();
+        await xls.ExportReportTBItem(js, dataArray, "export.xlsx");
+
     }
 
     void PickedColumnsChanged()

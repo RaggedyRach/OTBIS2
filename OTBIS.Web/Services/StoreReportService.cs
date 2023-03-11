@@ -10,7 +10,7 @@ using Radzen;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.Http;
-
+using Microsoft.JSInterop;
 
 namespace OTBIS.Web.Services
 {
@@ -379,17 +379,20 @@ namespace OTBIS.Web.Services
 
         }
         #endregion
-    //    #region export report
-    //    NavigationManager navigationManager;
-    //    public async void ExportByDate(string fileName, string type, Radzen.Query query)
-    //    {
-    //        var url = query != null ? query.ToUrl($"api/ortSampleDb/ExportProductsToExcel/export/sampledb/products/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/sampledb/products/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')";
-    //        url = navigationManager.BaseUri + url;
-    //        var response = await httpClient.GetAsync(url);
-    //        var fileBytes = await response.Content.ReadAsByteArrayAsync();
-    //        return fileBytes;
-    //    }
-    
-    //#endregion
+        
+
+
+        //    #region export report
+        //    NavigationManager navigationManager;
+        //    public async void ExportByDate(string fileName, string type, Radzen.Query query)
+        //    {
+        //        var url = query != null ? query.ToUrl($"api/ortSampleDb/ExportProductsToExcel/export/sampledb/products/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/sampledb/products/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')";
+        //        url = navigationManager.BaseUri + url;
+        //        var response = await httpClient.GetAsync(url);
+        //        var fileBytes = await response.Content.ReadAsByteArrayAsync();
+        //        return fileBytes;
+        //    }
+
+        //#endregion
     }
 }

@@ -52,13 +52,6 @@ using Microsoft.AspNetCore.Components.Web.Virtualization;
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\_Imports.razor"
-using Microsoft.JSInterop;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
 #line 9 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\_Imports.razor"
 using OTBIS.Web;
 
@@ -131,6 +124,13 @@ using OTBIS.Web.Models.ChartArrays;
 #nullable restore
 #line 19 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\_Imports.razor"
 using OTBIS.Web.Models.ReportObjects;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 20 "C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\_Imports.razor"
+using Microsoft.JSInterop;
 
 #line default
 #line hidden

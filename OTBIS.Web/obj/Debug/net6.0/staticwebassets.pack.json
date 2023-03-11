@@ -101,6 +101,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\js\\openfile.js",
+      "PackagePath": "staticwebassets\\js\\openfile.js"
+    },
+    {
       "Id": "C:\\Users\\Rachael\\OneDrive\\MSc Software Development\\OTBIS\\OTBIS.Web\\wwwroot\\templates\\templateByDate.xlsx",
       "PackagePath": "staticwebassets\\templates\\templateByDate.xlsx"
     },
