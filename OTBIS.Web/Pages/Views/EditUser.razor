@@ -126,7 +126,7 @@
         Departments.Add("Food and Bev");
         Departments.Add("Operations");
 
-        
+
         CurrentUserRoles.FirstOrDefault();
         UpdatedUserRole = CurrentUserRole;
         //Current Uer Role
@@ -154,14 +154,17 @@
             //Check to make sure no one has the same email address
             var checkemail = await _UserManager.FindByEmailAsync(user.Email);
 
-            if (checkemail.Id != userDB.Id)
+            if (checkemail != null)
             {
-                //Someone has same email, so throw exception
+                if (checkemail.Id != userDB.Id)
                 {
-                    strError = "Email already in use";
+                    //Someone has same email, so throw exception
+                    {
+                        strError = "Email already in use";
+                    }
+                    // Keep the popup opened
+                    return;
                 }
-                // Keep the popup opened
-                return;
             }
             // Save updatedate to database
             await _UserManager.UpdateAsync(userDB);

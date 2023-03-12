@@ -8,7 +8,7 @@ namespace OTBIS.Web.Models
         public int ReportCounterId { get; set; }
         public int RunReportId { get; set; }
 
-        public int Count { get; set; } = 0;
+        public int Count { get; set; }
 
         
     }

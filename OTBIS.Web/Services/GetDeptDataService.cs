@@ -190,7 +190,9 @@ namespace OTBIS.Web.Services
                               }).ToListAsync();
 
             ModelList dataList = new ModelList();
+            
             dataList.transByDeptList = data;
+            
 
 
             return dataList;

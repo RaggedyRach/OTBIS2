@@ -17,7 +17,7 @@ namespace OTBIS.Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -1007,6 +1007,9 @@ namespace OTBIS.Web.Migrations
 
                     b.Property<DateTime?>("EndDate3")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("GroupById")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ItemTypeId")
                         .HasColumnType("int");

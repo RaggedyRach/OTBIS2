@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Reports\ChartView.razor" />
+    <Content Remove="Pages\Views\Reports\ChartView.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Pages\Reports\ReportBuilder.razor~RF4939bb0b.TMP" />
+    <None Remove="Pages\Views\Reports\ReportBuilder.razor~RF4939bb0b.TMP" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,8 @@ namespace OTBIS.Web.Models
         public int NumberToCompare { get; set; }
 
         public int CompareOnId { get; set; }
+
+        public int GroupById { get; set; }
         public int DomainId { get; set; }
 
         public int? DomainId2 { get; set; }

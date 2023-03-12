@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.Http;
 using Microsoft.JSInterop;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using OTBIS.Web.Migrations;
 
 namespace OTBIS.Web.Services
 {
@@ -31,32 +33,97 @@ namespace OTBIS.Web.Services
         #endregion
 
         #region gets id of report in db 
-        public async Task<bool> CheckDatabaseForReport(RunReport reportRan)
+        public async Task<int> CheckDatabaseForReport(RunReport reportRan)
 
         {
-            bool exist = false;
-
+            //bool exist = false;
+            List<RunReport> userReports = new List<RunReport>();
+            int id = 0;
             try
-            {
-                await foreach (RunReport r in _StagingDbcontext.RunReports)
-                {
-                    exist = System.Object.ReferenceEquals(r, reportRan);
 
-                    //var report = await (from i in _StagingDbcontext.RunReports
-                    //                    where i.Equals(reportRan)
-                    //                    select i).FirstOrDefaultAsync();
+            {
+                userReports = await (from i in _StagingDbcontext.RunReports
+                                     where i.UserId.Equals(reportRan.UserId)
+                                     select i).ToListAsync();
+
+
+
+                foreach (RunReport r in userReports)
+                {
+                    if (reportRan.UserId == r.UserId &&
+                    reportRan.NumberToCompare == r.NumberToCompare &&
+                    reportRan.CompareOnId == r.CompareOnId &&
+                    reportRan.GroupById == r.GroupById &&
+                    reportRan.DomainId == r.DomainId &&
+                   reportRan.DomainId2 == r.DomainId2 &&
+                   reportRan.DomainId3 == r.DomainId3 &&
+                   reportRan.DepartmentId == r.DepartmentId &&
+                   reportRan.DepartmentId2 == r.DepartmentId2 &&
+                   reportRan.DepartmentId3 == r.DepartmentId3 &&
+                   reportRan.CategoryId == r.CategoryId &&
+                   reportRan.CategoryId2 == r.CategoryId2 &&
+                   reportRan.CategoryId3 == r.CategoryId3 &&
+                   reportRan.SubCategoryId == r.SubCategoryId &&
+                   reportRan.SubCategoryId2 == r.SubCategoryId2 &&
+                   reportRan.SubCategoryId3 == r.SubCategoryId3 &&
+                   reportRan.ItemTypeId == r.ItemTypeId &&
+                   reportRan.ItemTypeId2 == r.ItemTypeId2 &&
+                   reportRan.ItemTypeId3 == r.ItemTypeId3 &&
+                   reportRan.StartDate == r.StartDate &&
+                   reportRan.StartDate2 == r.StartDate2 &&
+                   reportRan.StartDate3 == r.StartDate3 &&
+
+                   reportRan.EndDate == r.EndDate &&
+                   reportRan.EndDate2 == r.EndDate2 &&
+                   reportRan.EndDate3 == r.EndDate3 &&
+                   reportRan.paymentTypeId == r.paymentTypeId &&
+                   reportRan.paymentTypeId2 == r.paymentTypeId2 &&
+                   reportRan.nominalCodeId == r.nominalCodeId &&
+                   reportRan.nominalCodeId2 == r.nominalCodeId2 &&
+                   reportRan.nominalCodeId3 == r.nominalCodeId3 &&
+
+                   reportRan.paymentTypeId3 == r.paymentTypeId3 &&
+                   reportRan.sellingPriceId == r.sellingPriceId &&
+
+                   reportRan.discountId == r.discountId &&
+                   reportRan.discountId2 == r.discountId2 &&
+                   reportRan.discountId3 == r.discountId3 &&
+                   reportRan.TillId == r.TillId &&
+                   reportRan.TillId2 == r.TillId2 &&
+                   reportRan.TillId3 == r.TillId3 &&
+
+                   reportRan.ClerkId == r.ClerkId &&
+                   reportRan.ClerkId2 == r.ClerkId2 &&
+                   reportRan.ClerkId3 == r.ClerkId3)
+                    {
+                        id = r.RunReportId;
+                    }
+
+                    //reportRan.RunReportId = r.RunReportId;
+
+                    //if(r == reportRan)
+                    //{
+                    //    exist = true;
+                    //}
+
+                    //exist = System.Object.ReferenceEquals(r, reportRan);
+                    //if (exist) { break; }
                 }
-                exist = false;
+                //if (userReports.Contains(reportRan))
+                //{
+                //    exist = true;
+                //}
 
             }
             catch (Exception ex)
             {
-                exist = false;
+                id = 0;
+                //exist = false;
                 ex.ToString();
             }
 
 
-            return exist;
+            return id;
         }
 
         #endregion
@@ -82,26 +149,57 @@ namespace OTBIS.Web.Services
                                           where i.RunReportId.Equals(reportId)
                                           select i).FirstOrDefaultAsync();
 
-            report.Count = report.Count++;
+            report.Count += report.Count;
             await _StagingDbcontext.SaveChangesAsync();
         }
 
         #endregion
 
         #region put report into database
-        public async void PutReportIntoDatabse(RunReport reportRan)
+        public async void PutReportIntoCount(int reportId)
         {
-            int newReportId = reportRan.RunReportId;
+            //Check to see if is in DB
+            ReportCounter report = await (from i in _StagingDbcontext.ReportCounters
+                                          where i.RunReportId.Equals(reportId)
+                                          select i).FirstOrDefaultAsync();
+
             ReportCounter rp = new ReportCounter();
+            if (report == null)
+            {
+                rp.RunReportId = reportId;
+                rp.Count = 1;
+                _StagingDbcontext.ReportCounters.Add(rp);
+                await _StagingDbcontext.SaveChangesAsync();
 
-            rp.RunReportId = newReportId;
-            rp.Count = 1;
-
-            _StagingDbcontext.ReportCounters.Add(rp);
-            await _StagingDbcontext.SaveChangesAsync();
+            }
         }
 
         #endregion
+        #region list of favorourites
+        public async Task<List<ReportFavorite>> MyFavs(int userId)
+        {
+
+            try
+            {
+                var reportInFavouriteList = await (from rr in _StagingDbcontext.RunReports
+                                                 join rf in _StagingDbcontext.ReportFavorites
+                                                 on rr.RunReportId equals rf.RunReportId
+                                                 where rr.UserId == userId
+                                                 select rf).ToListAsync();
+                return reportInFavouriteList;
+            }
+            catch (Exception ex)
+            {
+
+                ex.ToString();
+            }
+
+            return null;
+
+
+        }
+        #endregion
+
 
         #region myreports list
         public async Task<List<ReportCounter>> MyMostUsed(int userId)
@@ -113,6 +211,7 @@ namespace OTBIS.Web.Services
                                                  join rc in _StagingDbcontext.ReportCounters
                                                  on rr.RunReportId equals rc.RunReportId
                                                  where rr.UserId == userId
+                                                 orderby rc.Count descending
                                                  select rc).Take(10).ToListAsync();
                 return reportInCounterList;
             }
@@ -128,10 +227,251 @@ namespace OTBIS.Web.Services
         }
         #endregion
 
-        #region myreports list
-        public async Task<List<ReportDetails>> MyReportsList(List<ReportCounter> MyMostUsed, int UserId)
+
+        #region myreports most used list
+        public async Task<List<ReportDetails>> MyFavouriteReportsList(List<ReportFavorite> MyFavList, int UserId)
         {
-          //  ReportDetails rd = new ReportDetails();
+            //  ReportDetails rd = new ReportDetails();
+            List<ReportDetails> rdList = new List<ReportDetails>();
+            //username from sessiom
+            var report = new RunReport();
+            var ReportList = new List<RunReport>();
+            foreach (var r in MyFavList)
+
+            {
+
+                report = await (from runR in _StagingDbcontext.RunReports
+                                where runR.RunReportId == r.RunReportId
+                                select runR).FirstAsync();
+                ReportList.Add(report);
+            }
+
+            foreach (var r in ReportList)
+            {
+                ReportDetails rd = new ReportDetails();
+                rd.RunReportsId = r.RunReportId;
+                rd.ReportCount = (from i in MyFavList
+                                  join c in _StagingDbcontext.ReportCounters
+                                  on i.RunReportId equals c.RunReportId
+                                  where i.RunReportId == r.RunReportId
+                                  select c.Count).FirstOrDefault();
+
+                rd.UserName = "Rachael";
+
+                if (r.NumberToCompare != null)
+                {
+                    rd.NumberToCompare = r.NumberToCompare;
+
+                }
+                if (r.CompareOnId != null)
+                {
+                    rd.CompareOnName = await (from i in _StagingDbcontext.ComparedOns
+                                              where i.ComparedOnId == r.CompareOnId
+                                              select i.ComparedOnName).FirstOrDefaultAsync();
+                }
+                rd.StartDate = r.StartDate;
+                rd.EndDate = r.EndDate;
+                if (r.StartDate2 != null)
+                {
+                    rd.StartDate2 = r.StartDate2;
+                }
+                if (r.StartDate3 != null)
+                {
+                    rd.StartDate3 = r.StartDate3;
+                }
+
+                rd.DomainName = await (from i in _StagingDbcontext.Domains
+                                       where i.DomainId == r.DomainId
+                                       select i.DomainName).FirstOrDefaultAsync();
+
+                if (r.DomainId2 != 0)
+                {
+                    rd.Domain2Name = await (from i in _StagingDbcontext.Domains
+                                            where i.DomainId == r.DomainId2
+                                            select i.DomainName).FirstOrDefaultAsync();
+                }
+                if (r.DomainId3 != 0)
+                {
+                    rd.Domain3Name = await (from i in _StagingDbcontext.Domains
+                                            where i.DomainId == r.DomainId3
+                                            select i.DomainName).FirstOrDefaultAsync();
+                }
+                if (r.DepartmentId != 0)
+                {
+                    rd.DepartmentName = await (from i in _StagingDbcontext.Departments
+                                               where i.DepartmentId == r.DepartmentId
+                                               select i.DepartmentName).FirstOrDefaultAsync();
+                }
+                if (r.DepartmentId2 != 0)
+                {
+                    rd.DepartmentName2 = await (from i in _StagingDbcontext.Departments
+                                                where i.DepartmentId == r.DepartmentId2
+                                                select i.DepartmentName).FirstOrDefaultAsync();
+                }
+                if (r.DepartmentId3 != 0)
+                {
+                    rd.DepartmentName3 = await (from i in _StagingDbcontext.Departments
+                                                where i.DepartmentId == r.DepartmentId3
+                                                select i.DepartmentName).FirstOrDefaultAsync();
+                }
+                if (r.CategoryId != 0)
+                {
+                    rd.CategoryName = await (from i in _StagingDbcontext.Categories
+                                             where i.CategoryId == r.CategoryId
+                                             select i.CategoryName).FirstOrDefaultAsync();
+                }
+                if (r.CategoryId2 != 0)
+                {
+                    rd.CategoryName2 = await (from i in _StagingDbcontext.Categories
+                                              where i.CategoryId == r.CategoryId2
+                                              select i.CategoryName).FirstOrDefaultAsync();
+                }
+                if (r.CategoryId3 != 0)
+                {
+                    rd.CategoryName3 = await (from i in _StagingDbcontext.Categories
+                                              where i.CategoryId == r.CategoryId3
+                                              select i.CategoryName).FirstOrDefaultAsync();
+                }
+                if (r.SubCategoryId != 0)
+                {
+                    rd.SubCategoryNameId = await (from i in _StagingDbcontext.SubCategories
+                                                  where i.SubCategoryId == r.SubCategoryId
+                                                  select i.SubCategoryName).FirstOrDefaultAsync();
+                }
+                if (r.SubCategoryId2 != 0)
+                {
+                    rd.SubCategoryName2 = await (from i in _StagingDbcontext.SubCategories
+                                                 where i.SubCategoryId == r.SubCategoryId2
+                                                 select i.SubCategoryName).FirstOrDefaultAsync();
+                }
+                if (r.SubCategoryId != 0)
+                {
+                    rd.SubCategoryName3 = await (from i in _StagingDbcontext.SubCategories
+                                                 where i.SubCategoryId == r.SubCategoryId3
+                                                 select i.SubCategoryName).FirstOrDefaultAsync();
+                }
+                if (r.ItemTypeId != 0)
+                {
+                    rd.ItemTypeName = await (from i in _StagingDbcontext.Items
+                                             where i.ItemId == r.ItemTypeId
+                                             select i.ItemDescription).FirstOrDefaultAsync();
+                }
+                if (r.ItemTypeId2 != 0)
+                {
+                    rd.ItemTypeName2 = await (from i in _StagingDbcontext.Items
+                                              where i.ItemId == r.ItemTypeId2
+                                              select i.ItemDescription).FirstOrDefaultAsync();
+                }
+                if (r.ItemTypeId3 != 0)
+                {
+                    rd.ItemTypeName3 = await (from i in _StagingDbcontext.Items
+                                              where i.ItemId == r.ItemTypeId
+                                              select i.ItemDescription).FirstOrDefaultAsync();
+                }
+                if (r.paymentTypeId != 0)
+                {
+                    rd.PaymentTypeName = await (from i in _StagingDbcontext.PaymentTypes
+                                                where i.PaymentTypeId == r.paymentTypeId
+                                                select i.PaymentTypeDescription).FirstOrDefaultAsync();
+                }
+                if (r.paymentTypeId2 != 0)
+                {
+                    rd.PaymentTypeName2 = await (from i in _StagingDbcontext.PaymentTypes
+                                                 where i.PaymentTypeId == r.paymentTypeId2
+                                                 select i.PaymentTypeDescription).FirstOrDefaultAsync();
+                }
+                if (r.paymentTypeId3 != 0)
+                {
+                    rd.PaymentTypeName3 = await (from i in _StagingDbcontext.PaymentTypes
+                                                 where i.PaymentTypeId == r.paymentTypeId3
+                                                 select i.PaymentTypeDescription).FirstOrDefaultAsync();
+                }
+                if (r.nominalCodeId != 0)
+                {
+                    rd.NominalCodeName = await (from i in _StagingDbcontext.NominalCodes
+                                                where i.NominalCodeId == r.nominalCodeId
+                                                select i.NominalCodeDescription).FirstOrDefaultAsync();
+                }
+                if (r.nominalCodeId2 != 0)
+                {
+                    rd.NominalCodeName2 = await (from i in _StagingDbcontext.NominalCodes
+                                                 where i.NominalCodeId == r.nominalCodeId2
+                                                 select i.NominalCodeDescription).FirstOrDefaultAsync();
+                }
+                if (r.nominalCodeId3 != 0)
+                {
+                    rd.NominalCodeName3 = await (from i in _StagingDbcontext.NominalCodes
+                                                 where i.NominalCodeId == r.nominalCodeId3
+                                                 select i.NominalCodeDescription).FirstOrDefaultAsync();
+                }
+                if (r.discountId != 0)
+                {
+                    rd.DiscountName = await (from i in _StagingDbcontext.Discounts
+                                             where i.DiscountId == r.discountId
+                                             select i.DiscountDescription).FirstOrDefaultAsync();
+                }
+                if (r.discountId2 != 0)
+                {
+                    rd.DiscountName2 = await (from i in _StagingDbcontext.Discounts
+                                              where i.DiscountId == r.discountId2
+                                              select i.DiscountDescription).FirstOrDefaultAsync();
+                }
+                if (r.discountId3 != 0)
+                {
+                    rd.DiscountName3 = await (from i in _StagingDbcontext.Discounts
+                                              where i.DiscountId == r.discountId3
+                                              select i.DiscountDescription).FirstOrDefaultAsync();
+                }
+                if (r.TillId != 0)
+                {
+                    rd.TillName = await (from i in _StagingDbcontext.Tills
+                                         where i.TillId == r.TillId
+                                         select i.Name).FirstOrDefaultAsync();
+                }
+                if (r.TillId2 != 0)
+                {
+                    rd.TillName2 = await (from i in _StagingDbcontext.Tills
+                                          where i.TillId == r.TillId2
+                                          select i.Name).FirstOrDefaultAsync();
+                }
+                if (r.TillId3 != 0)
+                {
+                    rd.TillName3 = await (from i in _StagingDbcontext.Tills
+                                          where i.TillId == r.TillId3
+                                          select i.Name).FirstOrDefaultAsync();
+                }
+                if (r.ClerkId != 0)
+                {
+                    rd.ClerkName = await (from i in _StagingDbcontext.Clerks
+                                          where i.ClerkId == r.ClerkId
+                                          select i.ClerkName).FirstOrDefaultAsync();
+                }
+                if (r.ClerkId2 != 0)
+                {
+                    rd.ClerkName2 = await (from i in _StagingDbcontext.Clerks
+                                           where i.ClerkId == r.ClerkId2
+                                           select i.ClerkName).FirstOrDefaultAsync();
+                }
+                if (r.ClerkId3 != 0)
+                {
+                    rd.ClerkName3 = await (from i in _StagingDbcontext.Clerks
+                                           where i.ClerkId == r.ClerkId3
+                                           select i.ClerkName).FirstOrDefaultAsync();
+                }
+
+                //_StagingDbcontext.ReportDetails.Add(rd);
+                //await _StagingDbcontext.SaveChangesAsync();
+                rdList.Add(rd);
+
+            }// end of foreach
+            return rdList;
+        }
+        #endregion
+
+        #region myreports most used list
+        public async Task<List<ReportDetails>> MyCounterReportsList(List<ReportCounter> MyMostUsed, int UserId)
+        {
+            //  ReportDetails rd = new ReportDetails();
             List<ReportDetails> rdList = new List<ReportDetails>();
             //username from sessiom
             var report = new RunReport();
@@ -379,7 +719,7 @@ namespace OTBIS.Web.Services
 
         }
         #endregion
-        
+
 
 
         //    #region export report

@@ -20,18 +20,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/MyReports.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xNeVJlcG9ydHMucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportDisplay.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnREaXNwbGF5LnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/_Imports.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xfSW1wb3J0cy5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Test.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -60,8 +48,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcRWRpdFVzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/ReportPop.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcUmVwb3J0UG9wLnJhem9y
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/Reports/MyReports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcUmVwb3J0c1xNeVJlcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/Reports/ReportPop.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcUmVwb3J0c1xSZXBvcnRQb3AucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/Reports/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcUmVwb3J0c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/Setnotifications.razor]
@@ -112,13 +108,9 @@ build_metadata.AdditionalFiles.CssScope = b-7e94avmhc5
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-zvfl1b3d4o
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportBuilder.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRCdWlsZGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-jkkkyixp6r
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Reports/ReportCompare.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRDb21wYXJlLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-89dpkl10bd
+[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Pages/Views/Reports/ReportBuilder.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld3NcUmVwb3J0c1xSZXBvcnRCdWlsZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zwz4f86pra
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Shared/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
@@ -156,10 +148,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Lockout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2Nrb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -184,32 +172,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/DeletePersonalData.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRGVsZXRlUGVyc29uYWxEYXRhLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRGlzYWJsZTJmYS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRG93bmxvYWRQZXJzb25hbERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/Email.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW5hYmxlQXV0aGVudGljYXRvci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRXh0ZXJuYWxMb2dpbnMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/GenerateRecoveryCodes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcR2VuZXJhdGVSZWNvdmVyeUNvZGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/Index.cshtml]
@@ -220,20 +192,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcUGVyc29uYWxEYXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/ResetAuthenticator.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcUmVzZXRBdXRoZW50aWNhdG9yLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcU2V0UGFzc3dvcmQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/ShowRecoveryCodes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcU2hvd1JlY292ZXJ5Q29kZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/TwoFactorAuthentication.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcVHdvRmFjdG9yQXV0aGVudGljYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
@@ -260,16 +220,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/ResetPasswordConfirmation.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkQ29uZmlybWF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rachael/OneDrive/MSc Software Development/OTBIS/OTBIS.Web/Areas/Identity/Pages/Account/_StatusMessage.cshtml]

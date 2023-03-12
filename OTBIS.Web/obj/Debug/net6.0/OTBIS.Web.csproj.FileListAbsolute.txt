@@ -436,8 +436,6 @@ C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Index2.razor.rz.scp.css
-C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Reports\ReportBuilder.Razor.rz.scp.css
-C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Reports\ReportCompare.Razor.rz.scp.css
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Shared\LoginDisplay.razor.rz.scp.css
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
@@ -459,3 +457,4 @@ C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\SixLabors.Fonts.dll
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\System.IO.Packaging.dll
 C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\bin\Debug\net6.0\XLParser.dll
+C:\Users\Rachael\OneDrive\MSc Software Development\OTBIS\OTBIS.Web\obj\Debug\net6.0\scopedcss\Pages\Views\Reports\ReportBuilder.Razor.rz.scp.css

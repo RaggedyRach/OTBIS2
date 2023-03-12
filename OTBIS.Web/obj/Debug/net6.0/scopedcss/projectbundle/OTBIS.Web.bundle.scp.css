@@ -100,21 +100,21 @@ body[b-zvfl1b3d4o] {
         right: 0.75rem;
         top: 0.5rem;
     }
-/* _content/OTBIS.Web/Pages/Reports/ReportBuilder.Razor.rz.scp.css */
+/* _content/OTBIS.Web/Pages/Views/Reports/ReportBuilder.Razor.rz.scp.css */
 
-.spinner[b-jkkkyixp6r] {
+.spinner[b-zwz4f86pra] {
     border: 16px solid silver;
     border-top: 16px solid #337AB7;
     border-radius: 50%;
     width: 80px;
     height: 80px;
-    animation: spin-b-jkkkyixp6r 700ms linear infinite;
+    animation: spin-b-zwz4f86pra 700ms linear infinite;
     top: 40%;
     left: 55%;
     position: absolute;
 }
 
-@keyframes spin-b-jkkkyixp6r {
+@keyframes spin-b-zwz4f86pra {
     0% {
         transform: rotate(0deg)
     }
@@ -123,18 +123,18 @@ body[b-zvfl1b3d4o] {
         transform: rotate(360deg)
     }
 }
-.rz-dropdown[b-jkkkyixp6r] {
+.rz-dropdown[b-zwz4f86pra] {
     display: grid !important;
 }
-body[b-jkkkyixp6r] {
+body[b-zwz4f86pra] {
 }
-.grid-container[b-jkkkyixp6r] {
+.grid-container[b-zwz4f86pra] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
 
-#blazor-error-ui[b-jkkkyixp6r] {
+#blazor-error-ui[b-zwz4f86pra] {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -145,62 +145,11 @@ body[b-jkkkyixp6r] {
     width: 100%;
     z-index: 1000;
 }
-spanO[b-jkkkyixp6r] {
+spanO[b-zwz4f86pra] {
     color: #113e4a;
 }
 
-    #blazor-error-ui .dismiss[b-jkkkyixp6r] {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
-/* _content/OTBIS.Web/Pages/Reports/ReportCompare.Razor.rz.scp.css */
-
-.spinner[b-89dpkl10bd] {
-    border: 16px solid silver;
-    border-top: 16px solid #337AB7;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    animation: spin-b-89dpkl10bd 700ms linear infinite;
-    top: 40%;
-    left: 55%;
-    position: absolute;
-}
-
-@keyframes spin-b-89dpkl10bd {
-    0% {
-        transform: rotate(0deg)
-    }
-
-    100% {
-        transform: rotate(360deg)
-    }
-}
-.rz-dropdown[b-89dpkl10bd] {
-    display: grid !important;
-}
-body[b-89dpkl10bd] {
-}
-.grid-container[b-89dpkl10bd] {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
-#blazor-error-ui[b-89dpkl10bd] {
-    background: lightyellow;
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
-
-    #blazor-error-ui .dismiss[b-89dpkl10bd] {
+    #blazor-error-ui .dismiss[b-zwz4f86pra] {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;

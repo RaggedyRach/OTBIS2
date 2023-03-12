@@ -54,6 +54,7 @@ builder.Services.AddScoped<GetCatDataService>();
 builder.Services.AddScoped<GetSubCatDataService>();
 builder.Services.AddScoped<GetItemDataService>();
 builder.Services.AddScoped<GetTillDataService>();
+builder.Services.AddScoped<GetSeriesName>();
 builder.Services.AddScoped<ComparedOnService>();
 builder.Services.AddScoped<PopulateDropdownService>();
 builder.Services.AddScoped<StoreReportService>();

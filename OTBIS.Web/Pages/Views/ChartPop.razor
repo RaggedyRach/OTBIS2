@@ -6,6 +6,7 @@
 @inject GetProductionService _getProductionService;
 @inject GetDomainDataService _getReportDataService;
 @inject GetChartDataService _getChartDataService;
+@inject GetSeriesName _getSeriesNameService;
 @inject DialogService DialogService;
 @using System.Globalization;
 @using OTBIS.Web.Models.ChartArrays;
@@ -140,19 +141,19 @@ else {
                 <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
             </RadzenCard>
             <RadzenChart>
-                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD" CategoryProperty="TransDate"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD" CategoryProperty="TransDate" Title="@series1"  ValueProperty="Net_Value" RenderingOrder="1">
                     <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                     <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
                 </RadzenLineSeries>
-                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD2" CategoryProperty="TransDate" ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD2" CategoryProperty="TransDate" Title=@series2 ValueProperty="Net_Value" RenderingOrder="1">
                         <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
                         <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                         <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
                         <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
                     </RadzenLineSeries>
-                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD3" CategoryProperty="TransDate" ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBD3" CategoryProperty="TransDate" Title=@series3 ValueProperty="Net_Value" RenderingOrder="1">
                         <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
                         <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                         <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -161,7 +162,7 @@ else {
                 <RadzenCategoryAxis Padding="20" Formatter="@FormatAsDate" />
                 <RadzenValueAxis Formatter="@FormatAsUK">
                     <RadzenGridLines Visible="true" />
-                    <RadzenAxisTitle Text="Net_Value in GBP" />
+                    <RadzenAxisTitle Text="Net Value in GBP" />
                 </RadzenValueAxis>
             </RadzenChart>
         </div>
@@ -184,7 +185,7 @@ else {
         <div class="col-sm-6">
             <h4>Auto-size bar series</h4>
             <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
-                <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                        <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="@series1" LineType="LineType.Dashed" ValueProperty="Net_Value">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenBarSeries>
                 <RadzenValueAxis Formatter="@FormatAsUK">
@@ -215,10 +216,10 @@ else {
             <div class="col-sm-6">
                 <h4>Auto-size bar series</h4>
                 <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
-                    <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                    <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="@series1" LineType="LineType.Dashed" ValueProperty="Net_Value">
                         <RadzenSeriesDataLabels Visible="@showDataLabels" />
                     </RadzenBarSeries>
-                    <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="series 2" ValueProperty="Net_Value">
+                    <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="@series2" ValueProperty="Net_Value">
                          <RadzenSeriesDataLabels Visible="@showDataLabels" />
                      </RadzenBarSeries>
                     <RadzenValueAxis Formatter="@FormatAsUK">
@@ -249,13 +250,13 @@ else {
         <div class="col-sm-6">
             <h4>Auto-size bar series</h4>
             <RadzenChart SeriesClick=@OnSeriesClick style="height: 400px">
-                <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="series 1" LineType="LineType.Dashed" ValueProperty="Net_Value">
+                <RadzenBarSeries Data="@dataArrayTBM" CategoryProperty="Month" Title="@series1" LineType="LineType.Dashed" ValueProperty="Net_Value">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenBarSeries>
-                <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="series 2" ValueProperty="Net_Value">
+                <RadzenBarSeries Data="@dataArrayTBM2" CategoryProperty="Month" Title="@series2" ValueProperty="Net_Value">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenBarSeries>
-                    <RadzenBarSeries Data="@dataArrayTBM3" CategoryProperty="Month" Title="series 3" ValueProperty="Net_Value">
+                    <RadzenBarSeries Data="@dataArrayTBM3" CategoryProperty="Month" Title="@series3" ValueProperty="Net_Value">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenBarSeries>
                 <RadzenValueAxis Formatter="@FormatAsUK">
@@ -282,7 +283,7 @@ else {
             </RadzenCard>
             <h4>Auto-size column series</h4>
             <RadzenChart>
-                        <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                        <RadzenColumnSeries  Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title=@series1 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
                 
@@ -311,10 +312,10 @@ else {
             </RadzenCard>
             <h4>Auto-size column series</h4>
             <RadzenChart>
-                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title=@series1 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
-                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title="Departmen" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title=@series2 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
                 
@@ -341,13 +342,13 @@ else {
             </RadzenCard>
             <h4>Auto-size column series</h4>
             <RadzenChart>
-                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                <RadzenColumnSeries Data="@dataArrayTBDept" CategoryProperty="DepartmentId" Title=@series1 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
-                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                <RadzenColumnSeries Data="@dataArrayTBDept2" CategoryProperty="DepartmentId" Title=@series2 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
-                <RadzenColumnSeries Data="@dataArrayTBDept3" CategoryProperty="DepartmentId" Title="Department" LineType="LineType.Dashed" ValueProperty="Net_Amount">
+                <RadzenColumnSeries Data="@dataArrayTBDept3" CategoryProperty="DepartmentId" Title=@series3 LineType="LineType.Dashed" ValueProperty="Net_Amount">
                     <RadzenSeriesDataLabels Visible="@showDataLabels" />
                 </RadzenColumnSeries>
                 
@@ -382,7 +383,7 @@ else {
                         <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
                     </RadzenCard>
                     <RadzenChart>
-                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" Title=@series1 ValueProperty="Net_Value" RenderingOrder="1">
                             <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                             <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -391,7 +392,7 @@ else {
                         <RadzenCategoryAxis Padding="20" Formatter="@FormatAsCat" />
                         <RadzenValueAxis Formatter="@FormatAsUK">
                             <RadzenGridLines Visible="true" />
-                            <RadzenAxisTitle Text="Net_Value in GBP" />
+                            <RadzenAxisTitle Text="Net Value in GBP" />
                         </RadzenValueAxis>
                     </RadzenChart>
                 </div>
@@ -414,14 +415,14 @@ else {
                 <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
             </RadzenCard>
             <RadzenChart>
-                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId"  ValueProperty="Net_Value" RenderingOrder="1">
+                    <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" Title=@series1 ValueProperty="Net_Value" RenderingOrder="1">
                     <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                     <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
                 </RadzenLineSeries>
 
-                <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId"  ValueProperty="Net_Value" RenderingOrder="1">
+                <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId" Title=@series2 ValueProperty="Net_Value" RenderingOrder="1">
                     <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
                     <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                     <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -455,21 +456,21 @@ else {
                         <RadzenLabel Text="Mode" For="mode" class="rz-color-warning-darker" />
                     </RadzenCard>
                     <RadzenChart>
-                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat" CategoryProperty="CategoryId" Title=@series1 ValueProperty="Net_Value" RenderingOrder="1">
                             <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-danger-dark)" LineType="LineType.Dashed" />
                             <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
                         </RadzenLineSeries>
 
-                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat2" CategoryProperty="CategoryId" Title=@series2 ValueProperty="Net_Value" RenderingOrder="1">
                             <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-primary-dark)" LineType="LineType.Dashed" />
                             <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesModeLine Visible="@mode" Stroke="var(--rz-warning-darker)" LineType="LineType.Dotted" />
                         </RadzenLineSeries>
 
-                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat3" CategoryProperty="CategoryId" ValueProperty="Net_Value" RenderingOrder="1">
+                        <RadzenLineSeries Smooth="true" Data="@dataArrayTBCat3" CategoryProperty="CategoryId" Title=@series3 ValueProperty="Net_Value" RenderingOrder="1">
                             <RadzenSeriesTrendLine Visible="@trend" Stroke="var(--rz-secondary-dark)" LineType="LineType.Dashed" />
                             <RadzenSeriesMedianLine Visible="@median" Stroke="var(--rz-success-dark)" LineType="LineType.Dotted" />
                             <RadzenSeriesMeanLine Visible="@mean" Stroke="var(--rz-info-dark)" LineType="LineType.Dotted" />
@@ -749,7 +750,7 @@ else {
     TransBySubCat[] dataArrayTBSubCat;
     TransByItem[]dataArrayTBItem;
 
-    ModelList _modelList2;
+    ModelList _modelList2 = new ModelList();
     TransByDate[] dataArrayTBD2;
     TransByMonth[] dataArrayTBM2;
     TransByDept[] dataArrayTBDept2;
@@ -757,7 +758,7 @@ else {
     TransBySubCat[] dataArrayTBSubCat2;
     TransByItem[] dataArrayTBItem2;
 
-    ModelList _modelList3;
+    ModelList _modelList3= new ModelList();
     TransByDate[] dataArrayTBD3;
     TransByMonth[] dataArrayTBM3;
     TransByDept[] dataArrayTBDept3;
@@ -785,26 +786,38 @@ else {
     bool showDataLabels = false;
     bool idVisable = false;
 
+    string series1="";
+    string series2;
+    string series3; 
+
     IEnumerable<ColorScheme> colorSchemes = Enum.GetValues(typeof(ColorScheme)).Cast<ColorScheme>();
     ColorScheme colorScheme = ColorScheme.Palette;
 
     protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
-       _modelList = MyStateContainer.Value;
+
+        _modelList = MyStateContainer.Value;
+        if(_modelList.series != "")
+        {
+            series1 = _modelList.series;
+        }
 
         if(_modelList?.transByDatesList !=null)
         {
             dataArrayTBD = _modelList?.transByDatesList.ToArray();
+
         }
+
         if(_modelList?.transByMonthList != null)
         {
             dataArrayTBM = _modelList?.transByMonthList.ToArray();  
-           
+
         }
         if(_modelList?.transByDeptList != null)
         {
             dataArrayTBDept = _modelList?.transByDeptList.ToArray();
+
         }
 
         if(_modelList?.transByCatList != null)
@@ -821,9 +834,14 @@ else {
 
             dataArrayTBItem = _modelList?.transByItemList.ToArray();
         }
-        
+
         _modelList2 = MyStateContainer2.Value;
-        
+        if(_modelList2.series!= null )
+        {
+            series2 = _modelList2.series;
+        }
+
+
         if (_modelList2?.transByDatesList != null)
         {
             dataArrayTBD2 = _modelList2?.transByDatesList.ToArray();
@@ -851,8 +869,16 @@ else {
 
             dataArrayTBItem2 = _modelList2?.transByItemList.ToArray();
         }
-      
+
+
         _modelList3 = MyStateContainer3.Value;
+
+        if(_modelList3?.series!= null)
+        {
+            series3 = _modelList3.series;
+        }
+
+
         if (_modelList3?.transByDatesList != null)
         {
             dataArrayTBD3 = _modelList3?.transByDatesList.ToArray();
@@ -880,19 +906,19 @@ else {
 
             dataArrayTBItem3 = _modelList3?.transByItemList.ToArray();
         }
-        
-      }
+
+    }
     string FormatAsDate(object value)
     {
         if (value != null)
-       
+
         {
             return Convert.ToDateTime(value).ToString("d");
         }
 
         return string.Empty;
     }
-    
+
     string FormatAsMonth(object value)
     {
         if (value != null)
@@ -905,32 +931,39 @@ else {
     string FormatAsDept(object value)
     {
         if (value != null)
-       
+
         {
-            return dataArrayTBDept[2].ToString();
-            //  return Convert.ToDateTime(value).ToString("d");
+            string dept = "";
+            if(dataArrayTBDept[1]== value)
+            {
+                return dept = dataArrayTBDept[2].Department.ToString();
+            }
+
+
         }
 
         return string.Empty;
     }
-      string FormatAsCat(object value)
+    string FormatAsCat(object value)
     {
         if (value != null)
-       
+
         {
-            return dataArrayTBCat[2].ToString();
+           //return await(_getSeriesNameService.GetSeriesCatName(value));
+             //   return dataArrayTBCat[2].Category.ToString();
             //  return Convert.ToDateTime(value).ToString("d");
         }
 
         return string.Empty;
     }
-    
+
     string FormatAsSubCat(object value)
     {
         if (value != null)
-       
+
         {
-            return dataArrayTBSubCat[2].ToString();
+            
+           // return await(_getSeriesNameService.GetSeriesCatName(value.));
             //  return Convert.ToDateTime(value).ToString("d");
         }
 

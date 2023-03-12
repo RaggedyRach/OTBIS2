@@ -16,6 +16,8 @@ namespace OTBIS.Web.Models
         public List<TransByItem>? transByItemList { get; set; }
 
         public List<TransByTill>? transByTillList { get; set; }
+        public string series { get; set; }
+       
 
     }
 }

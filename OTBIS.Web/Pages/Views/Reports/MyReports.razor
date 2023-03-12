@@ -1,0 +1,158 @@
+﻿@page "/Reports/MyReports"
+@inherits SideBarLayout
+@using OTBIS.Web.Services
+
+@inject StoreReportService _storeReportService;
+
+@inject NotificationService NotificationService;
+
+<Container>
+    <div class="buffer row align-items-center text-center">
+        <h1>Welcome to <spanO>OTBIS</spanO> MyReports </h1>
+
+    </div>
+    <ErrorBoundary>
+        <ChildContent>
+            <h2>Rachael's Favourites</h2>
+            <RadzenDataGrid Data="@myFavReportList" TItem="ReportDetails" AllowVirtualization="true" Style="height:auto" AllowColumnResize="true"
+                            AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                            AllowSorting="true" AllowPaging="true" PageSize="20" ColumnWidth="150px" AllowColumnPicking="true">
+                <Columns>
+
+                     <RadzenDataGridColumn Width="160px" TItem="ReportDetails" Property="RunReportsId" Title="Report Details">
+                        <Template Context="data">
+                            <RadzenButton ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="info" class="m-1" Text="Run Report" Click=@(() => SendReportID(data.RunReportsId)) />
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ReportCount" Title="Count" SortOrder="SortOrder.Descending" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="UserName" Title="User" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NumberToCompare" Title="No. Comparison" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="CompareOnName" Title="Compared On" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="StartDate" Title="Start1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="EndDate" Title="End1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="StartDate2" Title="Start2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="EndDate2" Title="End2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="StartDate3" Title="Start3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="EndDate3" Title="End3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DomainName" Title="Domain 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="Domain2Name" Title="Domain 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="Domain3Name" Title="Domain 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName" Title="Dept 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName2" Title="Dept 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName3" Title="Dept 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName" Title="Cat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName2" Title="Cat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName3" Title="Cat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryNameId" Title="SubCat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryName2" Title="SubCat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryName3" Title="SubCat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName" Title="Item 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName2" Title="Item 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName3" Title="Item 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName" Title="Payment Type 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName2" Title="Payment Type 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName3" Title="Payment Type 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName" Title="Nominal Code 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName2" Title="Nominal Code 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName3" Title="Nominal Code 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName" Title="Discount 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName2" Title="Discount 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName3" Title="Discount 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName" Title="Till 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName2" Title="Till 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName3" Title="Till 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName" Title="Clerk 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName2" Title="Clerk 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName3" Title="Clerk 3" />
+
+
+                </Columns>
+            </RadzenDataGrid>
+
+            <h2>Rachael's Frequently Used</h2>
+            <RadzenDataGrid Data="@myReportsList" TItem="ReportDetails" AllowVirtualization="true" Style="height:600px" AllowColumnResize="true"
+                            AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                            AllowSorting="true" AllowPaging="true" PageSize="20" ColumnWidth="150px" AllowColumnPicking="true">
+                <Columns>
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="ReportCount" Title="Count" SortOrder="SortOrder.Descending" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="UserName" Title="User" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="NumberToCompare" Title="No. Comparison" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="CompareOnName" Title="Compared On" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="StartDate" Title="Start1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Property="EndDate" Title="End1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="StartDate2" Title="Start2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="EndDate2" Title="End2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="StartDate3" Title="Start3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="EndDate3" Title="End3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DomainName" Title="Domain 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="Domain2Name" Title="Domain 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="Domain3Name" Title="Domain 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName" Title="Dept 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName2" Title="Dept 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DepartmentName3" Title="Dept 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName" Title="Cat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName2" Title="Cat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="CategoryName3" Title="Cat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryNameId" Title="SubCat 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryName2" Title="SubCat 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="SubCategoryName3" Title="SubCat 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName" Title="Item 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName2" Title="Item 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ItemTypeName3" Title="Item 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName" Title="Payment Type 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName2" Title="Payment Type 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="PaymentTypeName3" Title="Payment Type 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName" Title="Nominal Code 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName2" Title="Nominal Code 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="NominalCodeName3" Title="Nominal Code 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName" Title="Discount 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName2" Title="Discount 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="DiscountName3" Title="Discount 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName" Title="Till 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName2" Title="Till 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="TillName3" Title="Till 3" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName" Title="Clerk 1" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName2" Title="Clerk 2" />
+                    <RadzenDataGridColumn TItem="ReportDetails" Visible=false Property="ClerkName3" Title="Clerk 3" />
+
+                </Columns>
+            </RadzenDataGrid>
+        </ChildContent>
+    </ErrorBoundary>
+</Container>
+
+
+
+@code {
+    List<ReportDetails> myReportsList;
+    List<ReportCounter> myTopUsedList;
+    List<ReportFavorite> myFavList;
+    List<ReportDetails> myFavReportList;
+    bool busy;
+    protected override async Task OnInitializedAsync()
+    {
+        myReportsList = new List<ReportDetails>();
+        myTopUsedList = await _storeReportService.MyMostUsed(1);
+        myReportsList = await _storeReportService.MyCounterReportsList(myTopUsedList, 1);
+        myFavList = await _storeReportService.MyFavs(1);
+        myFavReportList = await _storeReportService.MyFavouriteReportsList(myFavList, 1);
+
+    }
+    async Task OnBusyClick()
+    {
+        busy = true;
+        await Task.Delay(2000);
+        busy = true;
+    }
+
+    async Task SendReportID(int runReportID)
+    {
+       
+            //CHeck to see the value comes through
+            var check = runReportID;
+       
+    }
+
+
+}
